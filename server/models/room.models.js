@@ -1,14 +1,19 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const roomSchema = mongoose.Schema({
-    hotel: { type: String, ref: 'hotel', required: true },
+const roomSchema = mongoose.Schema(
+  {
+    hotel: { type: String, ref: "hotel", required: true },
     type: { type: String, required: true },
     pricePerNight: { type: Number, required: true },
     amenities: { type: Array, required: true },
     images: [{ type: String }],
     isAvailable: { type: Boolean, default: true },
-}, { timestamps: true });
+    totalRooms: { type: Number, default: 1, required: true }, // Total kapasitas kamar
+    availableRooms: { type: Number, default: 1, required: true }, // Kamar yang masih tersedia
+  },
+  { timestamps: true },
+);
 
-const roomModel = mongoose.model('room', roomSchema);
+const roomModel = mongoose.model("room", roomSchema);
 
 export default roomModel;

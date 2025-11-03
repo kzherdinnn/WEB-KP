@@ -3,11 +3,13 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FiMenu, FiX, FiSearch } from "react-icons/fi";
 import { FaRegBuilding, FaHotel } from "react-icons/fa";
 import { TbBrandBooking } from "react-icons/tb";
+import { MdAdminPanelSettings, MdPerson } from "react-icons/md";
 import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
 import { useAppContext } from "../../context/AppContext";
 
 const Navbar = () => {
-  const { isAdmin, setShowHotelReg } = useAppContext();
+  const { isAdmin, setIsAdmin, axios } = useAppContext();
+  const [userRole, setUserRole] = React.useState("user");
   const navLinks = [
     { name: "Home", path: "/", icon: <FaRegBuilding /> },
     { name: "Hotels", path: "/hotels", icon: <FaHotel /> },
@@ -20,6 +22,23 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Fetch user role dari backend
+  React.useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user) {
+        try {
+          const { data } = await axios.get("/api/user");
+          if (data.success) {
+            setUserRole(data.role);
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        }
+      }
+    };
+    fetchUserRole();
+  }, [user, axios]);
+
   React.useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -27,6 +46,17 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Handler untuk switch mode
+  const handleSwitchToAdmin = () => {
+    setIsAdmin(true);
+    navigate("/admin");
+  };
+
+  const handleSwitchToUser = () => {
+    setIsAdmin(false);
+    navigate("/");
+  };
 
   // Check if the current path contains 'hotel'
   const isHotelPage = location.pathname.includes("hotel");
@@ -37,20 +67,20 @@ const Navbar = () => {
     isHotelPage || isBookingPage
       ? "bg-white shadow-md"
       : isScrolled
-      ? "bg-white/80 shadow-md backdrop-blur-sm"
-      : "bg-transparent";
+        ? "bg-white/80 shadow-md backdrop-blur-sm"
+        : "bg-transparent";
   const textColor =
     isHotelPage || isBookingPage
       ? "text-black"
       : isScrolled
-      ? "text-black"
-      : "text-white";
+        ? "text-black"
+        : "text-white";
   const iconColor =
     isHotelPage || isBookingPage
       ? "text-black"
       : isScrolled
-      ? "text-black"
-      : "text-white";
+        ? "text-black"
+        : "text-white";
   const borderColor = isScrolled ? "border-black" : "border-white";
 
   return (
@@ -77,12 +107,12 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {user && (
+          {user && userRole === "admin" && (
             <button
-              onClick={() => isAdmin ? navigate("/admin"): setShowHotelReg(true)}
+              onClick={() => navigate("/admin")}
               className={`border px-4 py-1 rounded-full text-sm cursor-pointer transition ${borderColor} ${textColor} hover:bg-white/20`}
             >
-              {isAdmin ? "Dashboard" : "List your Hotel"}
+              Dashboard
             </button>
           )}
         </div>
@@ -98,6 +128,17 @@ const Navbar = () => {
                   labelIcon={<TbBrandBooking />}
                   onClick={() => navigate("/my-bookings")}
                 />
+                {userRole === "admin" && (
+                  <UserButton.Action
+                    label={
+                      isAdmin ? "Switch to User Mode" : "Switch to Admin Mode"
+                    }
+                    labelIcon={
+                      isAdmin ? <MdPerson /> : <MdAdminPanelSettings />
+                    }
+                    onClick={isAdmin ? handleSwitchToUser : handleSwitchToAdmin}
+                  />
+                )}
               </UserButton.MenuItems>
             </UserButton>
           ) : (
@@ -120,6 +161,17 @@ const Navbar = () => {
                   labelIcon={<TbBrandBooking />}
                   onClick={() => navigate("/my-bookings")}
                 />
+                {userRole === "admin" && (
+                  <UserButton.Action
+                    label={
+                      isAdmin ? "Switch to User Mode" : "Switch to Admin Mode"
+                    }
+                    labelIcon={
+                      isAdmin ? <MdPerson /> : <MdAdminPanelSettings />
+                    }
+                    onClick={isAdmin ? handleSwitchToUser : handleSwitchToAdmin}
+                  />
+                )}
               </UserButton.MenuItems>
             </UserButton>
           )}
@@ -155,12 +207,12 @@ const Navbar = () => {
         ))}
 
         <div className="hidden lg:block">
-          {user && (
+          {user && userRole === "admin" && (
             <button
-              onClick={() => isAdmin ? navigate("/admin"): setShowHotelReg(true)}
+              onClick={() => navigate("/admin")}
               className={`border px-4 py-1 rounded-full text-sm cursor-pointer transition ${borderColor} ${textColor} hover:bg-white/20`}
             >
-              {isAdmin ? "Dashboard" : "List your Hotel"}
+              Dashboard
             </button>
           )}
         </div>

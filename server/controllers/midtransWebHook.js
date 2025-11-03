@@ -1,60 +1,136 @@
 import midtransClient from "midtrans-client";
 import bookingModel from "../models/booking.models.js";
+import roomModel from "../models/room.models.js";
 
 // Buat instance Core API Midtrans untuk verifikasi notifikasi
 const coreApi = new midtransClient.CoreApi({
-    isProduction: process.env.MIDTRANS_IS_PRODUCTION === "true",
-    serverKey: process.env.MIDTRANS_SERVER_KEY,
-    clientKey: process.env.MIDTRANS_CLIENT_KEY,
+  isProduction: process.env.MIDTRANS_IS_PRODUCTION === "true",
+  serverKey: process.env.MIDTRANS_SERVER_KEY,
+  clientKey: process.env.MIDTRANS_CLIENT_KEY,
 });
 
 export const midtransWebHook = async (req, res) => {
-    try {
-        // 1. Terima notifikasi dari Midtrans
-        const notificationJson = req.body;
+  try {
+    console.log("=".repeat(60));
+    console.log("🔔 WEBHOOK MIDTRANS DITERIMA");
+    console.log("=".repeat(60));
 
-        // 2. Verifikasi notifikasi menggunakan utility dari Midtrans
-        const statusResponse = await coreApi.transaction.notification(notificationJson);
-        const orderId = statusResponse.order_id;
-        const transactionStatus = statusResponse.transaction_status;
-        const fraudStatus = statusResponse.fraud_status;
+    // 1. Terima notifikasi dari Midtrans
+    const notificationJson = req.body;
+    console.log(
+      "📥 Raw notification:",
+      JSON.stringify(notificationJson, null, 2),
+    );
 
-        console.log(`📬 Webhook diterima. Order ID: ${orderId}, Status: ${transactionStatus}, Fraud: ${fraudStatus}`);
+    // 2. Verifikasi notifikasi menggunakan utility dari Midtrans
+    const statusResponse =
+      await coreApi.transaction.notification(notificationJson);
+    const orderId = statusResponse.order_id;
+    const transactionStatus = statusResponse.transaction_status;
+    const fraudStatus = statusResponse.fraud_status;
 
-        // 3. Cari booking di database Anda langsung menggunakan orderId
-        const booking = await bookingModel.findById(orderId);
-        if (!booking) {
-            // Jika booking tidak ditemukan, mungkin sudah dihapus atau ID salah.
-            // Tetap kirim 200 OK agar Midtrans tidak mengirim ulang.
-            console.warn(`Webhook diterima untuk booking yang tidak ditemukan. Order ID: ${orderId}`);
-            return res.status(200).json({ success: true, message: "Booking tidak ditemukan, notifikasi diabaikan." });
-        }
+    console.log(`📬 Webhook Details:`);
+    console.log(`   - Order ID: ${orderId}`);
+    console.log(`   - Transaction Status: ${transactionStatus}`);
+    console.log(`   - Fraud Status: ${fraudStatus}`);
 
-        // 4. Update status booking berdasarkan notifikasi
-        let newPaymentStatus = booking.paymentStatus;
+    // 3. Cari booking di database Anda langsung menggunakan orderId
+    const booking = await bookingModel.findById(orderId);
 
-        if (transactionStatus == 'settlement') {
-            // Jika transaksi berhasil dan tidak dianggap fraud
-            if (fraudStatus == 'accept') {
-                newPaymentStatus = 'paid'; // ✅ PERBAIKAN: Update field 'paymentStatus' menjadi 'paid'
-            }
-        } else if (transactionStatus == 'cancel' || transactionStatus == 'expire' || transactionStatus == 'deny') {
-            newPaymentStatus = 'cancelled'; // ✅ PERBAIKAN: Update field 'paymentStatus' menjadi 'cancelled'
-        }
-        // Untuk status 'pending', kita biarkan saja karena status awal sudah 'pending'.
-
-        // Hanya update jika ada perubahan status
-        if (newPaymentStatus !== booking.paymentStatus) {
-            booking.paymentStatus = newPaymentStatus;
-            await booking.save();
-            console.log(`✅ Status untuk Booking ID: ${orderId} berhasil diperbarui menjadi '${newPaymentStatus}'.`);
-        }
-
-        // 5. Kirim respons 200 OK ke Midtrans untuk mengonfirmasi penerimaan
-        res.status(200).json({ success: true, message: "Webhook berhasil diproses." });
-
-    } catch (error) {
-        console.error("🔥 Error pada Midtrans Webhook:", error);
-        res.status(500).json({ success: false, message: "Terjadi kesalahan internal pada webhook." });
+    if (!booking) {
+      console.warn(`⚠️ Booking tidak ditemukan untuk Order ID: ${orderId}`);
+      return res.status(200).json({
+        success: true,
+        message: "Booking tidak ditemukan, notifikasi diabaikan.",
+      });
     }
+
+    console.log(`📦 Booking ditemukan:`);
+    console.log(`   - Booking ID: ${booking._id}`);
+    console.log(`   - User: ${booking.user}`);
+    console.log(`   - Status Saat Ini: ${booking.paymentStatus}`);
+    console.log(`   - Total Price: Rp${booking.totalPrice}`);
+
+    // 4. Update status booking berdasarkan notifikasi
+    let newPaymentStatus = booking.paymentStatus;
+
+    if (transactionStatus == "settlement") {
+      // Jika transaksi berhasil dan tidak dianggap fraud
+      if (fraudStatus == "accept") {
+        newPaymentStatus = "paid";
+        console.log(`✅ Status akan diupdate menjadi: PAID`);
+      }
+    } else if (
+      transactionStatus == "cancel" ||
+      transactionStatus == "expire" ||
+      transactionStatus == "deny"
+    ) {
+      newPaymentStatus = "cancelled";
+      console.log(`❌ Status akan diupdate menjadi: CANCELLED`);
+    } else if (transactionStatus == "pending") {
+      newPaymentStatus = "pending";
+      console.log(`⏳ Status tetap: PENDING`);
+    }
+
+    // Hanya update jika ada perubahan status
+    if (newPaymentStatus !== booking.paymentStatus) {
+      console.log(
+        `🔄 Melakukan update status dari '${booking.paymentStatus}' ke '${newPaymentStatus}'...`,
+      );
+
+      booking.paymentStatus = newPaymentStatus;
+      await booking.save();
+
+      console.log(
+        `✅ Status untuk Booking ID: ${orderId} berhasil diperbarui menjadi '${newPaymentStatus}'`,
+      );
+
+      // 🔄 Kembalikan availableRooms jika pembayaran dibatalkan/expired
+      if (newPaymentStatus === "cancelled") {
+        const roomData = await roomModel.findById(booking.room);
+        if (roomData) {
+          const roomsToRestore = booking.numberOfRooms || 1;
+          roomData.availableRooms = Math.min(
+            roomData.availableRooms + roomsToRestore,
+            roomData.totalRooms,
+          );
+          await roomData.save();
+          console.log(
+            `🔓 Room ${roomData._id} availableRooms dikembalikan +${roomsToRestore}: ${roomData.availableRooms}/${roomData.totalRooms}`,
+          );
+        }
+      }
+
+      // Verifikasi update berhasil
+      const updatedBooking = await bookingModel.findById(orderId);
+      console.log(
+        `✔️ Verifikasi: Status di database sekarang adalah '${updatedBooking.paymentStatus}'`,
+      );
+    } else {
+      console.log(`ℹ️ Status tidak berubah, tetap '${booking.paymentStatus}'`);
+    }
+
+    console.log("=".repeat(60));
+    console.log("✅ WEBHOOK BERHASIL DIPROSES");
+    console.log("=".repeat(60));
+
+    // 5. Kirim respons 200 OK ke Midtrans untuk mengonfirmasi penerimaan
+    res.status(200).json({
+      success: true,
+      message: "Webhook berhasil diproses.",
+      orderId: orderId,
+      newStatus: newPaymentStatus,
+    });
+  } catch (error) {
+    console.error("=".repeat(60));
+    console.error("🔥 ERROR PADA MIDTRANS WEBHOOK");
+    console.error("=".repeat(60));
+    console.error("Error details:", error);
+    console.error("Error stack:", error.stack);
+
+    res.status(500).json({
+      success: false,
+      message: "Terjadi kesalahan internal pada webhook.",
+    });
+  }
 };

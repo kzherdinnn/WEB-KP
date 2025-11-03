@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { FaStar, FaFilter } from "react-icons/fa";
+import { FaStar, FaFilter, FaBan, FaCheckCircle } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
 import { Footer } from "../components";
 import { amenityIcons } from "../data/data";
@@ -54,7 +54,7 @@ const Hotels = () => {
         filters.priceRanges.some((range) => {
           const [min, max] = range.split(" to ").map(Number);
           return room.pricePerNight >= min && room.pricePerNight <= max;
-        })
+        }),
       );
     }
 
@@ -62,7 +62,7 @@ const Hotels = () => {
     const destination = searchParams.get("destination")?.toLowerCase();
     if (destination) {
       result = result.filter((room) =>
-        room.hotel.city.toLowerCase().includes(destination)
+        room.hotel.city.toLowerCase().includes(destination),
       );
     }
 
@@ -112,11 +112,20 @@ const Hotels = () => {
                     Room Type
                   </p>
                   {ROOM_TYPES.map((type) => (
-                    <label key={type} className="flex items-center space-x-2 mb-2 cursor-pointer hover:text-black">
+                    <label
+                      key={type}
+                      className="flex items-center space-x-2 mb-2 cursor-pointer hover:text-black"
+                    >
                       <input
                         type="checkbox"
                         checked={filters.roomTypes.includes(type)}
-                        onChange={(e) => handleFilterChange(e.target.checked, "roomTypes", type)}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            e.target.checked,
+                            "roomTypes",
+                            type,
+                          )
+                        }
                         className="accent-black h-4 w-4 border border-gray-300 rounded"
                       />
                       <span>{type}</span>
@@ -130,11 +139,20 @@ const Hotels = () => {
                     Price Range
                   </p>
                   {PRICE_RANGES.map((range) => (
-                    <label key={range} className="flex items-center space-x-2 mb-2 cursor-pointer hover:text-black">
+                    <label
+                      key={range}
+                      className="flex items-center space-x-2 mb-2 cursor-pointer hover:text-black"
+                    >
                       <input
                         type="checkbox"
                         checked={filters.priceRanges.includes(range)}
-                        onChange={(e) => handleFilterChange(e.target.checked, "priceRanges", range)}
+                        onChange={(e) =>
+                          handleFilterChange(
+                            e.target.checked,
+                            "priceRanges",
+                            range,
+                          )
+                        }
                         className="accent-black h-4 w-4 border border-gray-300 rounded"
                       />
                       <span>{range}</span>
@@ -148,7 +166,10 @@ const Hotels = () => {
                     Sort By
                   </p>
                   {SORT_OPTIONS.map((option) => (
-                    <label key={option} className="flex items-center space-x-2 cursor-pointer hover:text-black">
+                    <label
+                      key={option}
+                      className="flex items-center space-x-2 cursor-pointer hover:text-black"
+                    >
                       <input
                         type="radio"
                         name="sort"
@@ -171,19 +192,44 @@ const Hotels = () => {
               <p className="text-gray-600">No rooms match your filters.</p>
             ) : (
               filteredRooms.map((room) => (
-                <div key={room._id}>
+                <div key={room._id} className="relative">
+                  {/* Unavailable Overlay Badge */}
+                  {!room.isAvailable && (
+                    <div className="absolute top-4 right-4 z-10 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
+                      <FaBan className="text-lg" />
+                      <span className="font-semibold">
+                        Sedang Tidak Tersedia
+                      </span>
+                    </div>
+                  )}
+
                   <div className="flex flex-col md:flex-row gap-4 bg-white rounded-xl overflow-hidden cursor-pointer">
-                    <img
-                      src={room.images[0]}
-                      alt={room.hotel.name}
-                      loading="lazy"
-                      className="w-full md:w-1/3 h-60 object-cover cursor-pointer rounded-xl"
-                    />
+                    <div className="relative w-full md:w-1/3">
+                      <img
+                        src={room.images[0]}
+                        alt={room.hotel.name}
+                        loading="lazy"
+                        className="w-full h-60 object-cover rounded-xl cursor-pointer"
+                      />
+                    </div>
                     <div className="p-5 flex flex-col justify-between w-full">
                       <div>
-                        <h2 className="text-2xl font-semibold text-gray-800 cursor-pointer playfair">
-                          {room.hotel.name}
-                        </h2>
+                        <div className="flex items-center gap-3 mb-2">
+                          <h2 className="text-2xl font-semibold playfair text-gray-800 cursor-pointer">
+                            {room.hotel.name}
+                          </h2>
+                          {room.isAvailable ? (
+                            <span className="flex items-center gap-1 bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+                              <FaCheckCircle />
+                              Tersedia
+                            </span>
+                          ) : (
+                            <span className="flex items-center gap-1 bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">
+                              <FaBan />
+                              Tidak Tersedia
+                            </span>
+                          )}
+                        </div>
                         <p className="text-sm text-gray-500 mt-1 outfit">
                           {room.hotel.address}
                         </p>
@@ -202,18 +248,36 @@ const Hotels = () => {
                         <div>
                           <p className="text-lg font-semibold text-black">
                             ${room.pricePerNight}
-                            <span className="text-sm font-normal text-gray-500"> / night</span>
+                            <span className="text-sm font-normal text-gray-500">
+                              {" "}
+                              / night
+                            </span>
                           </p>
                           <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
                             <FaStar className="text-yellow-500" /> {room.rating}
                           </p>
+                          {!room.isAvailable && (
+                            <p className="text-xs text-red-600 mt-2 flex items-center gap-1">
+                              <FaBan />
+                              Room sedang tidak tersedia untuk booking
+                            </p>
+                          )}
                         </div>
-                        <button
-                          onClick={() => navigate(`/hotels/${room._id}`)}
-                          className="mt-3 sm:mt-0 bg-black text-white px-6 py-2 rounded hover:bg-gray-900 transition cursor-pointer"
-                        >
-                          Book Now
-                        </button>
+                        {room.isAvailable ? (
+                          <button
+                            onClick={() => navigate(`/hotels/${room._id}`)}
+                            className="mt-3 sm:mt-0 bg-black text-white px-6 py-2 rounded hover:bg-gray-900 transition cursor-pointer"
+                          >
+                            Book Now
+                          </button>
+                        ) : (
+                          <button
+                            disabled
+                            className="mt-3 sm:mt-0 bg-gray-400 text-white px-6 py-2 rounded cursor-not-allowed opacity-60"
+                          >
+                            Tidak Tersedia
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -23,6 +23,7 @@ export const AppContextProvider = ({ children }) => {
   const { getToken } = useAuth(); // Dapatkan fungsi getToken dari Clerk
 
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userRole, setUserRole] = useState("user");
   const [showHotelReg, setShowHotelReg] = useState(false);
   const [searchedCities, setSearchedCities] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -42,7 +43,7 @@ export const AppContextProvider = ({ children }) => {
       },
       (error) => {
         return Promise.reject(error);
-      }
+      },
     );
 
     // Cleanup interceptor saat komponen di-unmount
@@ -56,7 +57,7 @@ export const AppContextProvider = ({ children }) => {
   const fetchRooms = useCallback(async () => {
     try {
       // Tidak perlu header manual lagi, interceptor akan menanganinya
-      const { data } = await axios.get('/api/room');
+      const { data } = await axios.get("/api/room");
       if (data.success) {
         setRooms(data.rooms);
       } else {
@@ -73,6 +74,7 @@ export const AppContextProvider = ({ children }) => {
       // Tidak perlu header manual lagi, interceptor akan menanganinya
       const { data } = await axios.get("/api/user");
       if (data.success) {
+        setUserRole(data.role);
         setIsAdmin(data.role === "admin");
         setSearchedCities(data.recentSearchedCities);
       } else {
@@ -83,7 +85,7 @@ export const AppContextProvider = ({ children }) => {
     } catch (error) {
       toast.error(error.message);
     }
-  }, []); // Hapus getToken dari dependensi karena sudah ditangani interceptor
+  }, [axios]); // Hapus getToken dari dependensi karena sudah ditangani interceptor
 
   useEffect(() => {
     if (user) {
@@ -99,6 +101,8 @@ export const AppContextProvider = ({ children }) => {
     getToken, // Tetap sediakan untuk kasus khusus jika diperlukan
     isAdmin,
     setIsAdmin,
+    userRole,
+    setUserRole,
     showHotelReg,
     setShowHotelReg,
     searchedCities,

@@ -1,13 +1,16 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Home, Hotels, RoomDetails, MyBookings } from "./pages";
+import CustomPaymentPage from "./pages/CustomPaymentPage";
 import { Navbar, HotelRegister, Loader } from "./components";
+import AdminRedirect from "./components/AdminRedirect";
 import Layout from "./pages/Admin/Layout";
 import Dashboard from "./pages/Admin/Dashboard";
 import AddRoom from "./pages/Admin/AddRoom";
 import ListRoom from "./pages/Admin/ListRoom";
+import UserManagement from "./pages/Admin/UserManagement";
 import { Toaster } from "react-hot-toast";
-import {useAppContext} from "./context/AppContext"
+import { useAppContext } from "./context/AppContext";
 
 const App = () => {
   const isAdmin = useLocation().pathname.includes("admin");
@@ -16,18 +19,21 @@ const App = () => {
     <div>
       {!isAdmin && <Navbar />}
       {showHotelReg && <HotelRegister />}
+      <AdminRedirect />
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/hotels" element={<Hotels />} />
         <Route path="/hotels/:id" element={<RoomDetails />} />
         <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/payment" element={<CustomPaymentPage />} />
         <Route path="/loader/:nextUrl" element={<Loader />} />
 
         <Route path="/admin" element={<Layout />}>
-          <Route index element={<Dashboard />}/>
-          <Route path="add-room" element={<AddRoom />}/>
-          <Route path="list-rooms" element={<ListRoom />}/>
+          <Route index element={<Dashboard />} />
+          <Route path="add-room" element={<AddRoom />} />
+          <Route path="list-rooms" element={<ListRoom />} />
+          <Route path="users" element={<UserManagement />} />
         </Route>
       </Routes>
     </div>

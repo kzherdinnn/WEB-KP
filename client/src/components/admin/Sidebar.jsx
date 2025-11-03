@@ -1,11 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaPlus, FaComments } from "react-icons/fa";
+import { FaHome, FaPlus, FaComments, FaUsers } from "react-icons/fa";
 
 const sidebarLinks = [
   { name: "Dashboard", path: "/admin", icon: <FaHome className="text-lg" /> },
   { name: "Add Room", path: "add-room", icon: <FaPlus className="text-lg" /> },
-  { name: "List Rooms", path: "list-rooms", icon: <FaComments className="text-lg" /> },
+  {
+    name: "List Rooms",
+    path: "list-rooms",
+    icon: <FaComments className="text-lg" />,
+  },
+  { name: "Users", path: "users", icon: <FaUsers className="text-lg" /> },
 ];
 
 const Sidebar = () => {

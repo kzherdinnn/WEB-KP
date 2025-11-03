@@ -1,14 +1,15 @@
-import express from 'express';
-import 'dotenv/config';
-import cors from 'cors';
-import connectDB from './config/db.js';
-import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
+import express from "express";
+import "dotenv/config";
+import cors from "cors";
+import connectDB from "./config/db.js";
+import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 
 // Impor router Anda
 import userRouter from "./routes/userRoutes.js";
-import hotelRouter from './routes/hotelRoutes.js';
+import hotelRouter from "./routes/hotelRoutes.js";
 import roomRouter from "./routes/roomRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
+import auditLogRouter from "./routes/auditLogRoutes.js";
 import connectCloudinary from "./config/cloudinary.js";
 import { midtransWebHook } from "./controllers/midtransWebHook.js";
 
@@ -22,10 +23,7 @@ const app = express();
 await connectDB();
 await connectCloudinary();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://stayza.vercel.app",
-];
+const allowedOrigins = ["http://localhost:5173", "https://stayza.vercel.app"];
 
 // =====================================================
 // 🌍 Middleware & Rute Publik (Tidak Perlu Login)
@@ -38,7 +36,11 @@ app.post("/api/payment/webhook", express.json(), midtransWebHook);
 // ✅ RUTE WEBHOOK CLERK
 // Penting: Rute ini harus didefinisikan SEBELUM express.json() global
 // dan harus menggunakan express.raw() agar verifikasi berhasil.
-app.post('/api/clerk-webhook', express.raw({ type: 'application/json' }), clerkWebHooks);
+app.post(
+  "/api/clerk-webhook",
+  express.raw({ type: "application/json" }),
+  clerkWebHooks,
+);
 
 // Middleware CORS
 app.use(
@@ -50,10 +52,10 @@ app.use(
         return callback(new Error("Not allowed by CORS"));
       }
     },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  })
+  }),
 );
 
 // Middleware umum untuk mengubah body request menjadi JSON
@@ -71,6 +73,7 @@ app.use("/api/user", userRouter);
 app.use("/api/hotel", hotelRouter);
 app.use("/api/room", roomRouter);
 app.use("/api/bookings", bookingRouter);
+app.use("/api/audit-logs", auditLogRouter);
 
 // =====================================================
 // 🚀 Start Server

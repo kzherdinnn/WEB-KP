@@ -3,7 +3,7 @@ import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 
 const HotelRegister = () => {
-  const { setShowHotelReg, axios, getToken, setIsAdmin } = useAppContext();
+  const { setShowHotelReg, axios, navigate } = useAppContext();
 
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
@@ -12,28 +12,55 @@ const HotelRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validasi input
+    if (!name || !address || !contact || !city) {
+      toast.error("Semua field harus diisi!");
+      return;
+    }
+
+    console.log("Submitting hotel registration:", {
+      name,
+      address,
+      contact,
+      city,
+    });
+
     try {
-      const { data } = await axios.post(
-      '/api/hotel',
-        { name, address, contact, city },
-        {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        }
-      );
-      if(data.success){
-        toast.success(data.message);
-        setIsAdmin(true);
+      // Interceptor sudah menangani token otomatis, tidak perlu manual
+      const { data } = await axios.post("/api/hotel", {
+        name,
+        address,
+        contact,
+        city,
+      });
+
+      console.log("Response from server:", data);
+
+      if (data.success) {
+        toast.success(data.message || "Hotel berhasil didaftarkan!");
         setShowHotelReg(false);
+
+        // Redirect ke admin dashboard
+        setTimeout(() => {
+          navigate("/admin");
+        }, 500);
+      } else {
+        toast.error(data.message || "Gagal mendaftarkan hotel.");
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error("Error during hotel registration:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Terjadi kesalahan saat mendaftarkan hotel.";
+      toast.error(errorMessage);
     }
   };
+
   return (
     <>
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
-      >
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
         <div className="bg-white w-full max-w-4xl mx-4 rounded-lg shadow-xl overflow-hidden flex flex-col md:flex-row">
           {/* Image Section */}
           <div className="w-full md:w-1/2 h-64 md:h-auto">
@@ -63,6 +90,7 @@ const HotelRegister = () => {
                   type="text"
                   className="w-full border border-gray-300 px-3 py-2 rounded outline-none"
                   placeholder="Enter hotel name"
+                  required
                 />
               </div>
               <div>
@@ -75,6 +103,7 @@ const HotelRegister = () => {
                   type="text"
                   className="w-full border border-gray-300 px-3 py-2 rounded outline-none"
                   placeholder="Street, City, ZIP"
+                  required
                 />
               </div>
               <div>
@@ -86,7 +115,8 @@ const HotelRegister = () => {
                   onChange={(e) => setContact(e.target.value)}
                   value={contact}
                   className="w-full border border-gray-300 px-3 py-2 rounded outline-none"
-                  placeholder="+91 9876543210"
+                  placeholder="+62 812 3456 7890"
+                  required
                 />
               </div>
               <div>
@@ -99,12 +129,13 @@ const HotelRegister = () => {
                   value={city}
                   className="w-full border border-gray-300 px-3 py-2 rounded outline-none"
                   placeholder="Enter city"
+                  required
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-black text-white py-2 rounded hover:bg-gray-900"
+                className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition-colors"
               >
                 Submit
               </button>

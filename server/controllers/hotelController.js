@@ -6,13 +6,20 @@ export const registerHotel = async (req, res) => {
     const { name, address, contact, city } = req.body;
     const admin = req.user._id;
 
+    // ✅ Validasi: Hanya admin yang bisa register hotel
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Akses ditolak. Hanya admin yang dapat mendaftarkan hotel.",
+      });
+    }
+
     const hotel = await hotelModel.findOne({ admin });
     if (hotel) {
       return res.json({ success: false, message: "Hotel already registered" });
     }
 
     await hotelModel.create({ name, address, contact, city, admin });
-    await userModel.findByIdAndUpdate(admin, { role: "admin" });
 
     res.json({ success: true, message: "Hotel Registered Successfully" });
   } catch (error) {

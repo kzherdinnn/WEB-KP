@@ -1,59 +1,48 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Footer } from "../components";
-import { FaLocationArrow, FaStar, FaCalendarAlt, FaSearch } from "react-icons/fa";
+import {
+  FaLocationArrow,
+  FaStar,
+  FaCalendarAlt,
+  FaSearch,
+  FaBan,
+} from "react-icons/fa";
 import { amenityIcons } from "../data/data";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
-
-// URL skrip Midtrans Snap (gunakan sandbox untuk development)
-const MIDTRANS_SNAP_URL = "https://app.sandbox.midtrans.com/snap/snap.js";
-// Ambil Client Key dari file .env di folder client
-const MIDTRANS_CLIENT_KEY = import.meta.env.VITE_MIDTRANS_CLIENT_KEY;
 
 const RoomDetails = () => {
   const { rooms, axios } = useAppContext();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // State Anda tidak berubah
   const [room, setRoom] = useState(null);
   const [mainImage, setMainImage] = useState(null);
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [guests, setGuests] = useState(1);
+  const [numberOfRooms, setNumberOfRooms] = useState(1);
   const [isAvailable, setIsAvailable] = useState(false);
-
-  // ✅ Muat skrip Midtrans Snap secara dinamis saat komponen dimuat
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = MIDTRANS_SNAP_URL;
-    script.setAttribute("data-client-key", MIDTRANS_CLIENT_KEY);
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup: hapus skrip saat komponen di-unmount
-      document.body.removeChild(script);
-    };
-  }, []);
+  const [availabilityInfo, setAvailabilityInfo] = useState(null);
 
   useEffect(() => {
     const foundRoom = rooms.find((room) => room._id === id);
     if (foundRoom) {
       setRoom(foundRoom);
-      setMainImage(foundRoom.images?.[0]);
+      setMainImage(foundRoom.images[0]);
     }
   }, [id, rooms]);
 
   const checkAvailability = async () => {
     if (!checkInDate || !checkOutDate) {
-      toast.error("Silakan pilih tanggal check-in dan check-out.");
+      toast.error(
+        "Harap pilih tanggal check-in dan check-out terlebih dahulu.",
+      );
       return;
     }
-    if (new Date(checkInDate) >= new Date(checkOutDate)) {
-      toast.error("Tanggal check-out harus setelah tanggal check-in.");
+    if (numberOfRooms < 1) {
+      toast.error("Jumlah kamar harus minimal 1.");
       return;
     }
 
@@ -62,14 +51,22 @@ const RoomDetails = () => {
         room: id,
         checkInDate,
         checkOutDate,
+        numberOfRooms,
       });
 
-      if (data.isAvailable) {
-        setIsAvailable(true);
-        toast.success("Kamar tersedia untuk tanggal yang dipilih!");
-      } else {
-        setIsAvailable(false);
-        toast.error("Kamar tidak tersedia.");
+      if (data.success) {
+        setIsAvailable(data.available);
+        setAvailabilityInfo({
+          available: data.available,
+          message: data.message,
+          availableRooms: data.availableRooms,
+        });
+
+        if (data.available) {
+          toast.success(data.message);
+        } else {
+          toast.error(data.message);
+        }
       }
     } catch (error) {
       const message =
@@ -78,63 +75,82 @@ const RoomDetails = () => {
     }
   };
 
-  // ✅ FUNGSI onSubmit SEKARANG MEMICU PEMBAYARAN
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!checkInDate || !checkOutDate || !guests) {
+  const createBooking = async () => {
+    if (!checkInDate || !checkOutDate || !guests || !numberOfRooms) {
       toast.error("Harap lengkapi semua detail booking.");
-      return;
+      return null;
     }
-    if (guests < 1 || guests > 4) {
-      toast.error("Jumlah tamu harus antara 1 dan 4.");
-      return;
+    if (guests < 1) {
+      toast.error("Jumlah tamu harus minimal 1.");
+      return null;
+    }
+    if (numberOfRooms < 1) {
+      toast.error("Jumlah kamar harus minimal 1.");
+      return null;
+    }
+    if (room.availableRooms && numberOfRooms > room.availableRooms) {
+      toast.error(`Hanya tersedia ${room.availableRooms} kamar.`);
+      return null;
     }
     if (!isAvailable) {
       toast("Harap periksa ketersediaan terlebih dahulu.", { icon: "👆" });
-      return;
+      return null;
     }
 
     try {
-      // 1. Minta token pembayaran dari backend
       const { data } = await axios.post("/api/bookings/book", {
         room: id,
         checkInDate,
         checkOutDate,
         guests,
+        numberOfRooms,
       });
 
       if (data.success && data.token) {
-        // 2. Jika token diterima, buka popup pembayaran Midtrans Snap
-        window.snap.pay(data.token, {
-          onSuccess: (result) => {
-            console.log("Pembayaran berhasil:", result);
-            toast.success("Pembayaran berhasil! Booking Anda telah dikonfirmasi.");
-            navigate("/my-bookings");
-          },
-          onPending: (result) => {
-            console.log("Pembayaran tertunda:", result);
-            toast("Pembayaran Anda sedang diproses.", { icon: "⏳" });
-            navigate("/my-bookings");
-          },
-          onError: (error) => {
-            console.error("Error pembayaran:", error);
-            toast.error("Terjadi kesalahan saat pembayaran.");
-          },
-          onClose: () => {
-            toast("Anda menutup popup pembayaran.");
+        // Navigate to custom payment page with booking data
+        const nights = Math.max(
+          1,
+          Math.ceil(
+            (new Date(checkOutDate) - new Date(checkInDate)) /
+              (1000 * 60 * 60 * 24),
+          ),
+        );
+
+        const bookingData = {
+          hotelName: room.hotel.name,
+          hotelAddress: room.hotel.address,
+          roomType: room.type,
+          roomImage: room.images[0],
+          checkInDate,
+          checkOutDate,
+          guests,
+          numberOfRooms,
+          pricePerNight: room.pricePerNight,
+          totalPrice: numberOfRooms * nights * room.pricePerNight,
+        };
+
+        navigate("/payment", {
+          state: {
+            bookingData,
+            snapToken: data.token,
+            bookingId: data.bookingId,
           },
         });
+
+        return data.token;
       } else {
         toast.error(data.message || "Gagal mendapatkan token pembayaran.");
+        return null;
       }
     } catch (error) {
-      const message = error.response?.data?.message || "Permintaan booking gagal.";
+      const message =
+        error.response?.data?.message || "Permintaan booking gagal.";
       toast.error(message);
+      return null;
     }
   };
-  
-    if (!room) {
+
+  if (!room) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
         <div className="flex flex-col items-center">
@@ -150,16 +166,28 @@ const RoomDetails = () => {
   return (
     <>
       <div className="py-28 md:py-36 px-4 md:px-16 lg:px-24 xl:px-32 outfit">
-        {/* ... Sisa kode JSX Anda tidak perlu diubah ... */}
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <h1 className="text-3xl md:text-4xl playfair">
             {room.hotel.name}{" "}
             <span className="text-base font-light outfit">({room.type})</span>
           </h1>
-          <span className="bg-orange-500 text-white rounded-full px-3 py-1.5 text-xs max-w-fit outfit">
-            DISKON 20%
-          </span>
+          <div className="flex gap-2 flex-wrap">
+            <span className="bg-orange-500 text-white rounded-full px-3 py-1.5 text-xs max-w-fit outfit">
+              DISKON 20%
+            </span>
+            {room.availableRooms !== undefined && (
+              <span
+                className={`${
+                  room.availableRooms > 0 ? "bg-green-500" : "bg-red-500"
+                } text-white rounded-full px-3 py-1.5 text-xs max-w-fit outfit font-semibold`}
+              >
+                {room.availableRooms > 0
+                  ? `${room.availableRooms}/${room.totalRooms} Tersedia`
+                  : "PENUH"}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Info Rating & Lokasi */}
@@ -176,7 +204,7 @@ const RoomDetails = () => {
 
         {/* Galeri Gambar */}
         <div className="flex flex-col lg:flex-row mt-6 gap-6">
-          <div className="lg:w-1/2 w-full">
+          <div className="lg:w-1/2 w-full relative">
             <img
               loading="lazy"
               src={mainImage}
@@ -217,19 +245,59 @@ const RoomDetails = () => {
               ))}
             </div>
           </div>
-          <div className="text-2xl font-semibold text-right">
-            Rp{room.pricePerNight.toLocaleString("id-ID")}/malam
+          <div className="flex flex-col items-end gap-2">
+            <div className="text-xs text-gray-500 uppercase tracking-wide">
+              Harga Dasar
+            </div>
+            <div className="text-3xl font-bold text-gray-900">
+              Rp{room.pricePerNight.toLocaleString("id-ID")}
+            </div>
+            <div className="text-xs text-gray-600 -mt-1">
+              per malam / per kamar
+            </div>
+            {room.availableRooms !== undefined && room.isAvailable && (
+              <div className="text-sm text-gray-600">
+                {room.availableRooms > 0 ? (
+                  <span className="text-green-600 font-medium">
+                    ✓ {room.availableRooms} kamar tersedia
+                  </span>
+                ) : (
+                  <span className="text-red-600 font-semibold">
+                    ✗ Kamar sudah penuh
+                  </span>
+                )}
+              </div>
+            )}
+            {!room.isAvailable && (
+              <div className="flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-lg">
+                <FaBan />
+                <span className="text-sm font-semibold">
+                  Tidak dapat dipesan saat ini
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Form Booking */}
         <form
-          className="bg-white text-gray-700 rounded-lg px-6 py-6 mt-10 shadow-xl border border-black/10 grid gap-6 md:grid-cols-5"
-          onSubmit={onSubmit}
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await createBooking();
+          }}
+          className={`bg-white text-gray-700 rounded-lg px-6 py-6 mt-10 shadow-xl border border-black/10 grid gap-6 md:grid-cols-5 ${!room.isAvailable ? "opacity-60 pointer-events-none" : ""}`}
         >
+          {!room.isAvailable && (
+            <div className="md:col-span-5 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
+              <FaBan className="text-red-600 text-xl" />
+              <p className="text-red-700 font-medium">
+                Form booking tidak tersedia karena kamar sedang tidak tersedia
+              </p>
+            </div>
+          )}
           <div className="flex flex-col">
-            <label className="mb-1 font-medium flex items-center gap-2">
-              <FaCalendarAlt /> Check-in
+            <label className="mb-2 font-semibold text-gray-700 flex items-center gap-2">
+              <FaCalendarAlt className="text-blue-600" /> Tanggal Check-in
             </label>
             <input
               id="checkInDate"
@@ -238,60 +306,155 @@ const RoomDetails = () => {
               onChange={(e) => setCheckInDate(e.target.value)}
               min={new Date().toISOString().split("T")[0]}
               type="date"
-              className="border border-gray-200 rounded px-3 py-2 text-sm"
+              disabled={!room.isAvailable}
+              className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             />
           </div>
 
           <div className="flex flex-col">
-            <label className="mb-1 font-medium flex items-center gap-2">
-              <FaCalendarAlt /> Check-out
+            <label className="mb-2 font-semibold text-gray-700 flex items-center gap-2">
+              <FaCalendarAlt className="text-blue-600" /> Tanggal Check-out
             </label>
             <input
               id="checkOutDate"
               name="checkOutDate"
               value={checkOutDate}
-              disabled={!checkInDate}
+              disabled={!checkInDate || !room.isAvailable}
               min={checkInDate}
               onChange={(e) => setCheckOutDate(e.target.value)}
               type="date"
-              className="border border-gray-200 rounded px-3 py-2 text-sm"
+              className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="guests" className="mb-1 font-medium">
-              Tamu
+            <label
+              htmlFor="numberOfRooms"
+              className="mb-2 font-semibold text-gray-700"
+            >
+              Berapa Kamar?
+            </label>
+            <input
+              id="numberOfRooms"
+              value={numberOfRooms}
+              name="numberOfRooms"
+              onChange={(e) => setNumberOfRooms(parseInt(e.target.value) || 1)}
+              type="number"
+              min="1"
+              max={room?.availableRooms || 10}
+              placeholder="1"
+              disabled={!room.isAvailable}
+              className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Maksimal {room?.availableRooms || 10} kamar tersedia
+            </p>
+          </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="guests"
+              className="mb-2 font-semibold text-gray-700"
+            >
+              Jumlah Tamu
             </label>
             <input
               id="guests"
               value={guests}
               name="guests"
-              onChange={(e) => setGuests(e.target.value)}
+              onChange={(e) => setGuests(parseInt(e.target.value) || 1)}
               type="number"
               min="1"
-              max="4"
               placeholder="1"
-              className="border border-gray-200 rounded px-3 py-2 text-sm"
+              disabled={!room.isAvailable}
+              className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Total tamu untuk semua kamar
+            </p>
           </div>
 
+          {/* Price Preview */}
+          {checkInDate && checkOutDate && (
+            <div className="col-span-full bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl px-6 py-4 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-blue-600 font-medium uppercase tracking-wide mb-1">
+                    Total Pembayaran
+                  </p>
+                  <p className="text-3xl font-bold text-blue-900">
+                    Rp
+                    {(
+                      numberOfRooms *
+                      Math.max(
+                        1,
+                        Math.ceil(
+                          (new Date(checkOutDate) - new Date(checkInDate)) /
+                            (1000 * 60 * 60 * 24),
+                        ),
+                      ) *
+                      room.pricePerNight
+                    ).toLocaleString("id-ID")}
+                  </p>
+                  <p className="text-xs text-blue-700 mt-1">
+                    {numberOfRooms} kamar •{" "}
+                    {Math.max(
+                      1,
+                      Math.ceil(
+                        (new Date(checkOutDate) - new Date(checkInDate)) /
+                          (1000 * 60 * 60 * 24),
+                      ),
+                    )}{" "}
+                    malam
+                  </p>
+                </div>
+                <div className="text-5xl">💰</div>
+              </div>
+            </div>
+          )}
+
           {/* Tombol Aksi */}
-          <div className="col-span-full md:col-span-2 flex flex-col md:flex-row gap-2 self-end">
-            <button
-              type="button"
-              onClick={checkAvailability}
-              className="w-full bg-gray-800 text-white flex items-center justify-center gap-2 px-6 py-2 rounded-md hover:bg-gray-700 transition"
-            >
-              <FaSearch />
-              Cek Ketersediaan
-            </button>
-            <button
-              type="submit"
-              disabled={!isAvailable}
-              className="w-full bg-orange-500 text-white flex items-center justify-center gap-2 px-10 py-2 rounded-md transition disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-orange-600"
-            >
-              Booking Sekarang
-            </button>
+          <div className="col-span-full md:col-span-2 flex flex-col gap-3 self-end">
+            {availabilityInfo && (
+              <div
+                className={`text-sm px-4 py-2 rounded-md ${
+                  availabilityInfo.available
+                    ? "bg-green-50 text-green-700 border border-green-200"
+                    : "bg-red-50 text-red-700 border border-red-200"
+                }`}
+              >
+                {availabilityInfo.message}
+                {availabilityInfo.available &&
+                  availabilityInfo.availableRooms && (
+                    <span className="font-semibold ml-1">
+                      ({availabilityInfo.availableRooms} kamar tersedia)
+                    </span>
+                  )}
+              </div>
+            )}
+            <div className="flex flex-col md:flex-row gap-2">
+              <button
+                type="button"
+                onClick={checkAvailability}
+                disabled={!room.isAvailable}
+                className="w-full bg-gray-800 text-white flex items-center justify-center gap-2 px-6 py-2 rounded-md hover:bg-gray-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                <FaSearch />
+                Cek Ketersediaan
+              </button>
+              <button
+                type="submit"
+                disabled={
+                  !room.isAvailable ||
+                  !isAvailable ||
+                  (room.availableRooms !== undefined &&
+                    room.availableRooms <= 0)
+                }
+                className="w-full bg-orange-500 text-white flex items-center justify-center gap-2 px-10 py-2 rounded-md transition disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-orange-600"
+              >
+                {!room.isAvailable ? "Tidak Tersedia" : "Booking Sekarang"}
+              </button>
+            </div>
           </div>
         </form>
       </div>
