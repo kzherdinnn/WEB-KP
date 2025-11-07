@@ -447,6 +447,17 @@ export const updateRoom = async (req, res) => {
         process.env.CLOUDINARY_CLOUD_NAME !== "your_cloud_name";
 
       if (hasCloudinary) {
+        // Delete old images from Cloudinary
+        if (room.images && room.images.length > 0) {
+          const deletePromises = room.images.map((imageUrl) => {
+            const publicIdMatch = imageUrl.match(/\/v\d+\/(.+?)\.\w+$/);
+            if (publicIdMatch && publicIdMatch[1]) {
+              return cloudinary.uploader.destroy(publicIdMatch[1]);
+            }
+          });
+          await Promise.all(deletePromises.filter(Boolean));
+        }
+
         try {
           const uploadImages = req.files.map(async (file) => {
             const result = await cloudinary.uploader.upload(file.path);
