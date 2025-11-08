@@ -2,6 +2,8 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Home, Hotels, RoomDetails, MyBookings } from "./pages";
 import CustomPaymentPage from "./pages/CustomPaymentPage";
+import ArticlesPage from "./pages/ArticlesPage";
+import ArticleDetail from "./pages/ArticleDetail";
 import { Navbar, HotelRegister, Loader } from "./components";
 import AdminRedirect from "./components/AdminRedirect";
 import Layout from "./pages/Admin/Layout";
@@ -28,6 +30,8 @@ const App = () => {
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/payment" element={<CustomPaymentPage />} />
         <Route path="/loader/:nextUrl" element={<Loader />} />
+        <Route path="/articles" element={<ArticlesPage />} />
+        <Route path="/articles/:id" element={<ArticleDetail />} />
 
         <Route path="/admin" element={<Layout />}>
           <Route index element={<Dashboard />} />

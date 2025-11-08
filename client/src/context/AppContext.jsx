@@ -28,6 +28,32 @@ export const AppContextProvider = ({ children }) => {
   const [searchedCities, setSearchedCities] = useState([]);
   const [rooms, setRooms] = useState([]);
 
+  // Dark/Light Mode State
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check localStorage or system preference
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      return savedTheme === "dark";
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  // Apply theme to document
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => !prev);
+  };
+
   // ================== PERUBAHAN UTAMA DI SINI ==================
   // Setup Axios Interceptor. Ini akan berjalan sekali saat context dimuat.
   // Interceptor ini akan menambahkan token ke SEMUA request secara otomatis.
@@ -109,6 +135,9 @@ export const AppContextProvider = ({ children }) => {
     setSearchedCities,
     rooms,
     setRooms,
+    isDarkMode,
+    setIsDarkMode,
+    toggleTheme,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
