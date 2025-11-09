@@ -148,9 +148,9 @@ export const createBookingAndPay = async (req, res) => {
       item_details: [
         {
           id: roomData._id,
-          price: roomData.pricePerNight * roomsToBook,
-          quantity: nights,
-          name: `Booking ${roomsToBook} × ${roomData.type} at ${roomData.hotel.name}`,
+          price: roomData.pricePerNight,
+          quantity: nights * roomsToBook,
+          name: `${roomsToBook}x ${roomData.type}`.substring(0, 50),
         },
       ],
       // ✅ TAMBAHKAN BLOK INI: Beri tahu Midtrans alamat kembali
@@ -177,6 +177,46 @@ export const createBookingAndPay = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Gagal membuat transaksi pembayaran." });
+  }
+};
+
+// --------------------------------------------------
+// 📖 API: Get Single Booking by ID
+// --------------------------------------------------
+export const getBookingById = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const userId = req.user._id;
+
+    const booking = await bookingModel.findById(bookingId).populate({
+      path: "room",
+      populate: {
+        path: "hotel",
+      },
+    });
+
+    if (!booking) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Booking tidak ditemukan." });
+    }
+
+    // Check if user owns this booking or is admin of the hotel
+    const isOwner = booking.user.toString() === userId.toString();
+    const isHotelAdmin =
+      req.user.role === "admin" &&
+      booking.room?.hotel?.admin?.toString() === userId.toString();
+
+    if (!isOwner && !isHotelAdmin) {
+      return res
+        .status(403)
+        .json({ success: false, message: "Akses ditolak." });
+    }
+
+    res.json({ success: true, booking });
+  } catch (error) {
+    console.error("🔥 Error fetching booking:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -209,36 +249,58 @@ export const midtransRetryPayment = async (req, res) => {
     const { bookingId } = req.body;
     const user = req.user;
 
+    console.log("📝 Retry Payment - bookingId:", bookingId);
+    console.log("📝 Retry Payment - user:", user._id);
+
     const booking = await bookingModel
       .findById(bookingId)
       .populate({ path: "room", populate: { path: "hotel" } });
 
+    console.log("📝 Booking found:", booking ? "YES" : "NO");
+    console.log("📝 Room found:", booking?.room ? "YES" : "NO");
+    console.log("📝 Hotel found:", booking?.room?.hotel ? "YES" : "NO");
+
     if (!booking || !booking.room || !booking.room.hotel) {
+      console.error("❌ Detail booking tidak lengkap");
       return res
         .status(404)
         .json({ success: false, message: "Detail booking tidak ditemukan." });
     }
     if (booking.user.toString() !== user._id.toString()) {
+      console.error("❌ User tidak memiliki akses ke booking ini");
       return res
         .status(403)
         .json({ success: false, message: "Akses ditolak." });
     }
     if (booking.paymentStatus === "paid") {
+      console.error("❌ Booking sudah dibayar");
       return res
         .status(400)
         .json({ success: false, message: "Booking ini sudah lunas." });
     }
 
-    const nights =
+    const nights = Math.ceil(
       (new Date(booking.checkOutDate).getTime() -
         new Date(booking.checkInDate).getTime()) /
-      (1000 * 3600 * 24);
+        (1000 * 3600 * 24),
+    );
 
     const roomsBooked = booking.numberOfRooms || 1;
 
+    console.log("📝 Nights:", nights);
+    console.log("📝 Rooms booked:", roomsBooked);
+    console.log("📝 Price per night:", booking.room.pricePerNight);
+    console.log("📝 Total price:", booking.totalPrice);
+
+    // Tambahkan suffix timestamp untuk retry payment agar order_id unik
+    const retryTimestamp = Date.now();
+    const uniqueOrderId = `${booking._id.toString()}-${retryTimestamp}`;
+
+    console.log("📝 Unique Order ID:", uniqueOrderId);
+
     const parameter = {
       transaction_details: {
-        order_id: booking._id.toString(),
+        order_id: uniqueOrderId,
         gross_amount: booking.totalPrice,
       },
       customer_details: {
@@ -247,29 +309,39 @@ export const midtransRetryPayment = async (req, res) => {
       },
       item_details: [
         {
-          id: booking.room._id,
-          price: booking.room.pricePerNight * roomsBooked,
-          quantity: nights,
-          name: `Booking ${roomsBooked} × ${booking.room.type} at ${booking.room.hotel.name}`,
+          id: booking.room._id.toString(),
+          price: booking.room.pricePerNight,
+          quantity: nights * roomsBooked,
+          name: `${roomsBooked}x ${booking.room.type}`.substring(0, 50),
         },
       ],
-      // ✅ TAMBAHKAN BLOK INI JUGA: Beri tahu Midtrans alamat kembali
       callbacks: {
         finish: `${process.env.FRONTEND_URL}/my-bookings`,
       },
     };
 
+    console.log("📝 Midtrans parameter:", JSON.stringify(parameter, null, 2));
+
     const transaction = await snap.createTransaction(parameter);
+
+    console.log("✅ Transaction created successfully");
 
     res.status(200).json({
       success: true,
       token: transaction.token,
     });
   } catch (error) {
-    console.error("🔥 Error saat mencoba ulang pembayaran Midtrans:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Gagal memulai pembayaran." });
+    console.error("🔥 Error saat mencoba ulang pembayaran Midtrans:");
+    console.error("🔥 Error message:", error.message);
+    console.error("🔥 Error stack:", error.stack);
+    if (error.ApiResponse) {
+      console.error("🔥 Midtrans API Response:", error.ApiResponse);
+    }
+    res.status(500).json({
+      success: false,
+      message: "Gagal memulai pembayaran.",
+      error: error.message,
+    });
   }
 };
 

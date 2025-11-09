@@ -34,8 +34,14 @@ export const midtransWebHook = async (req, res) => {
     console.log(`   - Transaction Status: ${transactionStatus}`);
     console.log(`   - Fraud Status: ${fraudStatus}`);
 
-    // 3. Cari booking di database Anda langsung menggunakan orderId
-    const booking = await bookingModel.findById(orderId);
+    // 3. Extract booking ID asli (hapus timestamp suffix jika ada)
+    // Format: bookingId-timestamp atau hanya bookingId
+    const bookingId = orderId.includes("-") ? orderId.split("-")[0] : orderId;
+
+    console.log(`🔍 Extracted Booking ID: ${bookingId}`);
+
+    // 4. Cari booking di database menggunakan bookingId yang sudah di-extract
+    const booking = await bookingModel.findById(bookingId);
 
     if (!booking) {
       console.warn(`⚠️ Booking tidak ditemukan untuk Order ID: ${orderId}`);
@@ -51,7 +57,7 @@ export const midtransWebHook = async (req, res) => {
     console.log(`   - Status Saat Ini: ${booking.paymentStatus}`);
     console.log(`   - Total Price: Rp${booking.totalPrice}`);
 
-    // 4. Update status booking berdasarkan notifikasi
+    // 5. Update status booking berdasarkan notifikasi
     let newPaymentStatus = booking.paymentStatus;
 
     if (transactionStatus == "settlement") {
@@ -82,7 +88,7 @@ export const midtransWebHook = async (req, res) => {
       await booking.save();
 
       console.log(
-        `✅ Status untuk Booking ID: ${orderId} berhasil diperbarui menjadi '${newPaymentStatus}'`,
+        `✅ Status untuk Booking ID: ${bookingId} berhasil diperbarui menjadi '${newPaymentStatus}'`,
       );
 
       // 🔄 Kembalikan availableRooms jika pembayaran dibatalkan/expired
@@ -102,7 +108,7 @@ export const midtransWebHook = async (req, res) => {
       }
 
       // Verifikasi update berhasil
-      const updatedBooking = await bookingModel.findById(orderId);
+      const updatedBooking = await bookingModel.findById(bookingId);
       console.log(
         `✔️ Verifikasi: Status di database sekarang adalah '${updatedBooking.paymentStatus}'`,
       );
@@ -114,11 +120,12 @@ export const midtransWebHook = async (req, res) => {
     console.log("✅ WEBHOOK BERHASIL DIPROSES");
     console.log("=".repeat(60));
 
-    // 5. Kirim respons 200 OK ke Midtrans untuk mengonfirmasi penerimaan
+    // 6. Kirim respons 200 OK ke Midtrans untuk mengonfirmasi penerimaan
     res.status(200).json({
       success: true,
       message: "Webhook berhasil diproses.",
       orderId: orderId,
+      bookingId: bookingId,
       newStatus: newPaymentStatus,
     });
   } catch (error) {
