@@ -105,6 +105,7 @@ const Navbar = () => {
   };
 
   const handleLinkClick = (path) => {
+    console.log("🔔 handleLinkClick called with path:", path);
     setIsMenuOpen(false);
     setDropdownOpen(null);
 
@@ -118,18 +119,30 @@ const Navbar = () => {
         basePath === ""
       ) {
         // Langsung scroll ke element
+        console.log("✅ Same page, scrolling to:", hash);
         const element = document.querySelector(hash ? `#${hash}` : "");
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
+        } else {
+          console.log("❌ Element not found:", hash);
         }
       } else {
         // Jika di halaman berbeda, navigate dulu baru scroll
+        console.log(
+          "🔄 Different page, navigating to:",
+          basePath || "/",
+          "then scrolling to:",
+          hash,
+        );
         navigate(basePath || "/");
         // Tunggu sebentar agar halaman ter-render, baru scroll
         setTimeout(() => {
           const element = document.querySelector(hash ? `#${hash}` : "");
           if (element) {
+            console.log("✅ Scrolling to element:", hash);
             element.scrollIntoView({ behavior: "smooth" });
+          } else {
+            console.log("❌ Element not found after navigation:", hash);
           }
         }, 100);
       }
@@ -170,9 +183,11 @@ const Navbar = () => {
                 return (
                   <div
                     key={idx}
-                    className="relative group"
+                    className="relative group z-50"
                     onMouseEnter={() => setDropdownOpen(link.name)}
-                    onMouseLeave={() => setDropdownOpen(null)}
+                    onMouseLeave={() => {
+                      setTimeout(() => setDropdownOpen(null), 150);
+                    }}
                   >
                     <button
                       className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm outfit group ${
@@ -196,10 +211,10 @@ const Navbar = () => {
 
                     {/* Dropdown Menu */}
                     <div
-                      className={`absolute top-full left-0 mt-3 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 ${
+                      className={`absolute top-full left-0 mt-3 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 z-[100] ${
                         dropdownOpen === link.name
-                          ? "opacity-100 visible translate-y-0 scale-100"
-                          : "opacity-0 invisible -translate-y-2 scale-95"
+                          ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
+                          : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
                       }`}
                     >
                       {dropdownOpen === link.name && (
@@ -210,9 +225,11 @@ const Navbar = () => {
                           key={itemIdx}
                           onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             handleLinkClick(item.path);
+                            setDropdownOpen(null);
                           }}
-                          className="relative flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 hover:text-teal-600 transition-all duration-300 outfit group border-b border-gray-50 last:border-0 overflow-hidden w-full text-left"
+                          className="relative flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 hover:text-teal-600 transition-all duration-300 outfit group border-b border-gray-50 last:border-0 overflow-hidden w-full text-left cursor-pointer"
                         >
                           <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                           <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-teal-100 to-emerald-100 flex items-center justify-center text-teal-600 text-sm group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md group-hover:shadow-teal-200/50 group-hover:from-teal-600 group-hover:to-emerald-600 group-hover:text-white transition-all duration-300">
@@ -434,9 +451,11 @@ const Navbar = () => {
                         key={itemIdx}
                         onClick={(e) => {
                           e.preventDefault();
+                          e.stopPropagation();
                           handleLinkClick(item.path);
+                          setDropdownOpen(null);
                         }}
-                        className="relative flex items-center gap-3 text-sm text-gray-700 hover:text-teal-600 transition-all duration-300 py-2.5 px-3 hover:bg-white rounded-lg outfit font-medium group overflow-hidden w-full text-left"
+                        className="relative flex items-center gap-3 text-sm text-gray-700 hover:text-teal-600 transition-all duration-300 py-2.5 px-3 hover:bg-white rounded-lg outfit font-medium group overflow-hidden w-full text-left cursor-pointer"
                         style={{ animationDelay: `${itemIdx * 50}ms` }}
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
