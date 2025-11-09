@@ -13,6 +13,7 @@ import ListRoom from "./pages/Admin/ListRoom";
 import UserManagement from "./pages/Admin/UserManagement";
 import { Toaster } from "react-hot-toast";
 import { useAppContext } from "./context/AppContext";
+import PWAInstallPrompt from "./components/PWAInstallPrompt";
 
 const App = () => {
   const isAdmin = useLocation().pathname.includes("admin");
@@ -23,6 +24,7 @@ const App = () => {
       {showHotelReg && <HotelRegister />}
       <AdminRedirect />
       <Toaster />
+      <PWAInstallPrompt />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/hotels" element={<Hotels />} />

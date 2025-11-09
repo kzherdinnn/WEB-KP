@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Icon Generator - StayZa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .upload-area {
+            border: 3px dashed #14b8a6;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: #f0fdfa;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover {
+            background: #ccfbf1;
+            border-color: #0d9488;
+        }
+
+        .upload-area.dragover {
+            background: #99f6e4;
+            border-color: #0d9488;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            color: #14b8a6;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #666;
+            font-size: 14px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .preview-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .preview-section.active {
+            display: block;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            text-align: center;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .preview-item canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-item .size-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6);
+        }
+
+        .btn-generate:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .progress {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress.active {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #14b8a6, #0d9488);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .success-message {
+            display: none;
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            color: #065f46;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-message .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .instructions {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .instructions h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #78350f;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 PWA Icon Generator</h1>
+        <p class="subtitle">Generate semua ukuran icon untuk Progressive Web App StayZa</p>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📤</div>
+            <div class="upload-text">Upload Logo SVG atau PNG</div>
+            <div class="upload-hint">Klik atau drag & drop file di sini (Recommended: 512x512px)</div>
+            <input type="file" id="fileInput" accept="image/svg+xml,image/png,image/jpeg">
+        </div>
+
+        <div class="preview-section" id="previewSection">
+            <h3>Preview Icons</h3>
+            <div class="preview-grid" id="previewGrid"></div>
+            <button class="btn-generate" id="generateBtn">📥 Download Semua Icons</button>
+        </div>
+
+        <div class="progress" id="progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Generating icons...</div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <div class="icon">✅</div>
+            <h3>Icons berhasil di-generate!</h3>
+            <p>Semua icon sudah tersimpan. Pindahkan ke folder public/icons/</p>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instruksi:</h3>
+            <ol>
+                <li>Upload file logo (SVG atau PNG dengan resolusi tinggi)</li>
+                <li>Preview akan muncul untuk semua ukuran icon</li>
+                <li>Klik "Download Semua Icons" untuk download</li>
+                <li>Extract file ZIP dan pindahkan ke folder <code>public/icons/</code></li>
+                <li>PWA Anda siap digunakan! 🎉</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewSection = document.getElementById('previewSection');
+        const previewGrid = document.getElementById('previewGrid');
+        const generateBtn = document.getElementById('generateBtn');
+        const progress = document.getElementById('progress');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const successMessage = document.getElementById('successMessage');
+
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const maskableSizes = [192, 512];
+        let sourceImage = null;
+
+        // Upload area events
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    sourceImage = img;
+                    generatePreviews();
+                    previewSection.classList.add('active');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function generatePreviews() {
+            previewGrid.innerHTML = '';
+
+            // Regular icons
+            sizes.forEach(size => {
+                const canvas = createIcon(size, false);
+                const item = document.createElement('div');
+                item.className = 'preview-item';
+                item.innerHTML = `
+                    ${canvas.outerHTML}
+                    <div class="size-label">${size}x${size}</div>
+                `;
+                previewGrid.appendChild(item);
+            });
+
+            // Maskable icons
+            maskableSizes.forEach(size => {
+                const canvas = createIcon(size, true);
+                const item = document.createElement('div');
+                item.className = 'preview-item';
+                item.innerHTML = `
+                    ${canvas.outerHTML}
+                    <div class="size-label">${size}x${size} (Maskable)</div>
+                `;
+                previewGrid.appendChild(item);
+            });
+        }
+
+        function createIcon(size, isMaskable) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            if (isMaskable) {
+                // Maskable icon with safe zone (80% of canvas)
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#14b8a6');
+                gradient.addColorStop(1, '#0d9488');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, size, size);
+
+                const padding = size * 0.2;
+                const iconSize = size - (padding * 2);
+                ctx.drawImage(sourceImage, padding, padding, iconSize, iconSize);
+            } else {
+                // Regular icon with transparent background
+                const padding = size * 0.1;
+                const iconSize = size - (padding * 2);
+                ctx.drawImage(sourceImage, padding, padding, iconSize, iconSize);
+            }
+
+            return canvas;
+        }
+
+        generateBtn.addEventListener('click', async () => {
+            generateBtn.disabled = true;
+            progress.classList.add('active');
+            successMessage.classList.remove('active');
+
+            const zip = new JSZip();
+            const total = sizes.length + maskableSizes.length;
+            let current = 0;
+
+            // Generate regular icons
+            for (const size of sizes) {
+                const canvas = createIcon(size, false);
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                zip.file(`icon-${size}x${size}.png`, blob);
+
+                current++;
+                updateProgress(current, total);
+            }
+
+            // Generate maskable icons
+            for (const size of maskableSizes) {
+                const canvas = createIcon(size, true);
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                zip.file(`icon-maskable-${size}x${size}.png`, blob);
+
+                current++;
+                updateProgress(current, total);
+            }
+
+            // Generate ZIP
+            progressText.textContent = 'Creating ZIP file...';
+            const content = await zip.generateAsync({ type: 'blob' });
+            saveAs(content, 'stayza-pwa-icons.zip');
+
+            progress.classList.remove('active');
+            successMessage.classList.add('active');
+            generateBtn.disabled = false;
+        });
+
+        function updateProgress(current, total) {
+            const percent = (current / total) * 100;
+            progressFill.style.width = percent + '%';
+            progressText.textContent = `Generating icon ${current} of ${total}...`;
+        }
+    </script>
+</body>
+</html>
