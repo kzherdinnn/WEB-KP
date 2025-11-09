@@ -44,6 +44,19 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Toggle body class when mobile menu opens/closes
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add("menu-open");
+    } else {
+      document.body.classList.remove("menu-open");
+    }
+
+    return () => {
+      document.body.classList.remove("menu-open");
+    };
+  }, [isMenuOpen]);
+
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   // Navigation Menu Structure with Grouping
@@ -378,133 +391,141 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed top-0 left-0 w-full h-screen text-gray-800 flex flex-col gap-3 py-20 px-8 transition-transform duration-500 z-50 bg-gradient-to-b from-white via-teal-50/30 to-white overflow-y-auto
+        className={`fixed inset-0 w-full h-full text-gray-800 flex flex-col gap-3 py-16 px-4 sm:px-6 transition-transform duration-500 z-[60] bg-gradient-to-b from-white via-teal-50/30 to-white overflow-y-auto overscroll-contain safe-area-inset
         ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{
+          paddingTop: "max(env(safe-area-inset-top), 4rem)",
+          paddingBottom: "max(env(safe-area-inset-bottom), 2rem)",
+        }}
       >
         <button
-          className="absolute top-6 right-6 text-white bg-gradient-to-r from-teal-600 to-emerald-600 p-2 rounded-full hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg"
+          className="absolute top-4 right-4 text-white bg-gradient-to-r from-teal-600 to-emerald-600 p-2.5 rounded-full hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg z-10"
           onClick={() => setIsMenuOpen(false)}
           aria-label="Close Menu"
+          style={{ top: "max(env(safe-area-inset-top, 1rem), 1rem)" }}
         >
-          <FiX className="h-6 w-6" />
+          <FiX className="h-5 w-5" />
         </button>
 
         {/* Mobile Logo */}
-        <div className="mb-8">
+        <div className="mb-6 flex-shrink-0">
           <Link
             to="/"
             onClick={() => {
               setIsMenuOpen(false);
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-2.5"
           >
-            <img src="/favicon.svg" alt="logo" className="h-12" />
-            <span className="text-3xl font-bold outfit bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
+            <img src="/favicon.svg" alt="logo" className="h-10 sm:h-12" />
+            <span className="text-2xl sm:text-3xl font-bold outfit bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
               StayZa
             </span>
           </Link>
         </div>
 
-        {navLinks.map((link, idx) => {
-          if (link.type === "dropdown") {
-            return (
-              <div
-                key={idx}
-                className={`rounded-xl p-4 shadow-md mb-2.5 transition-all duration-400 overflow-hidden ${
-                  dropdownOpen === link.name
-                    ? "bg-gradient-to-br from-teal-50 via-emerald-50 to-teal-50 shadow-lg shadow-teal-100/50"
-                    : "bg-white/90 backdrop-blur-sm"
-                }`}
-              >
-                <button
-                  onClick={() => handleDropdownToggle(link.name)}
-                  className={`flex items-center justify-between w-full text-base font-bold transition-all duration-300 outfit group ${
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto overscroll-contain -mx-4 px-4 sm:-mx-6 sm:px-6 pb-4">
+          {navLinks.map((link, idx) => {
+            if (link.type === "dropdown") {
+              return (
+                <div
+                  key={idx}
+                  className={`rounded-xl p-3 sm:p-4 shadow-md mb-2 transition-all duration-400 overflow-hidden ${
                     dropdownOpen === link.name
-                      ? "text-teal-600"
-                      : "text-gray-800 hover:text-teal-600"
+                      ? "bg-gradient-to-br from-teal-50 via-emerald-50 to-teal-50 shadow-lg shadow-teal-100/50"
+                      : "bg-white/90 backdrop-blur-sm"
                   }`}
                 >
-                  <span className="relative">
-                    {link.name}
-                    {dropdownOpen === link.name && (
-                      <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gradient-to-r from-teal-600 to-emerald-600"></span>
-                    )}
-                  </span>
-                  <div
-                    className={`p-1.5 rounded-lg transition-all duration-300 ${dropdownOpen === link.name ? "bg-teal-100 rotate-180" : "group-hover:bg-teal-50"}`}
+                  <button
+                    onClick={() => handleDropdownToggle(link.name)}
+                    className={`flex items-center justify-between w-full text-sm sm:text-base font-bold transition-all duration-300 outfit group ${
+                      dropdownOpen === link.name
+                        ? "text-teal-600"
+                        : "text-gray-800 hover:text-teal-600"
+                    }`}
                   >
-                    <FiChevronDown
-                      className={`w-4 h-4 transition-all duration-300 ${
-                        dropdownOpen === link.name
-                          ? "text-teal-600"
-                          : "group-hover:translate-y-0.5"
-                      }`}
-                    />
-                  </div>
-                </button>
+                    <span className="relative">
+                      {link.name}
+                      {dropdownOpen === link.name && (
+                        <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gradient-to-r from-teal-600 to-emerald-600"></span>
+                      )}
+                    </span>
+                    <div
+                      className={`p-1 sm:p-1.5 rounded-lg transition-all duration-300 ${dropdownOpen === link.name ? "bg-teal-100 rotate-180" : "group-hover:bg-teal-50"}`}
+                    >
+                      <FiChevronDown
+                        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all duration-300 ${
+                          dropdownOpen === link.name
+                            ? "text-teal-600"
+                            : "group-hover:translate-y-0.5"
+                        }`}
+                      />
+                    </div>
+                  </button>
 
-                {dropdownOpen === link.name && (
-                  <div className="mt-3 space-y-1.5 bg-white/60 backdrop-blur-sm rounded-lg p-2 animate-[fadeIn_0.3s_ease-out]">
-                    {link.items.map((item, itemIdx) => (
-                      <button
-                        key={itemIdx}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleLinkClick(item.path);
-                          setDropdownOpen(null);
-                        }}
-                        className="relative flex items-center gap-3 text-sm text-gray-700 hover:text-teal-600 transition-all duration-300 py-2.5 px-3 hover:bg-white rounded-lg outfit font-medium group overflow-hidden w-full text-left cursor-pointer"
-                        style={{ animationDelay: `${itemIdx * 50}ms` }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                        <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-teal-100 to-emerald-100 flex items-center justify-center text-teal-600 text-sm group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md group-hover:shadow-teal-200/50 transition-all duration-300">
-                          {item.icon}
-                        </div>
-                        <span className="relative group-hover:translate-x-0.5 transition-transform duration-300">
-                          {item.name}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          }
+                  {dropdownOpen === link.name && (
+                    <div className="mt-2 sm:mt-3 space-y-1 sm:space-y-1.5 bg-white/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 animate-[fadeIn_0.3s_ease-out]">
+                      {link.items.map((item, itemIdx) => (
+                        <button
+                          key={itemIdx}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleLinkClick(item.path);
+                            setDropdownOpen(null);
+                          }}
+                          className="relative flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 hover:text-teal-600 transition-all duration-300 py-2 px-2 sm:py-2.5 sm:px-3 hover:bg-white rounded-lg outfit font-medium group overflow-hidden w-full text-left cursor-pointer"
+                          style={{ animationDelay: `${itemIdx * 50}ms` }}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                          <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-teal-100 to-emerald-100 flex items-center justify-center text-teal-600 text-xs sm:text-sm group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md group-hover:shadow-teal-200/50 transition-all duration-300 flex-shrink-0">
+                            {item.icon}
+                          </div>
+                          <span className="relative group-hover:translate-x-0.5 transition-transform duration-300">
+                            {item.name}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
 
-          const isHashLink = link.path.includes("#");
-          if (isHashLink) {
+            const isHashLink = link.path.includes("#");
+            if (isHashLink) {
+              return (
+                <a
+                  key={idx}
+                  href={link.path}
+                  onClick={() => handleLinkClick(link.path)}
+                  className="relative text-sm sm:text-base font-bold hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl hover:shadow-teal-100/50 mb-2 block outfit group overflow-hidden hover:scale-[1.02]"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                  <span className="relative">{link.name}</span>
+                </a>
+              );
+            }
+
             return (
-              <a
+              <Link
                 key={idx}
-                href={link.path}
-                onClick={() => handleLinkClick(link.path)}
-                className="relative text-lg font-bold hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-2xl p-5 shadow-lg hover:shadow-xl hover:shadow-teal-100/50 mb-3 block outfit group overflow-hidden hover:scale-[1.02]"
+                to={link.path}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  if (link.path === "/") {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
+                className="relative text-sm sm:text-base font-bold hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl hover:shadow-teal-100/50 mb-2 block outfit group overflow-hidden hover:scale-[1.02]"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                 <span className="relative">{link.name}</span>
-              </a>
+              </Link>
             );
-          }
-
-          return (
-            <Link
-              key={idx}
-              to={link.path}
-              onClick={() => {
-                setIsMenuOpen(false);
-                if (link.path === "/") {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }
-              }}
-              className="relative text-lg font-bold hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-2xl p-5 shadow-lg hover:shadow-xl hover:shadow-teal-100/50 mb-3 block outfit group overflow-hidden hover:scale-[1.02]"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-              <span className="relative">{link.name}</span>
-            </Link>
-          );
-        })}
+          })}
+        </div>
 
         {user && userRole === "admin" && (
           <button
