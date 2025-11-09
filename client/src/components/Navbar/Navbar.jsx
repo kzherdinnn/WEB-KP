@@ -107,12 +107,31 @@ const Navbar = () => {
   const handleLinkClick = (path) => {
     setIsMenuOpen(false);
     setDropdownOpen(null);
+
     if (path.includes("#")) {
-      const element = document.querySelector(
-        path.split("#")[1] ? `#${path.split("#")[1]}` : "",
-      );
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      const [basePath, hash] = path.split("#");
+
+      // Jika berada di halaman yang sama dengan basePath atau basePath kosong (berarti homepage)
+      if (
+        location.pathname === basePath ||
+        (basePath === "/" && location.pathname === "/") ||
+        basePath === ""
+      ) {
+        // Langsung scroll ke element
+        const element = document.querySelector(hash ? `#${hash}` : "");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // Jika di halaman berbeda, navigate dulu baru scroll
+        navigate(basePath || "/");
+        // Tunggu sebentar agar halaman ter-render, baru scroll
+        setTimeout(() => {
+          const element = document.querySelector(hash ? `#${hash}` : "");
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
       }
     }
   };
@@ -187,11 +206,13 @@ const Navbar = () => {
                         <div className="absolute -top-1 left-8 w-2.5 h-2.5 bg-white/95 backdrop-blur-xl border-l border-t border-teal-100/50 rotate-45"></div>
                       )}
                       {link.items.map((item, itemIdx) => (
-                        <a
+                        <button
                           key={itemIdx}
-                          href={item.path}
-                          onClick={() => handleLinkClick(item.path)}
-                          className="relative flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 hover:text-teal-600 transition-all duration-300 outfit group border-b border-gray-50 last:border-0 overflow-hidden"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleLinkClick(item.path);
+                          }}
+                          className="relative flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 hover:text-teal-600 transition-all duration-300 outfit group border-b border-gray-50 last:border-0 overflow-hidden w-full text-left"
                         >
                           <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                           <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-teal-100 to-emerald-100 flex items-center justify-center text-teal-600 text-sm group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md group-hover:shadow-teal-200/50 group-hover:from-teal-600 group-hover:to-emerald-600 group-hover:text-white transition-all duration-300">
@@ -200,7 +221,7 @@ const Navbar = () => {
                           <span className="relative font-medium group-hover:translate-x-0.5 transition-transform duration-300">
                             {item.name}
                           </span>
-                        </a>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -409,11 +430,13 @@ const Navbar = () => {
                 {dropdownOpen === link.name && (
                   <div className="mt-3 space-y-1.5 bg-white/60 backdrop-blur-sm rounded-lg p-2 animate-[fadeIn_0.3s_ease-out]">
                     {link.items.map((item, itemIdx) => (
-                      <a
+                      <button
                         key={itemIdx}
-                        href={item.path}
-                        onClick={() => handleLinkClick(item.path)}
-                        className="relative flex items-center gap-3 text-sm text-gray-700 hover:text-teal-600 transition-all duration-300 py-2.5 px-3 hover:bg-white rounded-lg outfit font-medium group overflow-hidden"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLinkClick(item.path);
+                        }}
+                        className="relative flex items-center gap-3 text-sm text-gray-700 hover:text-teal-600 transition-all duration-300 py-2.5 px-3 hover:bg-white rounded-lg outfit font-medium group overflow-hidden w-full text-left"
                         style={{ animationDelay: `${itemIdx * 50}ms` }}
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
@@ -423,7 +446,7 @@ const Navbar = () => {
                         <span className="relative group-hover:translate-x-0.5 transition-transform duration-300">
                           {item.name}
                         </span>
-                      </a>
+                      </button>
                     ))}
                   </div>
                 )}
