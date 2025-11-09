@@ -185,9 +185,7 @@ const Navbar = () => {
                     key={idx}
                     className="relative group z-50"
                     onMouseEnter={() => setDropdownOpen(link.name)}
-                    onMouseLeave={() => {
-                      setTimeout(() => setDropdownOpen(null), 150);
-                    }}
+                    onMouseLeave={() => setDropdownOpen(null)}
                   >
                     <button
                       className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm outfit group ${
@@ -211,7 +209,9 @@ const Navbar = () => {
 
                     {/* Dropdown Menu */}
                     <div
-                      className={`absolute top-full left-0 mt-3 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 z-[100] ${
+                      onMouseEnter={() => setDropdownOpen(link.name)}
+                      onMouseLeave={() => setDropdownOpen(null)}
+                      className={`absolute top-full left-0 mt-1 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 z-[100] ${
                         dropdownOpen === link.name
                           ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
                           : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
