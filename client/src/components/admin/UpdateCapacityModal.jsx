@@ -278,7 +278,7 @@ const UpdateCapacityModal = ({ room, onClose, onUpdate, loading }) => {
         </form>
       </div>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -306,7 +306,7 @@ const UpdateCapacityModal = ({ room, onClose, onUpdate, loading }) => {
         .animate-slideUp {
           animation: slideUp 0.3s ease-out;
         }
-      `}</style>
+      ` }} />
     </div>
   );
 };

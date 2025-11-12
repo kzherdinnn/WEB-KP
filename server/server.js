@@ -2,7 +2,7 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import connectDB from "./config/db.js";
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import { ClerkExpressWithAuth } from "@clerk/clerk-sdk-node";
 
 // Impor router Anda
 import userRouter from "./routes/userRoutes.js";
@@ -23,7 +23,11 @@ const app = express();
 await connectDB();
 await connectCloudinary();
 
-const allowedOrigins = ["http://localhost:5173", "https://stayza.vercel.app"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://stayza.vercel.app",
+];
 
 // =====================================================
 // 🌍 Middleware & Rute Publik (Tidak Perlu Login)
@@ -39,7 +43,7 @@ app.post("/api/payment/webhook", express.json(), midtransWebHook);
 app.post(
   "/api/clerk-webhook",
   express.raw({ type: "application/json" }),
-  clerkWebHooks,
+  clerkWebHooks
 );
 
 // Middleware CORS
@@ -55,16 +59,18 @@ app.use(
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  }),
+  })
 );
 
 // Middleware umum untuk mengubah body request menjadi JSON
 app.use(express.json());
 
 // =====================================================
-// 🔒 Middleware Otentikasi Clerk (Titik Pemeriksaan)
+// 🔒 Middleware Otentikasi Clerk (Untuk Protected Routes)
 // =====================================================
-app.use(ClerkExpressRequireAuth());
+// Menggunakan ClerkExpressWithAuth untuk attach auth ke semua requests
+// tapi tidak memblok request yang tidak authenticated
+app.use(ClerkExpressWithAuth());
 
 // =====================================================
 // 🧩 Rute API yang Dilindungi (Memerlukan Login)

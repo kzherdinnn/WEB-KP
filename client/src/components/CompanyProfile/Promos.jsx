@@ -6,47 +6,47 @@ const Promos = () => {
   const promos = [
     {
       id: 1,
-      title: "Early Bird Special",
-      discount: "30% OFF",
-      description: "Book 30 days in advance and save big on your stay",
-      validUntil: "Dec 31, 2024",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
-      badge: "Popular",
+      title: "Car Audio Installation",
+      discount: "20% OFF",
+      description: "Upgrade your car audio system with professional installation",
+      validUntil: "Dec 31, 2025",
+      image: "https://images.unsplash.com/photo-1583337130417-1f3de34e6f2c?w=600&h=400&fit=crop",
+      badge: "Hot Deal",
       color: "from-blue-500 to-blue-700",
-      features: ["Free Breakfast", "Late Checkout", "Airport Transfer"],
+      features: ["Speaker Upgrade", "Subwoofer Installation", "Bluetooth Setup"],
     },
     {
       id: 2,
-      title: "Weekend Getaway",
-      discount: "25% OFF",
-      description: "Perfect weekend escape with exclusive amenities included",
-      validUntil: "Jan 15, 2025",
-      image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop",
-      badge: "Hot Deal",
+      title: "Alarm System Package",
+      discount: "15% OFF",
+      description: "Secure your car with a premium alarm system package",
+      validUntil: "Jan 31, 2026",
+      image: "https://images.unsplash.com/photo-1596148856217-362db14b5d3b?w=600&h=400&fit=crop",
+      badge: "Popular",
       color: "from-orange-500 to-red-600",
-      features: ["Spa Access", "Welcome Drink", "Room Upgrade"],
+      features: ["Remote Alarm", "Shock Sensor", "24/7 Monitoring"],
     },
     {
       id: 3,
-      title: "Long Stay Package",
-      discount: "40% OFF",
-      description: "Stay 7 nights or more and enjoy exclusive long-term rates",
-      validUntil: "Feb 28, 2025",
-      image: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&h=400&fit=crop",
+      title: "GPS Installation",
+      discount: "25% OFF",
+      description: "Install a GPS tracker and monitor your vehicle anytime",
+      validUntil: "Feb 28, 2026",
+      image: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&h=400&fit=crop",
       badge: "Best Value",
       color: "from-emerald-500 to-teal-700",
-      features: ["Weekly Cleaning", "Laundry Service", "Kitchen Access"],
+      features: ["Real-Time Tracking", "Geo-Fencing", "Mobile App Access"],
     },
     {
       id: 4,
-      title: "Honeymoon Package",
-      discount: "35% OFF",
-      description: "Celebrate your love with romantic amenities and surprises",
-      validUntil: "Mar 31, 2025",
-      image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop",
-      badge: "Romantic",
+      title: "Car Security Package",
+      discount: "30% OFF",
+      description: "Combine audio, alarm, and GPS installation for full protection",
+      validUntil: "Mar 31, 2026",
+      image: "https://images.unsplash.com/photo-1601582582213-91f9d7e9040a?w=600&h=400&fit=crop",
+      badge: "Exclusive",
       color: "from-pink-500 to-rose-700",
-      features: ["Champagne", "Couples Massage", "Candlelit Dinner"],
+      features: ["Audio Upgrade", "Alarm Installation", "GPS Tracker"],
     },
   ];
 
@@ -86,7 +86,7 @@ const Promos = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-red-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
-            Don't miss out on our exclusive deals and packages designed to make your stay unforgettable
+            Upgrade your car with our audio, alarm, and GPS packages at special prices
           </p>
         </motion.div>
 
@@ -172,7 +172,6 @@ const Promos = () => {
           viewport={{ once: true }}
           className="mt-16 bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-700 rounded-3xl p-8 md:p-12 text-white text-center relative overflow-hidden"
         >
-          {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
 
