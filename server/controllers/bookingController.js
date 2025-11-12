@@ -363,10 +363,17 @@ export const cancelBooking = async (req, res) => {
         .status(403)
         .json({ success: false, message: "Akses ditolak." });
     }
-    if (booking.paymentStatus !== "pending") {
+    // Hanya tolak pembatalan jika booking sudah dibayar atau sudah dibatalkan sebelumnya
+    if (booking.paymentStatus === "paid") {
       return res.status(400).json({
         success: false,
-        message: "Hanya booking yang belum dibayar yang bisa dibatalkan.",
+        message: "Booking sudah dibayar dan tidak bisa dibatalkan.",
+      });
+    }
+    if (booking.paymentStatus === "cancelled") {
+      return res.status(400).json({
+        success: false,
+        message: "Booking sudah dibatalkan sebelumnya.",
       });
     }
 
