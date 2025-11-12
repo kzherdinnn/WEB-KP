@@ -11,7 +11,6 @@ const ContactLocation = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log("Form submitted:", formData);
     alert("Thank you for your message! We'll get back to you soon.");
     setFormData({ name: "", email: "", phone: "", message: "" });
@@ -48,8 +47,8 @@ const ContactLocation = () => {
         </svg>
       ),
       title: "Address",
-      details: "123 Luxury Avenue, City Center",
-      subDetails: "Jakarta 12345, Indonesia",
+      details: "Jl. Gudang Utara No.29, Merdeka, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40113",
+      subDetails: "Bandung 40113, Indonesia",
     },
     {
       icon: (
@@ -68,8 +67,8 @@ const ContactLocation = () => {
         </svg>
       ),
       title: "Phone",
-      details: "+62 21 1234 5678",
-      subDetails: "+62 812 3456 7890",
+      details: "+0813 2002 7587",
+      subDetails: "Hubungi kami untuk reservasi dan informasi layanan",
     },
     {
       icon: (
@@ -88,8 +87,8 @@ const ContactLocation = () => {
         </svg>
       ),
       title: "Email",
-      details: "info@luxuryhotel.com",
-      subDetails: "reservations@luxuryhotel.com",
+      details: "aanaudiooffice@gmail.com",
+      subDetails: "Hubungi email kami untuk informasi lebih lanjut",
     },
     {
       icon: (
@@ -108,8 +107,8 @@ const ContactLocation = () => {
         </svg>
       ),
       title: "Working Hours",
-      details: "24/7 Reception",
-      subDetails: "Check-in: 2 PM | Check-out: 12 PM",
+      details: "10:00 - 18:00",
+      subDetails: "Jam Operasional",
     },
   ];
 
@@ -128,7 +127,7 @@ const ContactLocation = () => {
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Get in touch with us or visit our hotel in the heart of the city
+            Hubungi kami atau kunjungi Alamat kami.
           </p>
         </motion.div>
 
@@ -267,14 +266,14 @@ const ContactLocation = () => {
               </h3>
               <div className="aspect-video rounded-lg overflow-hidden shadow-md">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.666890489339!2d106.82493631476888!3d-6.175392395528252!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMonas!5e0!3m2!1sen!2sid!4v1234567890123"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.782709472949!2d107.62398587401752!3d-6.916562167693113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e76567cff77d%3A0x6abfce74f52dce58!2sAan%20Audio%20Mobil%2C%20Alarm%20%2C%20GPS!5e0!3m2!1sid!2sid!4v1762930089489!5m2!1sid!2sid"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Hotel Location"
+                  title="Aan Audio Mobil"
                 ></iframe>
               </div>
             </div>
@@ -285,10 +284,12 @@ const ContactLocation = () => {
                 Follow Us
               </h3>
               <div className="flex gap-4">
+                {/* Social icons (tidak diubah) */}
                 <a
                   href="#"
                   className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-300"
                 >
+                  {/* Facebook SVG */}
                   <svg
                     className="w-6 h-6"
                     fill="currentColor"
@@ -297,6 +298,7 @@ const ContactLocation = () => {
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                   </svg>
                 </a>
+                {/* Instagram, Twitter, LinkedIn (tetap sama) */}
                 <a
                   href="#"
                   className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-300"
