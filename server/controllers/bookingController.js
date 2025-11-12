@@ -353,6 +353,13 @@ export const cancelBooking = async (req, res) => {
     const { bookingId } = req.params;
     const user = req.user;
     const booking = await bookingModel.findById(bookingId);
+    
+    console.log(`\n🔍 CANCEL BOOKING DEBUG:`);
+    console.log(`   bookingId: ${bookingId}`);
+    console.log(`   booking found: ${booking ? 'YES' : 'NO'}`);
+    console.log(`   paymentStatus: ${booking?.paymentStatus}`);
+    console.log(`   user match: ${booking?.user.toString() === user._id.toString()}`);
+    
     if (!booking) {
       return res
         .status(404)
@@ -365,6 +372,7 @@ export const cancelBooking = async (req, res) => {
     }
     // Hanya tolak pembatalan jika booking sudah dibayar atau sudah dibatalkan sebelumnya
     if (booking.paymentStatus === "paid") {
+      console.log(`   ❌ CANCEL REJECTED: Status is 'paid'`);
       return res.status(400).json({
         success: false,
         message: "Booking sudah dibayar dan tidak bisa dibatalkan.",

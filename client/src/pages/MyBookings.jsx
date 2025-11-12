@@ -46,6 +46,12 @@ const MyBookings = () => {
   };
 
   const handleCancel = async (bookingId) => {
+    // Debug: Cek booking status sebelum cancel
+    const booking = bookings.find(b => b._id === bookingId);
+    console.log(`🗑️ DEBUG CANCEL - bookingId: ${bookingId}`);
+    console.log(`🗑️ DEBUG CANCEL - paymentStatus: ${booking?.paymentStatus}`);
+    console.log(`🗑️ DEBUG CANCEL - is paid? ${booking?.paymentStatus === "paid"}`);
+    
     if (window.confirm("Apakah Anda yakin ingin membatalkan booking ini?")) {
       try {
         const { data } = await axios.delete(`/api/bookings/${bookingId}`);
@@ -72,6 +78,16 @@ const MyBookings = () => {
       fetchBookings();
     }
   }, [user, fetchBookings]);
+
+  // Debug: Log semua booking status
+  useEffect(() => {
+    if (bookings.length > 0) {
+      console.log(`📋 MyBookings - Bookings loaded: ${bookings.length}`);
+      bookings.forEach(b => {
+        console.log(`   - ${b.room?.type} | Status: ${b.paymentStatus} | Can Cancel: ${b.paymentStatus !== "paid"}`);
+      });
+    }
+  }, [bookings]);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("id-ID", {
