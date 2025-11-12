@@ -348,11 +348,12 @@ const MyBookings = () => {
 
                           {booking.paymentStatus === "paid" && (
                             <button
-                              onClick={() => handleCancel(booking._id)}
-                              className="px-4 py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+                              disabled
+                              title="Booking sudah dibayar dan tidak bisa dibatalkan"
+                              className="px-4 py-3 bg-gray-300 text-white font-semibold rounded-lg transition-all shadow-md flex items-center gap-2 opacity-60 cursor-not-allowed"
                             >
                               <FaTrash className="text-sm" />
-                              Batalkan Booking
+                              Tidak bisa dibatalkan
                             </button>
                           )}
                         </div>
