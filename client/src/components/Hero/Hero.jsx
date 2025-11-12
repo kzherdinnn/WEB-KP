@@ -734,7 +734,7 @@ const Hero = () => {
       </div>
 
       {/* CSS for animations */}
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes blob {
           0% {
             transform: translate(0px, 0px) scale(1);
@@ -758,7 +758,7 @@ const Hero = () => {
         .animation-delay-4000 {
           animation-delay: 4s;
         }
-      `}</style>
+      ` }} />
     </div>
   );
 };

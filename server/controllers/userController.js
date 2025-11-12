@@ -3,10 +3,12 @@ import userModel from "../models/user.models.js";
 //Get User Data | /api/user |
 export const getUserData = (req, res) => {
   try {
+    // User sudah auto-created di middleware jika tidak ada
     const role = req.user.role;
-    const recentSearchedCities = req.user.recentSearchedCities;
+    const recentSearchedCities = req.user.recentSearchedCities || [];
     return res.json({ success: true, role, recentSearchedCities });
   } catch (error) {
+    console.error("Error in getUserData:", error);
     return res.json({ success: false, message: error.message });
   }
 };

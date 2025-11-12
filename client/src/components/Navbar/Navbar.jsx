@@ -19,22 +19,10 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Fetch user role dari backend
+  // User role sudah di-fetch oleh AppContext, update local state saat berubah
   React.useEffect(() => {
-    const fetchUserRole = async () => {
-      if (user) {
-        try {
-          const { data } = await axios.get("/api/user");
-          if (data.success) {
-            setUserRole(data.role);
-          }
-        } catch (error) {
-          console.error("Error fetching user role:", error);
-        }
-      }
-    };
-    fetchUserRole();
-  }, [user, axios]);
+    setUserRole(userRole);
+  }, [userRole]);
 
   React.useEffect(() => {
     const handleScroll = () => {
