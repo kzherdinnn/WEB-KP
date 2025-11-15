@@ -387,7 +387,7 @@ const Navbar = () => {
             <img src="/favicon.svg" alt="logo" className="h-8" />
             <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">StayZa</span>
           </Link>
-          <div className="flex items-center gap-1 md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
             {/* Search Icon */}
             <button
               className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
@@ -426,7 +426,7 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close Menu"
             >
-              <FiX className="h-5 w-5" />
+              <FiX className="h-6 w-6" />
             </button>
           </div>
         </div>
