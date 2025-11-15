@@ -7,9 +7,10 @@ import { MdAdminPanelSettings, MdPerson } from "react-icons/md";
 import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
 import { useAppContext } from "../../context/AppContext";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 const Navbar = () => {
-  const { isAdmin, setIsAdmin, axios } = useAppContext();
+  const { isAdmin, setIsAdmin, axios, isDarkMode, toggleTheme } = useAppContext();
   const [userRole, setUserRole] = React.useState("user");
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(null);
@@ -18,6 +19,14 @@ const Navbar = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isDesktop, setIsDesktop] = React.useState(typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
+
+  React.useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   // User role sudah di-fetch oleh AppContext, update local state saat berubah
   React.useEffect(() => {
@@ -289,11 +298,11 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Desktop Right */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Theme Toggle */}
+          {/* Desktop Right (only render when viewport >= md via JS) */}
+          {isDesktop && (
+            <div className="flex items-center gap-3">
+            {/* Theme Toggle hanya desktop */}
             <ThemeToggle />
-
             <button
               className={`relative p-2 ${iconColor} transition-all duration-300 rounded-lg hover:shadow-md hover:scale-110 active:scale-100 group overflow-hidden ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-gradient-to-br hover:from-teal-50 hover:to-emerald-50 hover:shadow-teal-100/50" : "hover:text-teal-400 hover:bg-gray-800/50 hover:shadow-teal-500/30"}`}
             >
@@ -335,37 +344,17 @@ const Navbar = () => {
                 </span>
               </button>
             )}
-          </div>
+            </div>
+          )}
 
-          {/* Mobile Menu Button */}
+          {/* Mobile header: only search + menu button */}
           <div className="md:hidden flex items-center gap-2">
-            {/* Theme Toggle for Mobile */}
-            <ThemeToggle />
-
-            {user && (
-              <UserButton>
-                <UserButton.MenuItems>
-                  <UserButton.Action
-                    label="My Bookings"
-                    labelIcon={<TbBrandBooking />}
-                    onClick={() => navigate("/my-bookings")}
-                  />
-                  {userRole === "admin" && (
-                    <UserButton.Action
-                      label={
-                        isAdmin ? "Switch to User Mode" : "Switch to Admin Mode"
-                      }
-                      labelIcon={
-                        isAdmin ? <MdPerson /> : <MdAdminPanelSettings />
-                      }
-                      onClick={
-                        isAdmin ? handleSwitchToUser : handleSwitchToAdmin
-                      }
-                    />
-                  )}
-                </UserButton.MenuItems>
-              </UserButton>
-            )}
+            <button
+              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+              aria-label="Search"
+            >
+              <FiSearch className="h-5 w-5" />
+            </button>
             <button
               onClick={() => setIsMenuOpen(true)}
               aria-label="Open Menu"
@@ -379,81 +368,92 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 w-full h-full text-gray-800 flex flex-col gap-3 py-16 px-4 sm:px-6 transition-transform duration-500 z-[60] bg-gradient-to-b from-white via-teal-50/30 to-white overflow-y-auto overscroll-contain safe-area-inset
-        ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-0 w-screen h-screen text-gray-800 flex flex-col transition-transform duration-500 z-[9999] bg-white overscroll-contain safe-area-inset ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
         style={{
-          paddingTop: "max(env(safe-area-inset-top), 4rem)",
-          paddingBottom: "max(env(safe-area-inset-bottom), 2rem)",
+          paddingTop: "max(env(safe-area-inset-top), 3.5rem)",
+          paddingBottom: "max(env(safe-area-inset-bottom), 1rem)",
         }}
       >
-        <button
-          className="absolute top-4 right-4 text-white bg-gradient-to-r from-teal-600 to-emerald-600 p-2.5 rounded-full hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg z-10"
-          onClick={() => setIsMenuOpen(false)}
-          aria-label="Close Menu"
-          style={{ top: "max(env(safe-area-inset-top, 1rem), 1rem)" }}
-        >
-          <FiX className="h-5 w-5" />
-        </button>
-
-        {/* Mobile Logo */}
-        <div className="mb-6 flex-shrink-0">
+        <div className="flex items-center justify-between px-4 pt-3 pb-1">
+          {/* Logo */}
           <Link
             to="/"
             onClick={() => {
               setIsMenuOpen(false);
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-2"
           >
-            <img src="/favicon.svg" alt="logo" className="h-10 sm:h-12" />
-            <span className="text-2xl sm:text-3xl font-bold outfit bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
-              StayZa
-            </span>
+            <img src="/favicon.svg" alt="logo" className="h-8" />
+            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">StayZa</span>
           </Link>
+          <div className="flex items-center gap-1 md:hidden">
+            {/* Search Icon */}
+            <button
+              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+              aria-label="Search"
+            >
+              <FiSearch className="h-5 w-5" />
+            </button>
+
+            {/* Theme Toggle (compact) */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+              aria-label="Toggle Theme"
+            >
+              {isDarkMode ? <FiMoon className="h-5 w-5" /> : <FiSun className="h-5 w-5" />}
+            </button>
+
+            {/* Profile / Login (compact) */}
+            {user ? (
+              <div className="h-8 w-8 flex items-center justify-center rounded-full overflow-hidden">
+                <UserButton />
+              </div>
+            ) : (
+              <button
+                onClick={openSignIn}
+                className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                aria-label="Login"
+              >
+                <MdPerson className="h-5 w-5" />
+              </button>
+            )}
+
+            {/* Close Button */}
+            <button
+              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close Menu"
+            >
+              <FiX className="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
+        {/* Theme control removed from inside menu — compact icon remains in header */}
+
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto overscroll-contain -mx-4 px-4 sm:-mx-6 sm:px-6 pb-4">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-2 pb-4 flex flex-col gap-0.5">
           {navLinks.map((link, idx) => {
             if (link.type === "dropdown") {
               return (
                 <div
                   key={idx}
-                  className={`rounded-xl p-3 sm:p-4 shadow-md mb-2 transition-all duration-400 overflow-hidden ${
-                    dropdownOpen === link.name
-                      ? "bg-gradient-to-br from-teal-50 via-emerald-50 to-teal-50 shadow-lg shadow-teal-100/50"
-                      : "bg-white/90 backdrop-blur-sm"
-                  }`}
+                  className="border-b border-gray-200 last:border-b-0 w-full"
                 >
                   <button
                     onClick={() => handleDropdownToggle(link.name)}
-                    className={`flex items-center justify-between w-full text-sm sm:text-base font-bold transition-all duration-300 outfit group ${
-                      dropdownOpen === link.name
-                        ? "text-teal-600"
-                        : "text-gray-800 hover:text-teal-600"
-                    }`}
+                    className="flex items-center justify-between w-full text-base font-bold text-gray-900 py-4 px-2 transition-colors duration-300 bg-white text-left"
                   >
-                    <span className="relative">
-                      {link.name}
-                      {dropdownOpen === link.name && (
-                        <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gradient-to-r from-teal-600 to-emerald-600"></span>
-                      )}
-                    </span>
-                    <div
-                      className={`p-1 sm:p-1.5 rounded-lg transition-all duration-300 ${dropdownOpen === link.name ? "bg-teal-100 rotate-180" : "group-hover:bg-teal-50"}`}
-                    >
-                      <FiChevronDown
-                        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all duration-300 ${
-                          dropdownOpen === link.name
-                            ? "text-teal-600"
-                            : "group-hover:translate-y-0.5"
-                        }`}
-                      />
-                    </div>
+                    <span>{link.name}</span>
+                    <FiChevronDown
+                      className={`w-5 h-5 transition-transform duration-300 ${dropdownOpen === link.name ? "rotate-180 text-teal-600" : "text-gray-500"}`}
+                    />
                   </button>
 
                   {dropdownOpen === link.name && (
-                    <div className="mt-2 sm:mt-3 space-y-1 sm:space-y-1.5 bg-white/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 animate-[fadeIn_0.3s_ease-out]">
+                    <div className="bg-white rounded-xl shadow-md mt-1 mb-2 mx-2 py-2 px-1 animate-[fadeIn_0.2s_ease-out] flex flex-col gap-0.5">
                       {link.items.map((item, itemIdx) => (
                         <button
                           key={itemIdx}
@@ -462,17 +462,14 @@ const Navbar = () => {
                             e.stopPropagation();
                             handleLinkClick(item.path);
                             setDropdownOpen(null);
+                            setIsMenuOpen(false);
                           }}
-                          className="relative flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 hover:text-teal-600 transition-all duration-300 py-2 px-2 sm:py-2.5 sm:px-3 hover:bg-white rounded-lg outfit font-medium group overflow-hidden w-full text-left cursor-pointer"
-                          style={{ animationDelay: `${itemIdx * 50}ms` }}
+                          className="flex items-center gap-3 text-sm text-gray-700 hover:text-teal-600 py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-200 w-full text-left"
                         >
-                          <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                          <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-teal-100 to-emerald-100 flex items-center justify-center text-teal-600 text-xs sm:text-sm group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md group-hover:shadow-teal-200/50 transition-all duration-300 flex-shrink-0">
+                          <div className="w-6 h-6 flex items-center justify-center text-teal-600 flex-shrink-0">
                             {item.icon}
                           </div>
-                          <span className="relative group-hover:translate-x-0.5 transition-transform duration-300">
-                            {item.name}
-                          </span>
+                          <span>{item.name}</span>
                         </button>
                       ))}
                     </div>
@@ -487,11 +484,13 @@ const Navbar = () => {
                 <a
                   key={idx}
                   href={link.path}
-                  onClick={() => handleLinkClick(link.path)}
-                  className="relative text-sm sm:text-base font-bold hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl hover:shadow-teal-100/50 mb-2 block outfit group overflow-hidden hover:scale-[1.02]"
+                  onClick={() => {
+                    handleLinkClick(link.path);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full text-base font-bold text-gray-900 py-4 px-2 border-b border-gray-200 last:border-b-0 bg-white transition-colors duration-200 hover:text-teal-600"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                  <span className="relative">{link.name}</span>
+                  {link.name}
                 </a>
               );
             }
@@ -506,40 +505,41 @@ const Navbar = () => {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }
                 }}
-                className="relative text-sm sm:text-base font-bold hover:text-teal-600 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 transition-all duration-300 bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl hover:shadow-teal-100/50 mb-2 block outfit group overflow-hidden hover:scale-[1.02]"
+                className="block w-full text-base font-bold text-gray-900 py-4 px-2 border-b border-gray-200 last:border-b-0 bg-white transition-colors duration-200 hover:text-teal-600"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                <span className="relative">{link.name}</span>
+                {link.name}
               </Link>
             );
           })}
+
+          
         </div>
 
-        {user && userRole === "admin" && (
-          <button
-            onClick={() => {
-              navigate("/admin");
-              setIsMenuOpen(false);
-            }}
-            className="relative mt-6 w-full border-2 border-teal-600 text-teal-600 px-6 py-4 rounded-2xl font-bold hover:bg-gradient-to-r hover:from-teal-600 hover:to-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-300 hover:scale-105 active:scale-100 outfit shadow-lg hover:shadow-xl hover:shadow-teal-200/50 overflow-hidden group"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
-            <span className="relative z-10">Dashboard</span>
-          </button>
-        )}
+        {/* Bottom Section - Divider */}
+        <div className="bg-gray-50 border-t border-gray-200 mt-4 pt-4 px-4 pb-6 rounded-t-2xl shadow-inner">
+          {/* Language Selector */}
+          <div className="flex gap-2 mb-4 text-center justify-center">
+            <button className="flex items-center justify-center gap-1 px-4 py-2 text-sm font-semibold text-teal-600 bg-white border border-teal-100 rounded-lg transition-all duration-300 shadow-sm">
+              🇮🇩 ID
+            </button>
+            <button className="flex items-center justify-center gap-1 px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gray-700 bg-white border border-gray-200 rounded-lg transition-all duration-300 shadow-sm">
+              🇬🇧 EN
+            </button>
+          </div>
 
-        {!user && (
-          <button
-            onClick={openSignIn}
-            className="relative mt-6 w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-5 rounded-2xl hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 active:scale-100 font-bold outfit shadow-xl shadow-teal-200/50 hover:shadow-2xl hover:shadow-teal-300/60 text-lg overflow-hidden group"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
-            <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-            <span className="relative z-10 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
-              Login
-            </span>
-          </button>
-        )}
+          {/* Admin Dashboard Button */}
+          {user && userRole === "admin" && (
+            <button
+              onClick={() => {
+                navigate("/admin");
+                setIsMenuOpen(false);
+              }}
+              className="w-full border-2 border-teal-600 text-teal-600 px-4 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-all duration-300 text-base mb-2"
+            >
+              Dashboard
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   );
