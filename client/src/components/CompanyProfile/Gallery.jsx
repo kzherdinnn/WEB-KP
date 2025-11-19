@@ -6,42 +6,42 @@ const Gallery = () => {
 
   const galleryImages = [
     {
-      url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540397/61f2c5fa82880_ddcyrd.png",
       title: "Hotel Exterior",
       category: "Building",
     },
     {
-      url: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540395/Electronic-power-steering-080620210510-1024x640_nc7vq6.jpg",
       title: "Luxury Suite",
       category: "Rooms",
     },
     {
-      url: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540391/WhatsApp_Image_2025-11-12_at_13.19.46_321a5f85_bl886v.jpg",
       title: "Deluxe Room",
       category: "Rooms",
     },
     {
-      url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540391/93aecc28-af9e-41b6-92fc-c0a8666d1fdb_43_yeuudd.jpg",
       title: "Hotel Lobby",
       category: "Interior",
     },
     {
-      url: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540390/xZV6Vyx2Ai_ffg4hb.jpg",
       title: "Swimming Pool",
       category: "Facilities",
     },
     {
-      url: "https://images.unsplash.com/photo-1517840901100-8179e982acb7?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540390/Head-Unit-04_uwxb4b.jpg",
       title: "Restaurant",
       category: "Dining",
     },
     {
-      url: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540391/WhatsApp_Image_2025-11-12_at_13.19.46_321a5f85_bl886v.jpg",
       title: "Spa & Wellness",
       category: "Facilities",
     },
     {
-      url: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
+      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540393/WhatsApp_Image_2025-11-12_at_13.19.47_0aabd02a_ptdo4d.jpg",
       title: "Conference Room",
       category: "Business",
     },
@@ -83,7 +83,7 @@ const Gallery = () => {
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Take a visual tour of our beautiful hotel and facilities
+            Lihat koleksi produk dan layanan unggulan kami untuk kebutuhan audio mobil Anda
           </p>
         </motion.div>
 
