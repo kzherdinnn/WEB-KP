@@ -128,11 +128,11 @@ const Dashboard = () => {
               />
             </svg>
             <h2 className="mt-4 text-2xl font-semibold text-gray-900 playfair">
-              Belum Ada Hotel Terdaftar
+              Belum Ada Barang Terdaftar
             </h2>
             <p className="mt-2 text-gray-600 outfit">
-              Anda perlu mendaftarkan hotel terlebih dahulu untuk mengakses
-              dashboard dan mengelola booking.
+              Anda perlu mendaftarkan barang terlebih dahulu untuk mengakses
+              dashboard dan mengelola stock.
             </p>
             <button
               onClick={() => setShowHotelReg(true)}

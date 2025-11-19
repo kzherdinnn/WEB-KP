@@ -5,93 +5,93 @@ import { FaStar, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const testimonials = [
   {
     id: 1,
-    name: "Emma Rodriguez",
+    name: "Iman",
     address: "Barcelona, Spain",
     image:
       "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200",
-    rating: 5,
+    rating: 1,
     review:
-      "Exceptional service and attention to detail. Everything was handled professionally and efficiently from start to finish. Highly recommended!",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 2,
-    name: "Liam Johnson",
+    name: "Ismail",
     address: "New York, USA",
     image:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200",
     rating: 5,
     review:
-      "I'm truly impressed by the quality and consistency. The entire process was smooth, and the results exceeded all expectations. Thank you!",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 3,
-    name: "Sophia Lee",
+    name: "Sigit",
     address: "Seoul, South Korea",
     image:
       "https://images.unsplash.com/photo-1701615004837-40d8573b6652?q=80&w=200",
     rating: 5,
     review:
-      "Fantastic experience! From start to finish, the team was professional, responsive, and genuinely cared about delivering great results.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 4,
-    name: "Michael Chen",
+    name: "Herdin",
     address: "Singapore",
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
     rating: 5,
     review:
-      "Outstanding hotel! The rooms are spacious and clean, staff is incredibly friendly, and the location is perfect. Will definitely return!",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 5,
-    name: "Isabella Martinez",
+    name: "Pak Wisnu",
     address: "Madrid, Spain",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200",
     rating: 5,
     review:
-      "Best hotel experience ever! The spa facilities are amazing, and the breakfast buffet exceeded all expectations. Truly a 5-star experience.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 6,
-    name: "James Wilson",
+    name: "Pak Jumadi",
     address: "London, UK",
     image:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200",
     rating: 4,
     review:
-      "Wonderful stay with my family. The kids loved the pool area, and we appreciated the family-friendly amenities. Great value for money!",
+     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 7,
-    name: "Yuki Tanaka",
+    name: "Bu Dian",
     address: "Tokyo, Japan",
     image:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200",
     rating: 5,
     review:
-      "Impeccable cleanliness and attention to detail. The concierge team went above and beyond to make our honeymoon special. Highly recommend!",
+     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 8,
-    name: "David Brown",
+    name: "Pak Wildan",
     address: "Sydney, Australia",
     image:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200",
     rating: 5,
     review:
-      "Perfect for business travel. The conference facilities are top-notch, and the fast WiFi throughout the hotel made working remotely seamless.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 9,
-    name: "Olivia Anderson",
+    name: "Bu Eva",
     address: "Toronto, Canada",
     image:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200",
     rating: 5,
     review:
-      "The rooftop restaurant offers stunning views and delicious cuisine. The entire staff made us feel like VIPs. Can't wait to come back!",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
 ];
 
@@ -162,13 +162,13 @@ const Testimonial = () => {
         className="text-center mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 playfair">
-          What Our Guests Say
+          Ulasan tamu kami
         </h2>
         <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
-          Discover what makes us the go-to option for those who demand only the
-          best. Our guests trust us to provide exceptional stays that exceed
-          expectations at every turn.
+          Temukan apa yang membuat kami menjadi pilihan utama bagi mereka yang hanya menginginkan yang
+          terbaik. Tamu-tamu kami mempercayai kami untuk menyediakan penginapan yang luar biasa yang melampaui
+          ekspektasi di setiap aspek.
         </p>
       </motion.div>
 
