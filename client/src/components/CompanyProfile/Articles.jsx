@@ -6,41 +6,41 @@ const Articles = () => {
   const articles = [
     {
       id: 1,
-      title: "10 Tips for Choosing the Perfect Hotel Room",
+      title: "Panduan Memilih Speaker Mobil yang Tepat",
       excerpt:
-        "Discover essential factors to consider when booking your ideal hotel room for a memorable stay.",
+        "Pelajari perbedaan tipe speaker, ukuran, dan spesifikasi yang cocok untuk mobil Anda agar mendapatkan kualitas suara optimal.",
       image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
-      author: "Sarah Johnson",
-      date: "Dec 15, 2024",
-      readTime: "5 min read",
-      category: "Travel Tips",
+        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&h=400&fit=crop",
+      author: "Aan Audio",
+      date: "15 Des 2024",
+      readTime: "5 menit baca",
+      category: "Tips Audio",
       categoryColor: "bg-blue-500",
     },
     {
       id: 2,
-      title: "Hidden Gems: Exploring Local Attractions Near Your Hotel",
+      title: "Cara Kalibrasi Subwoofer untuk Bass yang Seimbang",
       excerpt:
-        "Uncover secret spots and authentic experiences just steps away from popular hotel destinations.",
+        "Panduan langkah demi langkah untuk mengatur level, fase, dan frekuensi crossover sehingga bass terdengar kuat namun tidak mengganggu.",
       image:
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop",
-      author: "Michael Chen",
-      date: "Dec 12, 2024",
-      readTime: "7 min read",
-      category: "Destinations",
+        "https://images.unsplash.com/photo-1497294815431-9365093b7331?w=600&h=400&fit=crop",
+      author: "Teknisi Aan",
+      date: "10 Jan 2025",
+      readTime: "7 menit baca",
+      category: "Perawatan",
       categoryColor: "bg-emerald-500",
     },
     {
       id: 3,
-      title: "Business Travel Made Easy: Productivity Hacks",
+      title: "Upgrade Head Unit: Fitur, Kompatibilitas, dan Tips Pemasangan",
       excerpt:
-        "Maximize your efficiency and comfort while traveling for work with these expert strategies.",
+        "Panduan memilih head unit yang kompatibel dengan mobil Anda, fitur penting yang perlu dicari, dan tips pemasangan aman.",
       image:
-        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&h=400&fit=crop",
-      author: "David Rodriguez",
-      date: "Dec 10, 2024",
-      readTime: "6 min read",
-      category: "Business Travel",
+        "https://images.unsplash.com/photo-1518544889020-3c6c37b8c8f0?w=600&h=400&fit=crop",
+      author: "M. Hadi",
+      date: "22 Feb 2025",
+      readTime: "6 menit baca",
+      category: "Modifikasi",
       categoryColor: "bg-purple-500",
     },
   ];
@@ -80,12 +80,12 @@ const Articles = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
-            Travel Articles & Guides
+            Artikel & Panduan Audio Mobil
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
-            Discover insider tips, destination guides, and travel inspiration
-            from our experts
+            Tips pemasangan, panduan pemilihan komponen, dan inspirasi modifikasi
+            audio mobil dari para ahli kami
           </p>
         </motion.div>
 

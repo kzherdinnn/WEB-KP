@@ -151,12 +151,12 @@ const Promos = () => {
                 {/* Valid Until */}
                 <div className="flex items-center gap-2 text-xs text-gray-500 pt-3 border-t border-gray-100">
                   <FaCalendarAlt className="w-3 h-3" />
-                  <span className="outfit">Valid until {promo.validUntil}</span>
+                  <span className="outfit">Berlaku sampai {promo.validUntil}</span>
                 </div>
 
                 {/* CTA Button */}
                 <button className={`w-full flex items-center justify-center gap-2 bg-gradient-to-r ${promo.color} text-white py-3 rounded-xl font-semibold outfit hover:shadow-xl transition-all duration-300 group-hover:scale-105`}>
-                  <span>Hubungi Kami</span>
+                  <span>Pesan Sekarang</span>
                   <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
               </div>
@@ -182,17 +182,17 @@ const Promos = () => {
               </div>
             </div>
             <h3 className="text-3xl md:text-4xl font-bold mb-4 outfit">
-              Want More Exclusive Deals?
+              Ingin Promo Eksklusif Lainnya?
             </h3>
             <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto outfit">
-              Subscribe to our newsletter and get notified about special offers, seasonal packages, and member-only discounts
+              Berlangganan newsletter kami dan dapatkan informasi tentang penawaran spesial, paket musiman, serta diskon khusus untuk anggota
             </p>
             <a
               href="#contact"
               className="inline-flex items-center gap-3 bg-white text-teal-700 px-8 py-4 rounded-xl font-bold text-lg outfit hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
             >
               <FaPercent className="w-5 h-5" />
-              <span>Get Exclusive Offers</span>
+              <span>Dapatkan Penawaran Eksklusif</span>
             </a>
           </div>
         </motion.div>

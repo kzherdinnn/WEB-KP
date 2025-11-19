@@ -13,11 +13,11 @@ const AboutUs = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
-            About Our Hotel
+            Aan Audio Solutions
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
-            Experience luxury and comfort in the heart of the city
+            Bengkel audio mobil — pemasangan, tuning, dan perbaikan sistem audio kendaraan
           </p>
         </motion.div>
 
@@ -32,8 +32,8 @@ const AboutUs = () => {
           >
             <div className="relative h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"
-                alt="Hotel Exterior"
+                src="https://res.cloudinary.com/dphondhvc/image/upload/v1763536401/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg"
+                alt="Contoh pemasangan audio mobil"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -42,17 +42,17 @@ const AboutUs = () => {
             <div className="absolute -bottom-8 -right-8 bg-white p-6 rounded-lg shadow-xl border border-gray-100">
               <div className="flex items-center gap-4">
                 <div className="text-center">
-                  <p className="text-4xl font-bold text-blue-600 outfit">25+</p>
+                  <p className="text-4xl font-bold text-blue-600 outfit">26+</p>
                   <p className="text-sm text-gray-600 outfit">
-                    Years Experience
+                    Tahun Pengalaman
                   </p>
                 </div>
                 <div className="h-16 w-px bg-gray-300"></div>
                 <div className="text-center">
                   <p className="text-4xl font-bold text-blue-600 outfit">
-                    10k+
+                    1k+
                   </p>
-                  <p className="text-sm text-gray-600 outfit">Happy Guests</p>
+                  <p className="text-sm text-gray-600 outfit">Pelanggan Puas</p>
                 </div>
               </div>
             </div>
@@ -67,19 +67,18 @@ const AboutUs = () => {
             className="space-y-6"
           >
             <h3 className="text-3xl font-bold text-gray-900 outfit">
-              Welcome to Excellence in Hospitality
+              Selamat Datang di Aan Audio Solutions
             </h3>
             <p className="text-gray-600 leading-relaxed outfit">
-              Since 1999, we have been dedicated to providing exceptional
-              hospitality services. Our hotel combines modern luxury with
-              traditional warmth, creating an unforgettable experience for every
-              guest.
+              Aan Audio Solutions adalah bengkel audio mobil profesional yang
+              mengkhususkan diri pada pemasangan, tuning, dan perbaikan sistem
+              audio kendaraan. Kami mengutamakan kualitas suara, keamanan, dan
+              kepuasan pelanggan.
             </p>
             <p className="text-gray-600 leading-relaxed outfit">
-              Located in the prime area of the city, we offer easy access to
-              business districts, shopping centers, and tourist attractions.
-              Whether you're here for business or leisure, our team is committed
-              to making your stay comfortable and memorable.
+              Terletak strategis dengan akses mudah, tim teknisi kami siap
+              membantu mulai dari pemasangan speaker dan head unit hingga
+              kalibrasi akhir untuk pengalaman audio terbaik di jalan.
             </p>
 
             {/* Features List */}
@@ -102,10 +101,10 @@ const AboutUs = () => {
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
-                    Prime Location
+                    Pemasangan Profesional
                   </p>
                   <p className="text-sm text-gray-600 outfit">
-                    City center access
+                    Instalasi sistem audio kendaraan
                   </p>
                 </div>
               </div>
@@ -128,10 +127,10 @@ const AboutUs = () => {
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
-                    24/7 Service
+                    Tuning & Kalibrasi
                   </p>
                   <p className="text-sm text-gray-600 outfit">
-                    Always available
+                    Optimasi suara sesuai kendaraan
                   </p>
                 </div>
               </div>
@@ -154,10 +153,10 @@ const AboutUs = () => {
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
-                    Luxury Rooms
+                    Speaker Berkualitas
                   </p>
                   <p className="text-sm text-gray-600 outfit">
-                    Modern amenities
+                    Produk dan merek teruji
                   </p>
                 </div>
               </div>
@@ -180,10 +179,10 @@ const AboutUs = () => {
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
-                    Fine Dining
+                    Layanan Purna Jual
                   </p>
                   <p className="text-sm text-gray-600 outfit">
-                    Restaurant & bar
+                    Garansi & servis berkala
                   </p>
                 </div>
               </div>
@@ -195,7 +194,7 @@ const AboutUs = () => {
                 href="#contact"
                 className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl outfit"
               >
-                Contact Us
+                Hubungi Kami
                 <svg
                   className="w-5 h-5"
                   fill="none"
@@ -223,20 +222,20 @@ const AboutUs = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-16 border-t border-gray-200"
         >
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">150+</p>
-            <p className="text-gray-600 outfit">Luxury Rooms</p>
+            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">1k+</p>
+            <p className="text-gray-600 outfit">Pemasangan Selesai</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">50+</p>
-            <p className="text-gray-600 outfit">Expert Staff</p>
+            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">5+</p>
+            <p className="text-gray-600 outfit">Teknisi Berpengalaman</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-bold text-blue-600 mb-2 outfit">98%</p>
-            <p className="text-gray-600 outfit">Satisfaction Rate</p>
+            <p className="text-gray-600 outfit">Kepuasan Pelanggan</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">15+</p>
-            <p className="text-gray-600 outfit">Awards Won</p>
+            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">5+</p>
+            <p className="text-gray-600 outfit">Penghargaan</p>
           </div>
         </motion.div>
       </div>
