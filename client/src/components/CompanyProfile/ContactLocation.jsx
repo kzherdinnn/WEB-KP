@@ -12,7 +12,7 @@ const ContactLocation = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    alert("Thank you for your message! We'll get back to you soon.");
+    alert("Terima kasih atas pesan Anda! Kami akan menghubungi Anda segera.");
     setFormData({ name: "", email: "", phone: "", message: "" });
   };
 
@@ -46,7 +46,7 @@ const ContactLocation = () => {
           />
         </svg>
       ),
-      title: "Address",
+      title: "Alamat",
       details: "Jl. Gudang Utara No.29, Merdeka, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40113",
       subDetails: "Bandung 40113, Indonesia",
     },
@@ -66,8 +66,8 @@ const ContactLocation = () => {
           />
         </svg>
       ),
-      title: "Phone",
-      details: "+0813 2002 7587",
+      title: "Telepon",
+      details: "0813 2002 7587",
       subDetails: "Hubungi kami untuk reservasi dan informasi layanan",
     },
     {
@@ -106,7 +106,7 @@ const ContactLocation = () => {
           />
         </svg>
       ),
-      title: "Working Hours",
+      title: "Jam Kerja",
       details: "10:00 - 18:00",
       subDetails: "Jam Operasional",
     },
@@ -123,7 +123,7 @@ const ContactLocation = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Contact & Location
+            Kontak & Lokasi
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -164,7 +164,7 @@ const ContactLocation = () => {
             className="bg-white p-8 rounded-2xl shadow-lg"
           >
             <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              Send us a Message
+              Kirim Pesan
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -172,7 +172,7 @@ const ContactLocation = () => {
                   htmlFor="name"
                   className="block text-sm font-semibold text-gray-700 mb-2"
                 >
-                  Full Name
+                  Nama Lengkap
                 </label>
                 <input
                   type="text"
@@ -182,7 +182,7 @@ const ContactLocation = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300"
-                  placeholder="John Doe"
+                  placeholder="Nama Lengkap"
                 />
               </div>
 
@@ -191,7 +191,7 @@ const ContactLocation = () => {
                   htmlFor="email"
                   className="block text-sm font-semibold text-gray-700 mb-2"
                 >
-                  Email Address
+                  Alamat Email
                 </label>
                 <input
                   type="email"
@@ -201,7 +201,7 @@ const ContactLocation = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300"
-                  placeholder="john@example.com"
+                  placeholder="nama@contoh.com"
                 />
               </div>
 
@@ -210,7 +210,7 @@ const ContactLocation = () => {
                   htmlFor="phone"
                   className="block text-sm font-semibold text-gray-700 mb-2"
                 >
-                  Phone Number
+                  Nomor Telepon
                 </label>
                 <input
                   type="tel"
@@ -229,7 +229,7 @@ const ContactLocation = () => {
                   htmlFor="message"
                   className="block text-sm font-semibold text-gray-700 mb-2"
                 >
-                  Message
+                  Pesan
                 </label>
                 <textarea
                   id="message"
@@ -239,7 +239,7 @@ const ContactLocation = () => {
                   required
                   rows="5"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300 resize-none"
-                  placeholder="Tell us about your inquiry..."
+                  placeholder="Ceritakan pertanyaan atau permintaan Anda..."
                 ></textarea>
               </div>
 
@@ -247,7 +247,7 @@ const ContactLocation = () => {
                 type="submit"
                 className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
               >
-                Send Message
+                Kirim Pesan
               </button>
             </form>
           </motion.div>
@@ -262,7 +262,7 @@ const ContactLocation = () => {
           >
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Find Us Here
+                Temukan Kami di Sini
               </h3>
               <div className="aspect-video rounded-lg overflow-hidden shadow-md">
                 <iframe
@@ -281,7 +281,7 @@ const ContactLocation = () => {
             {/* Social Media */}
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h3 className="text-xl font-bold text-gray-900 mb-4">
-                Follow Us
+                Ikuti Kami
               </h3>
               <div className="flex gap-4">
                 {/* Social icons (tidak diubah) */}

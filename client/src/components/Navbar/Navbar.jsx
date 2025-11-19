@@ -56,19 +56,19 @@ const Navbar = () => {
 
   const [isScrolled, setIsScrolled] = React.useState(false);
 
-  // Navigation Menu Structure with Grouping
+  // Navigation Menu Structure with Grouping (Bahasa Indonesia)
   const navLinks = [
     { name: "Beranda", path: "/", type: "link" },
     {
       name: "Tentang Kami",
       type: "dropdown",
       items: [
-        { name: "Profil Hotel", path: "/#about", icon: <FaRegBuilding /> },
-        { name: "Fasilitas", path: "/#facilities", icon: <FaHotel /> },
+        { name: "Profil Bengkel", path: "/#about", icon: <FaRegBuilding /> },
+        { name: "Layanan & Sparepart", path: "/#services", icon: <FaHotel /> },
         { name: "Galeri", path: "/#gallery", icon: <FaHotel /> },
       ],
     },
-    { name: "Kamar & Harga", path: "/hotels", type: "link" },
+    { name: "Layanan & Sparepart", path: "/hotels", type: "link" },
     { name: "Promo", path: "/#promos", type: "link" },
     { name: "Artikel", path: "/articles", type: "link" },
     { name: "Kontak", path: "/#contact", type: "link" },
@@ -166,7 +166,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
         <div className="flex items-center justify-between py-2 md:py-3">
           {/* Logo */}
-          <Link
+            <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-3 group"
@@ -175,14 +175,14 @@ const Navbar = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               <img
                 src="/favicon.svg"
-                alt="logo"
+                alt="Aan Audio Solutions Logo"
                 className="h-8 md:h-9 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
               />
             </div>
             <span
               className={`text-xl md:text-2xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300`}
             >
-              StayZa
+              Aan Audio
             </span>
           </Link>
 
@@ -310,17 +310,17 @@ const Navbar = () => {
               <FiSearch className="relative z-10 h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
             </button>
             {user ? (
-              <UserButton>
+                <UserButton>
                 <UserButton.MenuItems>
                   <UserButton.Action
-                    label="My Bookings"
+                    label="Pesanan Saya"
                     labelIcon={<TbBrandBooking />}
                     onClick={() => navigate("/my-bookings")}
                   />
                   {userRole === "admin" && (
                     <UserButton.Action
                       label={
-                        isAdmin ? "Switch to User Mode" : "Switch to Admin Mode"
+                        isAdmin ? "Beralih ke Mode Pengguna" : "Beralih ke Mode Admin"
                       }
                       labelIcon={
                         isAdmin ? <MdPerson /> : <MdAdminPanelSettings />
@@ -340,7 +340,7 @@ const Navbar = () => {
                 <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
                 <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                 <span className="relative z-10 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
-                  Login
+                  Masuk
                 </span>
               </button>
             )}
@@ -376,7 +376,7 @@ const Navbar = () => {
       >
         <div className="flex items-center justify-between px-4 pt-3 pb-1">
           {/* Logo */}
-          <Link
+            <Link
             to="/"
             onClick={() => {
               setIsMenuOpen(false);
@@ -384,8 +384,8 @@ const Navbar = () => {
             }}
             className="flex items-center gap-2"
           >
-            <img src="/favicon.svg" alt="logo" className="h-8" />
-            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">StayZa</span>
+            <img src="/favicon.svg" alt="Aan Audio Solutions Logo" className="h-8" />
+            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">Aan Audio</span>
           </Link>
           <div className="flex items-center gap-2 md:hidden">
             {/* Search Icon */}
@@ -528,7 +528,7 @@ const Navbar = () => {
           </div>
 
           {/* Admin Dashboard Button */}
-          {user && userRole === "admin" && (
+            {user && userRole === "admin" && (
             <button
               onClick={() => {
                 navigate("/admin");
@@ -536,7 +536,7 @@ const Navbar = () => {
               }}
               className="w-full border-2 border-teal-600 text-teal-600 px-4 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-all duration-300 text-base mb-2"
             >
-              Dashboard
+              Dasbor
             </button>
           )}
         </div>

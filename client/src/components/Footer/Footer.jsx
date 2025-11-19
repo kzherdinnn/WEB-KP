@@ -18,8 +18,8 @@ const Footer = () => {
   const footerLinks = {
     company: [
       { name: "Tentang Kami", path: "/#about" },
-      { name: "Kamar & Harga", path: "/hotels" },
-      { name: "Promo Special", path: "/#promos" },
+      { name: "Layanan", path: "/#services" },
+      { name: "Promo", path: "/#promos" },
       { name: "Galeri", path: "/#gallery" },
       { name: "Artikel", path: "/articles" },
     ],
@@ -31,11 +31,11 @@ const Footer = () => {
       { name: "Hubungi Kami", path: "/#contact" },
     ],
     services: [
-      { name: "Reservasi Online", path: "/hotels" },
-      { name: "Pembayaran Aman", path: "#" },
-      { name: "Fasilitas Hotel", path: "/#facilities" },
-      { name: "Paket Wisata", path: "/#promos" },
-      { name: "Layanan Pelanggan 24/7", path: "/#contact" },
+      { name: "Pemasangan Audio", path: "/#services" },
+      { name: "Tuning & Kalibrasi", path: "/#services" },
+      { name: "Penjualan Produk", path: "/#products" },
+      { name: "Servis & Garansi", path: "/#services" },
+      { name: "Konsultasi", path: "/#contact" },
     ],
   };
 
@@ -75,15 +75,15 @@ const Footer = () => {
   const contactInfo = [
     {
       icon: <FaMapMarkerAlt />,
-      text: "Jl. Hotel Mewah No. 123, Jakarta 12345",
+      text: "Jl. Gudang Utara No.29, Merdeka, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40113",
     },
     {
       icon: <FaPhone />,
-      text: "+62 21 1234 5678",
+      text: "0813 2002 7587",
     },
     {
       icon: <FaEnvelope />,
-      text: "info@stayza.com",
+      text: "aanaudiooffice@gmail.com",
     },
   ];
 
@@ -110,19 +110,19 @@ const Footer = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-50"></div>
                     <img
                       src="/favicon.svg"
-                      alt="StayZa Logo"
+                      alt="Aan Audio Solutions Logo"
                       className="h-10 sm:h-12 relative z-10"
                     />
                   </div>
                   <span className="text-2xl sm:text-3xl font-bold outfit bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-                    StayZa
+                    Aan Audio Solutions
                   </span>
                 </div>
 
                 <p className="text-sm sm:text-base text-gray-400 mb-4 sm:mb-6 leading-relaxed outfit">
-                  Pengalaman menginap terbaik dengan layanan premium dan
-                  fasilitas modern. Temukan kenyamanan yang Anda cari bersama
-                  kami.
+                  Bengkel audio mobil profesional — pemasangan, tuning, dan servis
+                  dengan kualitas dan garansi. Tingkatkan kualitas audio kendaraan
+                  Anda bersama kami.
                 </p>
 
                 {/* Contact Info */}
@@ -235,7 +235,7 @@ const Footer = () => {
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-400 outfit">
                   Berlangganan newsletter kami untuk mendapatkan promo eksklusif
-                  dan update terbaru.
+                  dan info servis terbaru.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-2">
@@ -245,7 +245,7 @@ const Footer = () => {
                   className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 text-white text-sm sm:text-base placeholder-gray-400 outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all duration-300 outfit backdrop-blur-sm"
                 />
                 <button className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold outfit hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2 group whitespace-nowrap">
-                  <span>Subscribe</span>
+                  <span>Berlangganan</span>
                   <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
               </div>
@@ -286,7 +286,7 @@ const Footer = () => {
                 className="text-center md:text-right"
               >
                 <p className="text-gray-400 text-sm outfit">
-                  © {currentYear} StayZa. All rights reserved.
+                  © {currentYear} Aan Audio Solutions. All rights reserved.
                 </p>
                 <p className="text-gray-500 text-xs mt-1 outfit">
                   Made with ❤️ in Indonesia

@@ -6,119 +6,119 @@ const ArticlesPage = () => {
   const articles = [
     {
       id: 1,
-      title: "10 Tips for Choosing the Perfect Hotel Room",
+      title: "Panduan Memilih Speaker Mobil yang Tepat",
       excerpt:
-        "Discover essential factors to consider when booking your ideal hotel room for a memorable stay. From location to amenities, we cover everything you need to know.",
+        "Pelajari perbedaan tipe speaker, ukuran, dan spesifikasi yang cocok untuk mobil Anda agar mendapatkan kualitas suara optimal.",
       image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
-      author: "Sarah Johnson",
-      date: "Dec 15, 2024",
-      readTime: "5 min read",
-      category: "Travel Tips",
+        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&h=400&fit=crop",
+      author: "Aan Audio",
+      date: "15 Des 2024",
+      readTime: "5 menit baca",
+      category: "Tips Audio",
       categoryColor: "bg-blue-500",
     },
     {
       id: 2,
-      title: "Hidden Gems: Exploring Local Attractions Near Your Hotel",
+      title: "Cara Kalibrasi Subwoofer untuk Bass yang Seimbang",
       excerpt:
-        "Uncover secret spots and authentic experiences just steps away from popular hotel destinations. Your guide to local adventures.",
+        "Panduan langkah demi langkah untuk mengatur level, fase, dan frekuensi crossover sehingga bass terdengar kuat namun tidak mengganggu.",
       image:
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop",
-      author: "Michael Chen",
-      date: "Dec 12, 2024",
-      readTime: "7 min read",
-      category: "Destinations",
+        "https://images.unsplash.com/photo-1497294815431-9365093b7331?w=600&h=400&fit=crop",
+      author: "Teknisi Aan",
+      date: "10 Jan 2025",
+      readTime: "7 menit baca",
+      category: "Perawatan",
       categoryColor: "bg-emerald-500",
     },
     {
       id: 3,
-      title: "Business Travel Made Easy: Productivity Hacks",
+      title: "Upgrade Head Unit: Fitur, Kompatibilitas, dan Tips Pemasangan",
       excerpt:
-        "Maximize your efficiency and comfort while traveling for work with these expert strategies and time-saving tips.",
+        "Panduan memilih head unit yang kompatibel dengan mobil Anda, fitur penting yang perlu dicari, dan tips pemasangan aman.",
       image:
-        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&h=400&fit=crop",
-      author: "David Rodriguez",
-      date: "Dec 10, 2024",
-      readTime: "6 min read",
-      category: "Business Travel",
+        "https://images.unsplash.com/photo-1518544889020-3c6c37b8c8f0?w=600&h=400&fit=crop",
+      author: "M. Hadi",
+      date: "22 Feb 2025",
+      readTime: "6 menit baca",
+      category: "Modifikasi",
       categoryColor: "bg-purple-500",
     },
     {
       id: 4,
-      title: "Sustainable Travel: Eco-Friendly Hotel Practices",
+      title: "Merawat Sistem Audio: Tips Perawatan Berkala",
       excerpt:
-        "Learn how modern hotels are embracing sustainability and how you can travel more responsibly while enjoying luxury.",
+        "Langkah sederhana untuk merawat kabel, konektor, dan komponen audio agar umur perangkat lebih panjang dan performa tetap stabil.",
       image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop",
-      author: "Emma Green",
-      date: "Dec 8, 2024",
-      readTime: "8 min read",
-      category: "Sustainability",
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&h=400&fit=crop",
+      author: "Rina Putri",
+      date: "05 Mar 2025",
+      readTime: "6 menit baca",
+      category: "Perawatan",
       categoryColor: "bg-green-500",
     },
     {
       id: 5,
-      title: "Family Vacation Planning: A Complete Guide",
+      title: "Pilihan Subwoofer untuk Ruang Kabin Kecil",
       excerpt:
-        "Everything you need to know to plan the perfect family getaway, from kid-friendly activities to accommodation tips.",
+        "Rekomendasi subwoofer yang cocok untuk mobil dengan kabin kecil dan tips penempatan agar tidak mengorbankan kenyamanan.",
       image:
         "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&h=400&fit=crop",
-      author: "Lisa Anderson",
-      date: "Dec 5, 2024",
-      readTime: "10 min read",
-      category: "Family Travel",
+      author: "Aan Audio",
+      date: "18 Mar 2025",
+      readTime: "8 menit baca",
+      category: "Tips Audio",
       categoryColor: "bg-pink-500",
     },
     {
       id: 6,
-      title: "Luxury Hotel Amenities Worth the Splurge",
+      title: "Panduan Pemasangan Alarm Mobil yang Aman",
       excerpt:
-        "Explore premium services and features that elevate your hotel experience from good to unforgettable moments.",
+        "Langkah instalasi alarm dasar dan fitur keamanan tambahan yang direkomendasikan untuk meningkatkan perlindungan kendaraan.",
       image:
         "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop",
-      author: "James Wilson",
-      date: "Dec 3, 2024",
-      readTime: "6 min read",
-      category: "Luxury",
+      author: "Joko Wirawan",
+      date: "28 Mar 2025",
+      readTime: "6 menit baca",
+      category: "Keamanan",
       categoryColor: "bg-yellow-500",
     },
     {
       id: 7,
-      title: "Best Hotel Breakfast Experiences Around the World",
+      title: "Tips Mengatur Equalizer untuk Suara Jernih",
       excerpt:
-        "Start your day right with these exceptional hotel breakfast offerings that will make your mornings memorable.",
+        "Cara menyetel equalizer untuk berbagai genre musik sehingga suara vokal dan instrumen seimbang.",
       image:
         "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&h=400&fit=crop",
-      author: "Maria Santos",
-      date: "Dec 1, 2024",
-      readTime: "5 min read",
-      category: "Food & Dining",
+      author: "Dewi S",
+      date: "02 Apr 2025",
+      readTime: "5 menit baca",
+      category: "Modifikasi",
       categoryColor: "bg-orange-500",
     },
     {
       id: 8,
-      title: "Hotel Room Photography Tips for Instagram",
+      title: "Rekomendasi Aksesoris untuk Audio Mobil",
       excerpt:
-        "Capture stunning hotel photos for your social media with these professional photography tips and tricks.",
+        "Daftar aksesoris penting seperti kabel bermutu, isolator, dan peredam suara untuk meningkatkan kualitas instalasi.",
       image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
-      author: "Alex Turner",
-      date: "Nov 28, 2024",
-      readTime: "4 min read",
-      category: "Photography",
+        "https://images.unsplash.com/photo-1583337130417-1f3de34e6f2c?w=600&h=400&fit=crop",
+      author: "Aan Audio",
+      date: "12 Apr 2025",
+      readTime: "4 menit baca",
+      category: "Tips",
       categoryColor: "bg-indigo-500",
     },
     {
       id: 9,
-      title: "Weekend City Breaks: Top Destinations for 2025",
+      title: "Rencana Modifikasi Audio untuk Anggaran Terbatas",
       excerpt:
-        "Discover the best cities for quick weekend getaways and make the most of your short breaks.",
+        "Ide dan prioritas upgrade audio yang memberikan peningkatan kualitas suara terbaik tanpa menguras anggaran.",
       image:
-        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&h=400&fit=crop",
-      author: "Tom Bradley",
-      date: "Nov 25, 2024",
-      readTime: "9 min read",
-      category: "Travel Planning",
+        "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&h=400&fit=crop",
+      author: "Arif Setiawan",
+      date: "20 Apr 2025",
+      readTime: "9 menit baca",
+      category: "Modifikasi",
       categoryColor: "bg-red-500",
     },
   ];
@@ -171,11 +171,11 @@ const ArticlesPage = () => {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 outfit">
-            Travel Articles & Guides
+            Artikel & Panduan Audio Mobil
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-6"></div>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto outfit">
-            Discover insider tips, destination guides, and travel inspiration from our experts
+            Tips pemasangan, panduan produk, dan inspirasi modifikasi audio mobil dari para ahli kami
           </p>
         </motion.div>
 
