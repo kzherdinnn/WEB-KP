@@ -46,7 +46,7 @@ const ContactLocation = () => {
           />
         </svg>
       ),
-      title: "Address",
+      title: "Alamat",
       details: "Jl. Gudang Utara No.29, Merdeka, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40113",
       subDetails: "Bandung 40113, Indonesia",
     },
@@ -66,7 +66,7 @@ const ContactLocation = () => {
           />
         </svg>
       ),
-      title: "Phone",
+      title: "No. Telepon",
       details: "+0813 2002 7587",
       subDetails: "Hubungi kami untuk reservasi dan informasi layanan",
     },
@@ -106,7 +106,7 @@ const ContactLocation = () => {
           />
         </svg>
       ),
-      title: "Working Hours",
+      title: "Jam Operasional",
       details: "10:00 - 18:00",
       subDetails: "Jam Operasional",
     },
@@ -123,7 +123,7 @@ const ContactLocation = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Contact & Location
+            Kontak dan Lokasi
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -164,92 +164,85 @@ const ContactLocation = () => {
             className="bg-white p-8 rounded-2xl shadow-lg"
           >
             <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              Send us a Message
+              Berikan Kami Ulasan
             </h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300"
-                  placeholder="John Doe"
-                />
-              </div>
+            <form
+            action="https://api.web3forms.com/submit"
+            method="POST"
+            className="space-y-6"
+          >
+            <input
+              type="hidden"
+              name="access_key"
+              value="8fba5cd1-c9eb-4547-be70-cfda88c904fc"
+            />
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300"
-                  placeholder="john@example.com"
-                />
-              </div>
+            <input
+              type="hidden"
+              name="redirect"
+              value="https://web3forms.com/success"
+            />
 
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300"
-                  placeholder="+62 812 3456 7890"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Nama
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                className="w-full px-4 py-3 border rounded-lg"
+                placeholder="John Doe"
+              />
+            </div>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="5"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300 resize-none"
-                  placeholder="Tell us about your inquiry..."
-                ></textarea>
-              </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Email 
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                className="w-full px-4 py-3 border rounded-lg"
+                placeholder="john@example.com"
+              />
+            </div>
 
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
-              >
-                Send Message
-              </button>
-            </form>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                No. Telepon
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                required
+                className="w-full px-4 py-3 border rounded-lg"
+                placeholder="+62 812 3456 7890"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Pesan
+              </label>
+              <textarea
+                name="message"
+                required
+                rows="5"
+                className="w-full px-4 py-3 border rounded-lg resize-none"
+                placeholder="Beri Ulasan..."
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700"
+            >
+              Kirim Pesan
+            </button>
+          </form>
+
           </motion.div>
 
           {/* Map */}
@@ -262,7 +255,7 @@ const ContactLocation = () => {
           >
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Find Us Here
+                Temukan Kami
               </h3>
               <div className="aspect-video rounded-lg overflow-hidden shadow-md">
                 <iframe
@@ -300,7 +293,7 @@ const ContactLocation = () => {
                 </a>
                 {/* Instagram, Twitter, LinkedIn (tetap sama) */}
                 <a
-                  href="#"
+                  href="https://www.instagram.com/aanaudiomobil"
                   className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-300"
                 >
                   <svg
