@@ -104,10 +104,8 @@ const Hero = () => {
 
   // Typing animation texts
   const typingTexts = [
-    "Pengalaman Menginap Terbaik",
-    "Hotel Berkualitas Premium",
-    "Layanan 24/7 untuk Anda",
-    "Fasilitas Modern & Nyaman",
+    "Audio mobil, alarm, dan GPS berkualitas",
+    "Pemasangan profesional untuk kendaraan Anda",
   ];
   const typingText = useTypingEffect(typingTexts, 100, 50, 2000);
 
@@ -230,8 +228,7 @@ const Hero = () => {
                     }}
                   />
                   <img
-                    src="/favicon.svg"
-                    alt="StayZa Logo"
+                    src="https://res.cloudinary.com/dphondhvc/image/upload/v1763541845/processed_image_bkplml.svg"
                     className="h-10 sm:h-12 md:h-16 lg:h-20 relative z-10"
                   />
                 </motion.div>
@@ -241,7 +238,7 @@ const Hero = () => {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight outfit relative"
                 >
-                  {"StayZa".split("").map((letter, index) => (
+                  {"Aan Audio".split("").map((letter, index) => (
                     <motion.span
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
@@ -294,9 +291,7 @@ const Hero = () => {
                 isDarkMode ? "text-gray-300" : "text-gray-600"
               }`}
             >
-              Temukan kenyamanan dan kemewahan di hotel pilihan terbaik. Nikmati
-              layanan premium dengan fasilitas modern untuk pengalaman menginap
-              yang tak terlupakan.
+              Temukan kualitas terbaik untuk audio mobil pilihan Anda. Nikmati produk unggulan dengan teknologi modern untuk pengalaman berkendara yang lebih nyaman dan aman.
             </motion.p>
 
             {/* CTA Button with Advanced Animation */}
@@ -319,7 +314,7 @@ const Hero = () => {
                 whileHover={{ x: "100%" }}
                 transition={{ duration: 0.5 }}
               />
-              <span className="relative z-10">Jelajahi Hotel</span>
+              <span className="relative z-10">Tentang kami</span>
               <motion.span
                 animate={{ y: [0, 3, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -425,8 +420,8 @@ const Hero = () => {
                     }}
                   />
                   <img
-                    src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop"
-                    alt="Hotel Showcase"
+                    src="https://res.cloudinary.com/dphondhvc/image/upload/v1763536401/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg"
+                    alt=""
                     className="w-full h-[600px] object-cover"
                   />
                   {/* Gradient Overlay */}
