@@ -12,5 +12,7 @@ const hotelSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const hotelModel = mongoose.model("hotel", hotelSchema);
+// Use explicit collection name 'hotels' to preserve existing data while
+// the model name is updated to 'bengkel'. This avoids needing a DB migration.
+const hotelModel = mongoose.model("bengkel", hotelSchema, "hotels");
 export default hotelModel;

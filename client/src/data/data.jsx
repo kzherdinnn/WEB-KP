@@ -136,7 +136,7 @@ export const userBookingsDummyData = [
         "totalPrice": 399,
         "guests": 1,
         "status": "pending",
-        "paymentMethod": "Pay At Hotel",
+        "paymentMethod": "Pay At Bengkel",
         "isPaid": false,
         "createdAt": "2025-04-10T06:41:45.873Z",
         "updatedAt": "2025-04-10T06:41:45.873Z",
@@ -152,7 +152,7 @@ export const userBookingsDummyData = [
         "totalPrice": 199,
         "guests": 1,
         "status": "pending",
-        "paymentMethod": "Pay At Hotel",
+        "paymentMethod": "Pay At Bengkel",
         "isPaid": false,
         "createdAt": "2025-04-10T06:41:20.501Z",
         "updatedAt": "2025-04-10T06:41:20.501Z",
@@ -165,5 +165,8 @@ export const dashboardDummyData = {
     "totalRevenue": 897,
     "bookings": userBookingsDummyData
 }
+
+// Alias for compatibility: use either `hotelDummyData` or `bengkelDummyData`
+export const bengkelDummyData = hotelDummyData;
 
 

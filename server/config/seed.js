@@ -15,10 +15,10 @@ const seedData = async () => {
     await hotelModel.deleteMany();
     await roomModel.deleteMany();
 
-    // Tambah contoh hotel
+    // Tambah contoh bengkel
     const hotel = await hotelModel.create({
         name: "Stayza Bandung Resort",
-        description: "Hotel modern dengan pemandangan gunung dan fasilitas lengkap.",
+        description: "Bengkel modern dengan fasilitas lengkap.",
         imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
         pricePerNight: 550000,
         rating: 4.7,
@@ -47,7 +47,7 @@ const seedData = async () => {
       });
       
 
-    console.log("✅ Dummy hotel & room berhasil ditambahkan!");
+    console.log("✅ Dummy bengkel & room berhasil ditambahkan!");
     process.exit(0);
   } catch (error) {
     console.error("❌ Error seeding data:", error);

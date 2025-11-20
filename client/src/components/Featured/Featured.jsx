@@ -86,7 +86,7 @@ const Featured = () => {
             className="text-center mt-12"
           >
             <a
-              href="/hotels"
+              href="/bengkel"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-base outfit hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform"
             >
               <span>View All Properties</span>

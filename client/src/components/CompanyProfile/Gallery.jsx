@@ -7,7 +7,7 @@ const Gallery = () => {
   const galleryImages = [
     {
       url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540397/61f2c5fa82880_ddcyrd.png",
-      title: "Hotel Exterior",
+      title: "Bengkel Exterior",
       category: "Building",
     },
     {
@@ -22,7 +22,7 @@ const Gallery = () => {
     },
     {
       url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540391/93aecc28-af9e-41b6-92fc-c0a8666d1fdb_43_yeuudd.jpg",
-      title: "Hotel Lobby",
+      title: "Bengkel Lobby",
       category: "Interior",
     },
     {

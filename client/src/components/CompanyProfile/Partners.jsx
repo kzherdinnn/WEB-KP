@@ -2,51 +2,61 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const Partners = () => {
-  // Partner logos - replace with actual logo URLs
+  // Logo mitra - ganti dengan URL logo yang sebenarnya
   const partners = [
     {
       id: 1,
-      name: "Booking.com",
-      logo: "https://logo.clearbit.com/booking.com",
+      name: "Osram",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763538427/osram-logo_h1f1bf.png",
     },
     {
       id: 2,
-      name: "Expedia",
-      logo: "https://logo.clearbit.com/expedia.com",
+      name: "Sony",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763538426/Tidak_dipastikan_53020_xextiy.png",
     },
     {
       id: 3,
-      name: "TripAdvisor",
-      logo: "https://logo.clearbit.com/tripadvisor.com",
+      name: "JBL",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763538426/JBL-Emblema_cdcpfv.png",
     },
     {
       id: 4,
-      name: "Agoda",
-      logo: "https://logo.clearbit.com/agoda.com",
+      name: "3M Automotive",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763538426/3M-Emblem_fn4fww.png",
     },
     {
       id: 5,
-      name: "Hotels.com",
-      logo: "https://logo.clearbit.com/hotels.com",
+      name: "Pioneer",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763538426/Pioneer-Logo-PNG-Transparent_bmgg6u.png",
     },
     {
       id: 6,
-      name: "Airbnb",
-      logo: "https://logo.clearbit.com/airbnb.com",
+      name: "Venom",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763614615/download_7_u2wklr.png",
     },
     {
       id: 7,
-      name: "Priceline",
-      logo: "https://logo.clearbit.com/priceline.com",
+      name: "Alphine",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763538426/Alpine-Logo_c2j4fv.png",
     },
     {
       id: 8,
-      name: "Kayak",
-      logo: "https://logo.clearbit.com/kayak.com",
+      name: "Audison",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763614791/download_8_t69uzm.png",
+    },
+    {
+      id: 9,
+      name: "Focal",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763615277/download__10_-removebg-preview_biiigk.png",
+    },
+    {
+      id: 10,
+      name: "Kennwood",
+      logo: "https://res.cloudinary.com/dphondhvc/image/upload/v1763615277/download__11_-removebg-preview_vx3syl.png",
     },
   ];
 
-  // Duplicate partners for seamless infinite scroll
+  // Gandakan daftar mitra untuk efek gulir tanpa batas
   const duplicatedPartners = [...partners, ...partners];
 
   return (
@@ -60,10 +70,11 @@ const Partners = () => {
           className="text-center mb-12"
         >
           <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 playfair">
-            Our Trusted Partners
+            Mitra Bengkel & Penyedia Sparepart Audio Mobil
           </h3>
           <p className="text-gray-600 outfit">
-            Partnering with the world's leading travel platforms
+            Bekerja sama dengan bengkel dan penyedia sparepart audio mobil
+            terkemuka
           </p>
         </motion.div>
 
@@ -104,7 +115,7 @@ const Partners = () => {
           </motion.div>
         </div>
 
-        {/* Optional: Stats or CTA below */}
+        {/* Opsional: Statistik atau CTA di bawah */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -113,9 +124,8 @@ const Partners = () => {
           className="text-center mt-12"
         >
           <p className="text-sm text-gray-500 outfit">
-            Trusted by over{" "}
-            <span className="font-bold text-blue-600">50,000+</span> travelers
-            worldwide
+            Dipercaya oleh lebih dari <span className="font-bold text-blue-600">50.000+</span> pelanggan
+            audio mobil di seluruh Indonesia
           </p>
         </motion.div>
       </div>

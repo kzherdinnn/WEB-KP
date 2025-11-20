@@ -15,12 +15,12 @@ export const createRoom = async (req, res) => {
         .json({ success: false, message: "Not authenticated" });
     }
 
-    // Find hotel by admin user ID
+    // Find bengkel by admin user ID
     const hotel = await hotelModel.findOne({ admin: userId });
     if (!hotel) {
       return res
         .status(404)
-        .json({ success: false, message: "No hotel found for this admin" });
+        .json({ success: false, message: "No bengkel found for this admin" });
     }
 
     // Ensure images are uploaded
@@ -130,7 +130,7 @@ export const getAllRooms = async (req, res) => {
   }
 };
 
-//All rooms for a specific hotel
+//All rooms for a specific bengkel
 export const getAdminRooms = async (req, res) => {
   try {
     const hotelData = await hotelModel.findOne({ admin: req.auth.userId });
@@ -202,12 +202,12 @@ export const deleteRoom = async (req, res) => {
         .json({ success: false, message: "Not authenticated" });
     }
 
-    // Find hotel by admin user ID
+    // Find bengkel by admin user ID
     const hotel = await hotelModel.findOne({ admin: userId });
     if (!hotel) {
       return res
         .status(404)
-        .json({ success: false, message: "No hotel found for this admin" });
+        .json({ success: false, message: "No bengkel found for this admin" });
     }
 
     // Find room and verify it belongs to admin's hotel
@@ -273,12 +273,12 @@ export const updateRoomCapacity = async (req, res) => {
         .json({ success: false, message: "Not authenticated" });
     }
 
-    // Find hotel by admin user ID
+    // Find bengkel by admin user ID
     const hotel = await hotelModel.findOne({ admin: userId });
     if (!hotel) {
       return res
         .status(404)
-        .json({ success: false, message: "No hotel found for this admin" });
+        .json({ success: false, message: "No bengkel found for this admin" });
     }
 
     // Find room and verify it belongs to admin's hotel
@@ -389,12 +389,12 @@ export const updateRoom = async (req, res) => {
         .json({ success: false, message: "Not authenticated" });
     }
 
-    // Find hotel by admin user ID
+    // Find bengkel by admin user ID
     const hotel = await hotelModel.findOne({ admin: userId });
     if (!hotel) {
       return res
         .status(404)
-        .json({ success: false, message: "No hotel found for this admin" });
+        .json({ success: false, message: "No bengkel found for this admin" });
     }
 
     // Find room and verify it belongs to admin's hotel

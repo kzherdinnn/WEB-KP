@@ -110,7 +110,7 @@ const Hero = () => {
   const typingText = useTypingEffect(typingTexts, 100, 50, 2000);
 
   // Counter animations
-  const [hotelsCount, startHotelsCounter] = useCounter(500, 2000);
+  const [bengkelCount, startBengkelCounter] = useCounter(500, 2000);
   const [guestsCount, startGuestsCounter] = useCounter(10000, 2000, 200);
   const [ratingCount, startRatingCounter] = useCounter(49, 2000, 400);
 
@@ -121,7 +121,7 @@ const Hero = () => {
         toast.error("Please select a destination");
         return;
       }
-      navigate(`/hotels/?destination=${destination}`);
+      navigate(`/bengkel/?destination=${destination}`);
     } catch (error) {
       toast.error(error.message);
     }
@@ -228,7 +228,7 @@ const Hero = () => {
                     }}
                   />
                   <img
-                    src="https://res.cloudinary.com/dphondhvc/image/upload/v1763541845/processed_image_bkplml.svg"
+                    src="https://res.cloudinary.com/dphondhvc/image/upload/v1763616516/d-removebg-preview_sep4qr.svg"
                     className="h-10 sm:h-12 md:h-16 lg:h-20 relative z-10"
                   />
                 </motion.div>
@@ -329,7 +329,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.2 }}
               onViewportEnter={() => {
-                startHotelsCounter(true);
+                startBengkelCounter(true);
                 startGuestsCounter(true);
                 startRatingCounter(true);
               }}
@@ -342,12 +342,12 @@ const Hero = () => {
                 whileHover={{ scale: 1.1 }}
               >
                 <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent outfit">
-                  {hotelsCount}+
+                  {bengkelCount}+
                 </p>
                 <p
                   className={`text-xs sm:text-sm mt-1 outfit ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
                 >
-                  Hotels
+                  Bengkel
                 </p>
               </motion.div>
               <motion.div
@@ -522,14 +522,14 @@ const Hero = () => {
                 isDarkMode ? "text-white" : "text-gray-900"
               }`}
             >
-              Find Your Perfect Stay
+              Temukan Bengkel Terbaik
             </h2>
             <p
               className={`outfit text-sm sm:text-base md:text-lg ${
                 isDarkMode ? "text-gray-300" : "text-gray-600"
               }`}
             >
-              Search and book the best hotels for your next adventure
+              Cari bengkel terbaik dan layanan terkait untuk kebutuhan kendaraan Anda
             </p>
           </motion.div>
 
@@ -704,7 +704,7 @@ const Hero = () => {
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 <FaSearch className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-                <span>Search Hotels</span>
+                <span>Cari Bengkel</span>
               </button>
             </div>
 

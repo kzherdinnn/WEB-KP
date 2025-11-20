@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const roomSchema = mongoose.Schema(
   {
-    hotel: { type: String, ref: "hotel", required: true },
+    hotel: { type: String, ref: "bengkel", required: true },
     type: { type: String, required: true },
     pricePerNight: { type: Number, required: true },
     amenities: { type: Array, required: true },

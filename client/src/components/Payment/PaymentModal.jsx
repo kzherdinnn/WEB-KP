@@ -102,12 +102,12 @@ const PaymentModal = ({
                 </h3>
 
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 space-y-3">
-                  {/* Hotel & Room Info */}
+                  {/* Bengkel & Room Info */}
                   <div className="flex justify-between items-start pb-3 border-b border-gray-300">
                     <div>
-                      <p className="text-sm text-gray-600">Hotel</p>
+                      <p className="text-sm text-gray-600">Bengkel</p>
                       <p className="font-semibold text-gray-900">
-                        {bookingDetails?.hotelName || "Hotel Name"}
+                        {bookingDetails?.bengkelName || "Bengkel Name"}
                       </p>
                     </div>
                     <div className="text-right">

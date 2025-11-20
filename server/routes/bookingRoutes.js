@@ -25,8 +25,8 @@ router.post("/book", protectedRoute, createBookingAndPay);
 // Rute untuk melihat semua booking milik pengguna
 router.get("/my-bookings", protectedRoute, getUserBookings);
 
-// Rute untuk admin dashboard - get all bookings for admin's hotel
-router.get("/hotel", protectedRoute, getHotelBookings);
+// Rute untuk admin dashboard - get all bookings for admin's bengkel
+router.get("/bengkel", protectedRoute, getHotelBookings);
 
 // Rute ini khusus untuk menangani tombol "Bayar Sekarang"
 router.post("/pay", protectedRoute, midtransRetryPayment);

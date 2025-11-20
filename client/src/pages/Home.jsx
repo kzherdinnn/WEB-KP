@@ -43,7 +43,7 @@ const Home = () => {
       {/* 1. Hero Section - First Impression & Booking */}
       <Hero />
 
-      {/* 2. About Us Section - Introduction to Hotel */}
+      {/* 2. About Us Section - Introduction to Bengkel */}
       <AboutUs />
 
       {/* 3. Facilities Section - What We Offer */}

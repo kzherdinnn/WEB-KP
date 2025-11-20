@@ -54,7 +54,7 @@ const BookingSummary = ({ bookingData }) => {
 
       {/* Content */}
       <div className="p-6 space-y-6">
-        {/* Hotel & Room Image */}
+        {/* Bengkel & Room Image */}
         {bookingData.roomImage && (
           <div className="relative rounded-xl overflow-hidden shadow-md">
             <img
@@ -70,14 +70,14 @@ const BookingSummary = ({ bookingData }) => {
           </div>
         )}
 
-        {/* Hotel Information */}
+        {/* Bengkel Information */}
         <div className="space-y-3">
           <div className="flex items-start gap-3">
             <FaHotel className="text-blue-600 text-xl mt-1 flex-shrink-0" />
             <div className="flex-1">
-              <p className="text-xs text-gray-500 mb-1">Hotel</p>
+              <p className="text-xs text-gray-500 mb-1">Bengkel</p>
               <p className="font-semibold text-gray-900">
-                {bookingData.hotelName}
+                {bookingData.bengkelName}
               </p>
             </div>
           </div>
@@ -87,7 +87,7 @@ const BookingSummary = ({ bookingData }) => {
             <div className="flex-1">
               <p className="text-xs text-gray-500 mb-1">Lokasi</p>
               <p className="text-gray-700 text-sm">
-                {bookingData.hotelAddress}
+                {bookingData.bengkelAddress}
               </p>
             </div>
           </div>

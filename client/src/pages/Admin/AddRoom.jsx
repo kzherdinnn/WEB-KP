@@ -129,7 +129,7 @@ const AddRoom = () => {
           Add New Room
         </h1>
         <p className="text-sm md:text-base text-gray-600 mt-2 outfit">
-          Fill in the details to add a new room type to your hotel
+          Lengkapi detail untuk menambahkan tipe kamar baru ke bengkel Anda
         </p>
       </div>
 

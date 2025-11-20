@@ -79,7 +79,7 @@ const Hotels = () => {
   if (!user) {
     return (
       <div className="px-4 py-20 text-center text-lg text-gray-700">
-        Please log in to view available hotel rooms.
+        Please log in to view available bengkel listings.
       </div>
     );
   }
@@ -185,9 +185,9 @@ const Hotels = () => {
             </div>
           )}
 
-          {/* Hotel Listings */}
+          {/* Bengkel Listings */}
           <div className="w-full lg:w-3/4 space-y-10">
-            <h1 className="playfair text-3xl">Hotel Rooms</h1>
+            <h1 className="playfair text-3xl">Daftar Bengkel</h1>
             {filteredRooms.length === 0 ? (
               <p className="text-gray-600">No rooms match your filters.</p>
             ) : (
@@ -230,7 +230,7 @@ const Hotels = () => {
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-gray-500 mt-1 outfit">
+                          <p className="text-sm text-gray-500 mt-1 outfit">
                           {room.hotel.address}
                         </p>
                         <div className="flex flex-wrap gap-2 mt-3 outfit">
@@ -263,12 +263,12 @@ const Hotels = () => {
                             </p>
                           )}
                         </div>
-                        {room.isAvailable ? (
+                          {room.isAvailable ? (
                           <button
-                            onClick={() => navigate(`/hotels/${room._id}`)}
+                            onClick={() => navigate(`/bengkel/${room._id}`)}
                             className="mt-3 sm:mt-0 bg-black text-white px-6 py-2 rounded hover:bg-gray-900 transition cursor-pointer"
                           >
-                            Book Now
+                            Pesan Sekarang
                           </button>
                         ) : (
                           <button

@@ -62,8 +62,8 @@ const setUserAsAdmin = async (userId) => {
     console.log(`👨‍💼 Role: ${user.role}`);
     console.log("━".repeat(50));
     console.log("\n✅ User sekarang bisa:");
-    console.log("  - Mendaftarkan hotel");
-    console.log("  - Mengelola kamar hotel");
+    console.log("  - Mendaftarkan bengkel");
+    console.log("  - Mengelola kamar bengkel");
     console.log("  - Akses Admin Dashboard");
 
     process.exit(0);

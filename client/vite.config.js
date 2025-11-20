@@ -11,10 +11,10 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "icons/*.png", "background.webp"],
       manifest: {
-        name: "StayZa - Hotel Booking Platform",
+        name: "StayZa - Bengkel Booking Platform",
         short_name: "StayZa",
         description:
-          "Platform pemesanan hotel terpercaya dengan berbagai pilihan kamar dan fasilitas terbaik",
+          "Platform pemesanan bengkel terpercaya dengan berbagai pilihan layanan dan fasilitas terbaik",
         theme_color: "#14b8a6",
         background_color: "#ffffff",
         display: "standalone",

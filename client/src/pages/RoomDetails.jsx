@@ -117,8 +117,8 @@ const RoomDetails = () => {
         );
 
         const bookingData = {
-          hotelName: room.hotel.name,
-          hotelAddress: room.hotel.address,
+          bengkelName: room.hotel.name,
+          bengkelAddress: room.hotel.address,
           roomType: room.type,
           roomImage: room.images[0],
           checkInDate,

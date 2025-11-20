@@ -121,7 +121,7 @@ const MyBookings = () => {
                 My Bookings
               </h1>
               <p className="text-gray-600 outfit">
-                Kelola semua reservasi hotel Anda di satu tempat
+                Kelola semua reservasi bengkel Anda di satu tempat
               </p>
             </div>
             <button
@@ -199,13 +199,13 @@ const MyBookings = () => {
                 : `Tidak ada booking ${filter}`}
             </h3>
             <p className="text-gray-600 mb-6">
-              Mulai booking hotel favorit Anda sekarang!
+              Mulai booking bengkel favorit Anda sekarang!
             </p>
             <button
-              onClick={() => navigate("/hotels")}
+              onClick={() => navigate("/bengkel")}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
             >
-              Browse Hotels
+              Browse Bengkel
             </button>
           </div>
         ) : (
@@ -236,7 +236,7 @@ const MyBookings = () => {
 
                     {/* Content Section */}
                     <div className="lg:col-span-8 p-6">
-                      {/* Hotel Name & Room Type */}
+                                      {/* Bengkel Name & Room Type */}
                       <div className="mb-4">
                         <h2 className="text-2xl font-bold text-gray-900 playfair mb-1">
                           {booking.hotel.name}

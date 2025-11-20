@@ -201,7 +201,7 @@ export const getBookingById = async (req, res) => {
         .json({ success: false, message: "Booking tidak ditemukan." });
     }
 
-    // Check if user owns this booking or is admin of the hotel
+    // Check if user owns this booking or is admin of the bengkel
     const isOwner = booking.user.toString() === userId.toString();
     const isHotelAdmin =
       req.user.role === "admin" &&
@@ -258,7 +258,7 @@ export const midtransRetryPayment = async (req, res) => {
 
     console.log("📝 Booking found:", booking ? "YES" : "NO");
     console.log("📝 Room found:", booking?.room ? "YES" : "NO");
-    console.log("📝 Hotel found:", booking?.room?.hotel ? "YES" : "NO");
+    console.log("📝 Bengkel found:", booking?.room?.hotel ? "YES" : "NO");
 
     if (!booking || !booking.room || !booking.room.hotel) {
       console.error("❌ Detail booking tidak lengkap");
@@ -401,7 +401,7 @@ export const cancelBooking = async (req, res) => {
 };
 
 // --------------------------------------------------
-// 📊 API: Get Hotel Bookings untuk Admin Dashboard
+// 📊 API: Get Bengkel Bookings untuk Admin Dashboard
 // --------------------------------------------------
 export const getHotelBookings = async (req, res) => {
   try {
@@ -414,17 +414,17 @@ export const getHotelBookings = async (req, res) => {
         .json({ success: false, message: "Akses ditolak. Hanya admin." });
     }
 
-    // Cari hotel yang dimiliki admin ini
+    // Cari bengkel yang dimiliki admin ini
     const hotel = await hotelModel.findOne({ admin: userId });
     if (!hotel) {
       return res.status(404).json({
         success: false,
         message:
-          "Hotel tidak ditemukan. Silakan register hotel terlebih dahulu.",
+          "Bengkel tidak ditemukan. Silakan register bengkel terlebih dahulu.",
       });
     }
 
-    // Cari semua room yang dimiliki hotel ini
+    // Cari semua room yang dimiliki bengkel ini
     const rooms = await roomModel.find({ hotel: hotel._id });
     const roomIds = rooms.map((room) => room._id.toString());
 

@@ -8,7 +8,7 @@ const HotelCard = ({ room }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition hover:shadow-xl duration-300 max-w-xs w-full">
       <Link
-        to={`/hotels/${room._id}`}
+        to={`/bengkel/${room._id}`}
         onClick={() => scrollTo(0, 0)}
         className="relative block"
       >
@@ -40,7 +40,7 @@ const HotelCard = ({ room }) => {
 
       <div className="p-4 outfit">
         <div className="flex justify-between items-center">
-          {/* Hotel Name */}
+          {/* Bengkel Name */}
           <h3 className="text-xl font-semibold text-gray-800">
             {room.hotel.name}
           </h3>
@@ -88,7 +88,7 @@ const HotelCard = ({ room }) => {
           </p>
 
           <Link
-            to={`/hotels/${room._id}`}
+            to={`/bengkel/${room._id}`}
             className={`px-4 py-2 text-sm rounded-lg transition duration-300 ${
               room.availableRooms !== undefined && room.availableRooms <= 0
                 ? "bg-gray-400 text-white cursor-not-allowed pointer-events-none"
@@ -97,7 +97,7 @@ const HotelCard = ({ room }) => {
           >
             {room.availableRooms !== undefined && room.availableRooms <= 0
               ? "Penuh"
-              : "Book Now"}
+              : "Pesan Sekarang"}
           </Link>
         </div>
       </div>

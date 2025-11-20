@@ -442,12 +442,12 @@ const CustomPaymentPage = () => {
 
         {/* Footer Info */}
         <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-          <div className="text-center">
+            <div className="text-center">
             <p className="text-sm text-gray-600 mb-2">
-              Butuh bantuan? Hubungi customer service kami
+              Butuh bantuan? Hubungi customer service bengkel kami
             </p>
             <p className="text-sm font-semibold text-blue-600">
-              📞 +62 123-4567-890 | 📧 support@hotel.com
+              📞 +62 123-4567-890 | 📧 support@bengkel.com
             </p>
           </div>
         </div>

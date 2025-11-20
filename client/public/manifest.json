@@ -1,7 +1,7 @@
 {
-  "name": "StayZa - Hotel Booking Platform",
+  "name": "Aan Audio Solutions",
   "short_name": "StayZa",
-  "description": "Platform pemesanan hotel terpercaya dengan berbagai pilihan kamar dan fasilitas terbaik",
+  "description": "Platform pemesanan bengkel terpercaya dengan berbagai pilihan layanan dan fasilitas terbaik",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -13,7 +13,7 @@
   "categories": ["travel", "lifestyle", "booking"],
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/d-removebg-preview.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -21,11 +21,11 @@
   ],
   "shortcuts": [
     {
-      "name": "Cari Hotel",
+      "name": "Cari Bengkel",
       "short_name": "Cari",
-      "description": "Cari dan booking hotel",
-      "url": "/hotels",
-      "icons": [
+      "description": "Cari dan booking bengkel",
+      "url": "/bengkel",
+        "icons": [
         {
           "src": "/favicon.svg",
           "sizes": "any"
@@ -37,7 +37,7 @@
       "short_name": "Booking",
       "description": "Lihat booking saya",
       "url": "/my-bookings",
-      "icons": [
+        "icons": [
         {
           "src": "/favicon.svg",
           "sizes": "any"

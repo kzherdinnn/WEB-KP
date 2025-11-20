@@ -19,7 +19,7 @@ const HotelRegister = () => {
       return;
     }
 
-    console.log("Submitting hotel registration:", {
+    console.log("Submitting bengkel registration:", {
       name,
       address,
       contact,
@@ -28,7 +28,7 @@ const HotelRegister = () => {
 
     try {
       // Interceptor sudah menangani token otomatis, tidak perlu manual
-      const { data } = await axios.post("/api/hotel", {
+      const { data } = await axios.post("/api/bengkel", {
         name,
         address,
         contact,
@@ -38,7 +38,7 @@ const HotelRegister = () => {
       console.log("Response from server:", data);
 
       if (data.success) {
-        toast.success(data.message || "Hotel berhasil didaftarkan!");
+      toast.success(data.message || "Bengkel berhasil didaftarkan!");
         setShowHotelReg(false);
 
         // Redirect ke admin dashboard
@@ -46,14 +46,14 @@ const HotelRegister = () => {
           navigate("/admin");
         }, 500);
       } else {
-        toast.error(data.message || "Gagal mendaftarkan hotel.");
+      toast.error(data.message || "Gagal mendaftarkan bengkel.");
       }
     } catch (error) {
-      console.error("Error during hotel registration:", error);
+      console.error("Error during bengkel registration:", error);
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Terjadi kesalahan saat mendaftarkan hotel.";
+        "Terjadi kesalahan saat mendaftarkan bengkel.";
       toast.error(errorMessage);
     }
   };
@@ -66,7 +66,7 @@ const HotelRegister = () => {
           <div className="w-full md:w-1/2 h-64 md:h-auto">
             <img
               src="https://media.istockphoto.com/id/119926339/photo/resort-swimming-pool.jpg?s=612x612&w=0&k=20&c=9QtwJC2boq3GFHaeDsKytF4-CavYKQuy1jBD2IRfYKc="
-              alt="Hotel"
+              alt="Bengkel"
               className="w-full h-full object-cover grayscale"
             />
           </div>
@@ -74,14 +74,14 @@ const HotelRegister = () => {
           {/* Form Section */}
           <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
             <h2 className="text-2xl font-semibold mb-4 text-black playfair">
-              Hotel Registration
+              Pendaftaran Bengkel
             </h2>
             <form
               className="space-y-4 text-sm text-black outfit"
               onSubmit={handleSubmit}
             >
               <div>
-                <label className="block mb-1">Hotel Name</label>
+                <label className="block mb-1">Nama Bengkel</label>
                 <input
                   name="name"
                   id="name"
@@ -89,7 +89,7 @@ const HotelRegister = () => {
                   value={name}
                   type="text"
                   className="w-full border border-gray-300 px-3 py-2 rounded outline-none"
-                  placeholder="Enter hotel name"
+                  placeholder="Masukkan nama bengkel"
                   required
                 />
               </div>

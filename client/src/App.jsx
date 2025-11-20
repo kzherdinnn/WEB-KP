@@ -27,8 +27,8 @@ const App = () => {
       <PWAInstallPrompt />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/hotels" element={<Hotels />} />
-        <Route path="/hotels/:id" element={<RoomDetails />} />
+        <Route path="/bengkel" element={<Hotels />} />
+        <Route path="/bengkel/:id" element={<RoomDetails />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/payment" element={<CustomPaymentPage />} />
         <Route path="/loader/:nextUrl" element={<Loader />} />

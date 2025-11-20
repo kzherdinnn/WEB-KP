@@ -36,3 +36,7 @@ export {
   Promos,
   Articles,
 };
+
+// Backwards-compatible aliases
+export const BengkelCard = HotelCard;
+export const BengkelRegister = HotelRegister;

@@ -52,7 +52,8 @@ const AuditLogViewer = () => {
     'WEBHOOK_RECEIVED'
   ];
 
-  const resourceTypes = ['ROOM', 'BOOKING', 'USER', 'HOTEL', 'PAYMENT'];
+  // Include both legacy 'HOTEL' and new 'BENGKEL' for compatibility
+  const resourceTypes = ['ROOM', 'BOOKING', 'USER', 'BENGKEL', 'HOTEL', 'PAYMENT'];
 
   useEffect(() => {
     fetchLogs();

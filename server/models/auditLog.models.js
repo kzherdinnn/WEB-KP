@@ -34,7 +34,7 @@ const auditLogSchema = mongoose.Schema(
     resourceType: {
       type: String,
       required: true,
-      enum: ['ROOM', 'BOOKING', 'USER', 'HOTEL', 'PAYMENT']
+      enum: ['ROOM', 'BOOKING', 'USER', 'BENGKEL', 'PAYMENT']
     },
 
     resourceId: {

@@ -130,7 +130,10 @@ export const AppContextProvider = ({ children }) => {
     userRole,
     setUserRole,
     showHotelReg,
+      // Backwards-compatible alias for migration
+      showBengkelReg: showHotelReg,
     setShowHotelReg,
+      setShowBengkelReg: setShowHotelReg,
     searchedCities,
     setSearchedCities,
     rooms,

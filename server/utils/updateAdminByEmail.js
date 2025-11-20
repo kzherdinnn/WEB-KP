@@ -88,8 +88,8 @@ const updateAdminByEmail = async () => {
 
     if (successCount > 0) {
       console.log("\n🎉 User yang berhasil diupdate sekarang bisa:");
-      console.log("   - Mendaftarkan hotel");
-      console.log("   - Mengelola kamar hotel");
+      console.log("   - Mendaftarkan bengkel");
+      console.log("   - Mengelola kamar bengkel");
       console.log("   - Akses Admin Dashboard");
       console.log("\n⚠️  User perlu LOGOUT dan LOGIN ULANG agar perubahan berlaku!");
     }

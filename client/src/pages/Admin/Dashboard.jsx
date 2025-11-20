@@ -29,7 +29,7 @@ const Dashboard = () => {
       } else {
         setIsRefreshing(true);
       }
-      const { data } = await axios.get("/api/bookings/hotel");
+      const { data } = await axios.get("/api/bookings/bengkel");
       if (data.success) {
         setDashboardData({
           bookings: data.bookings,
@@ -38,7 +38,7 @@ const Dashboard = () => {
         });
         setHasHotel(true);
       } else {
-        if (data.message.includes("Hotel tidak ditemukan")) {
+        if (data.message.includes("Bengkel tidak ditemukan")) {
           setHasHotel(false);
         } else {
           toast.error(data.message);
@@ -108,7 +108,7 @@ const Dashboard = () => {
     );
   }
 
-  // Admin belum register hotel
+  // Admin belum mendaftarkan bengkel
   if (!hasHotel) {
     return (
       <div className="flex items-center justify-center h-full min-h-screen">
@@ -128,17 +128,17 @@ const Dashboard = () => {
               />
             </svg>
             <h2 className="mt-4 text-2xl font-semibold text-gray-900 playfair">
-              Belum Ada Barang Terdaftar
+              Belum Ada Bengkel Terdaftar
             </h2>
             <p className="mt-2 text-gray-600 outfit">
-              Anda perlu mendaftarkan barang terlebih dahulu untuk mengakses
-              dashboard dan mengelola stock.
+              Anda perlu mendaftarkan bengkel terlebih dahulu untuk mengakses
+              dashboard dan mengelola data.
             </p>
             <button
               onClick={() => setShowHotelReg(true)}
               className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition outfit font-medium"
             >
-              Daftar Hotel Sekarang
+              Daftar Bengkel Sekarang
             </button>
           </div>
         </div>
@@ -226,7 +226,7 @@ const Dashboard = () => {
             Recent Bookings
           </h2>
           <p className="text-sm text-gray-600 mt-1 outfit">
-            Latest bookings from your hotel
+            Booking terbaru dari bengkel Anda
           </p>
         </div>
 

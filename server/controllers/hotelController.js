@@ -6,28 +6,28 @@ export const registerHotel = async (req, res) => {
     const { name, address, contact, city } = req.body;
     const admin = req.user._id;
 
-    // ✅ Validasi: Hanya admin yang bisa register hotel
+    // ✅ Validasi: Hanya admin yang bisa mendaftarkan bengkel
     if (req.user.role !== "admin") {
       return res.status(403).json({
         success: false,
-        message: "Akses ditolak. Hanya admin yang dapat mendaftarkan hotel.",
+        message: "Akses ditolak. Hanya admin yang dapat mendaftarkan bengkel.",
       });
     }
 
     const hotel = await hotelModel.findOne({ admin });
     if (hotel) {
-      return res.json({ success: false, message: "Hotel already registered" });
+      return res.json({ success: false, message: "Bengkel already registered" });
     }
 
     await hotelModel.create({ name, address, contact, city, admin });
 
-    res.json({ success: true, message: "Hotel Registered Successfully" });
+    res.json({ success: true, message: "Bengkel Registered Successfully" });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
 };
 
-// ➕ Ambil semua hotel
+// ➕ Ambil semua bengkel
 export const getAllHotels = async (req, res) => {
   try {
     const hotels = await hotelModel.find().populate("rooms");

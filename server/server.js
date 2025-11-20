@@ -76,7 +76,7 @@ app.use(ClerkExpressWithAuth());
 // 🧩 Rute API yang Dilindungi (Memerlukan Login)
 // =====================================================
 app.use("/api/user", userRouter);
-app.use("/api/hotel", hotelRouter);
+app.use("/api/bengkel", hotelRouter);
 app.use("/api/room", roomRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/audit-logs", auditLogRouter);
