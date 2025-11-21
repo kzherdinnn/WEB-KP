@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import {
-  Download,
-  FileText,
-  Calendar,
-  TrendingUp,
-  DollarSign,
-  Users,
-  Hotel,
-  CheckCircle,
-  XCircle,
-  Clock,
-  AlertCircle,
-} from 'lucide-react';
+  FaDownload as Download,
+  FaFileAlt as FileText,
+  FaCalendarAlt as Calendar,
+  FaChartLine as TrendingUp,
+  FaDollarSign as DollarSign,
+  FaUsers as Users,
+  FaHotel as Hotel,
+  FaCheckCircle as CheckCircle,
+  FaTimesCircle as XCircle,
+  FaClock as Clock,
+  FaExclamationCircle as AlertCircle,
+} from 'react-icons/fa';
 
 const DashboardExport = ({ bookings, stats }) => {
   const { getToken } = useAuth();

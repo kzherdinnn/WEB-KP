@@ -13,7 +13,7 @@
   "categories": ["travel", "lifestyle", "booking"],
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -25,9 +25,9 @@
       "short_name": "Cari",
       "description": "Cari dan booking hotel",
       "url": "/hotels",
-      "icons": [
+        "icons": [
         {
-          "src": "/favicon.svg",
+          "src": "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
           "sizes": "any"
         }
       ]
@@ -37,9 +37,9 @@
       "short_name": "Booking",
       "description": "Lihat booking saya",
       "url": "/my-bookings",
-      "icons": [
+        "icons": [
         {
-          "src": "/favicon.svg",
+          "src": "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
           "sizes": "any"
         }
       ]

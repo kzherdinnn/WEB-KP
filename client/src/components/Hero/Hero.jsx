@@ -228,7 +228,7 @@ const Hero = () => {
                     }}
                   />
                   <img
-                    src="https://res.cloudinary.com/dphondhvc/image/upload/v1763541845/processed_image_bkplml.svg"
+                    src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg"
                     className="h-10 sm:h-12 md:h-16 lg:h-20 relative z-10"
                   />
                 </motion.div>
@@ -420,7 +420,7 @@ const Hero = () => {
                     }}
                   />
                   <img
-                    src="https://res.cloudinary.com/dphondhvc/image/upload/v1763536401/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg"
+                    src="https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg?updatedAt=1763701230685"
                     alt=""
                     className="w-full h-[600px] object-cover"
                   />

@@ -109,7 +109,7 @@ const Footer = () => {
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-50"></div>
                     <img
-                      src="/favicon.svg"
+                      src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
                       alt="Aan Audio Solutions Logo"
                       className="h-10 sm:h-12 relative z-10"
                     />

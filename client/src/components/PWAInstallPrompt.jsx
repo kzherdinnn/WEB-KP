@@ -119,8 +119,8 @@ const PWAInstallPrompt = () => {
 
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                <img src="/favicon.svg" alt="StayZa" className="w-8 h-8" />
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="StayZa" className="w-8 h-8" />
               </div>
               <div>
                 <h3 className="font-bold text-lg">Install StayZa</h3>
@@ -183,7 +183,7 @@ const PWAInstallPrompt = () => {
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg">
-              <img src="/favicon.svg" alt="StayZa" className="w-9 h-9" />
+              <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="StayZa" className="w-9 h-9" />
             </div>
             <div className="flex-1">
               <h3 className="font-bold text-lg">Install StayZa</h3>
