@@ -32,7 +32,7 @@ const Promos = () => {
     discount: "Diskon 25%",
     description: "Pasang GPS tracker dan pantau kendaraan Anda kapan saja",
     validUntil: "28 Februari 2026",
-    image: "https://res.cloudinary.com/dphondhvc/image/upload/v1763539421/Gps_wkzo2i.jpg",
+    image: "https://ik.imagekit.io/dzlzhxcdo/Gps_wkzo2i.jpg?updatedAt=1763701230720",
     badge: "Harga Terbaik",
     color: "from-emerald-500 to-teal-700",
     features: ["Pelacakan Real-Time", "Geo-Fencing", "Akses Aplikasi Mobile"],
