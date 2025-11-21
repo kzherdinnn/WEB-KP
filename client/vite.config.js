@@ -110,8 +110,11 @@ export default defineConfig({
           },
         ],
       },
+      // Disable dev-mode PWA assets lookup to avoid requiring a pre-generated
+      // `dev-dist/sw.js` file during development. The production build still
+      // generates the service worker as configured.
       devOptions: {
-        enabled: true,
+        enabled: false,
         type: "module",
       },
       strategies: "generateSW",
