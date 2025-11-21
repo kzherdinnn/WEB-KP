@@ -23,7 +23,7 @@ export default defineConfig({
         orientation: "portrait-primary",
         icons: [
           {
-            src: "/favicon.svg",
+            src: "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
             sizes: "any",
             type: "image/svg+xml",
             purpose: "any maskable",

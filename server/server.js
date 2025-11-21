@@ -10,7 +10,8 @@ import hotelRouter from "./routes/hotelRoutes.js";
 import roomRouter from "./routes/roomRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import auditLogRouter from "./routes/auditLogRoutes.js";
-import connectCloudinary from "./config/cloudinary.js";
+import { connectImageKit } from "./config/imagekit.js";
+import imagekitRoutes from "./routes/imagekitRoutes.js";
 import { midtransWebHook } from "./controllers/midtransWebHook.js";
 
 // ✅ Impor controller webhook yang sudah Anda buat
@@ -21,7 +22,7 @@ import clerkWebHooks from "./controllers/clerkWebHook.js";
 // =====================================================
 const app = express();
 await connectDB();
-await connectCloudinary();
+await connectImageKit();
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -80,6 +81,7 @@ app.use("/api/hotel", hotelRouter);
 app.use("/api/room", roomRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/audit-logs", auditLogRouter);
+app.use("/api/imagekit", imagekitRoutes);
 
 // =====================================================
 // 🚀 Start Server

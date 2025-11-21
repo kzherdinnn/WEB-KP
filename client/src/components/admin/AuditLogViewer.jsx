@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import {
-  Calendar,
-  Filter,
-  Download,
-  User,
-  AlertCircle,
-  CheckCircle,
-  XCircle,
-  Clock,
-  RefreshCw,
-  Search,
-  ChevronLeft,
-  ChevronRight
-} from 'lucide-react';
+  FaCalendarAlt,
+  FaFilter,
+  FaDownload,
+  FaUser,
+  FaExclamationCircle,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaClock,
+  FaSyncAlt,
+  FaSearch,
+  FaChevronLeft,
+  FaChevronRight
+} from 'react-icons/fa';
 
 const AuditLogViewer = () => {
   const { getToken } = useAuth();
@@ -353,7 +353,7 @@ const AuditLogViewer = () => {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-blue-100 rounded-lg">
-                <Search className="w-6 h-6 text-blue-600" />
+                <FaSearch className="w-6 h-6 text-blue-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Logs</p>
@@ -365,7 +365,7 @@ const AuditLogViewer = () => {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-green-100 rounded-lg">
-                <CheckCircle className="w-6 h-6 text-green-600" />
+                <FaCheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Success Rate</p>
@@ -381,7 +381,7 @@ const AuditLogViewer = () => {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-purple-100 rounded-lg">
-                <Calendar className="w-6 h-6 text-purple-600" />
+                <FaCalendarAlt className="w-6 h-6 text-purple-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Current Page</p>
@@ -405,7 +405,7 @@ const AuditLogViewer = () => {
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <RefreshCw className="w-8 h-8 text-blue-600 animate-spin" />
+              <FaSyncAlt className="w-8 h-8 text-blue-600 animate-spin" />
             </div>
           ) : logs.length === 0 ? (
             <div className="text-center py-12">
@@ -455,8 +455,8 @@ const AuditLogViewer = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                           {log.performedBy ? (
-                            <div className="flex items-center gap-2">
-                              <User className="w-4 h-4 text-gray-400" />
+                              <div className="flex items-center gap-2">
+                              <FaUser className="w-4 h-4 text-gray-400" />
                               <div>
                                 <div className="text-gray-900">{log.performedBy.name}</div>
                                 <div className="text-gray-500 text-xs">{log.performedBy.email}</div>
@@ -490,11 +490,11 @@ const AuditLogViewer = () => {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => handleFilterChange('page', filters.page - 1)}
+                        onClick={() => handleFilterChange('page', filters.page - 1)}
                     disabled={pagination.page === 1}
                     className="flex items-center gap-1 px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                        <FaChevronLeft className="w-4 h-4" />
                     Previous
                   </button>
                   <div className="flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg font-medium">
@@ -506,7 +506,7 @@ const AuditLogViewer = () => {
                     className="flex items-center gap-1 px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
                   >
                     Next
-                    <ChevronRight className="w-4 h-4" />
+                    <FaChevronRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>

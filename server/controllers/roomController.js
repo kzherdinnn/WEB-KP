@@ -1,7 +1,8 @@
 import hotelModel from "../models/hotel.models.js";
 import roomModel from "../models/room.models.js";
 import auditLogModel from "../models/auditLog.models.js";
-import { v2 as cloudinary } from "cloudinary";
+import imagekit from "../config/imagekit.js";
+import fs from "fs";
 
 //Create a new room
 export const createRoom = async (req, res) => {
@@ -32,33 +33,36 @@ export const createRoom = async (req, res) => {
 
     let images = [];
 
-    // Check if Cloudinary is configured
-    const hasCloudinary =
-      process.env.CLOUDINARY_CLOUD_NAME &&
-      process.env.CLOUDINARY_API_KEY &&
-      process.env.CLOUDINARY_API_SECRET &&
-      process.env.CLOUDINARY_CLOUD_NAME !== "your_cloud_name";
+    // Check if ImageKit is configured
+    const hasImageKit =
+      process.env.IMAGEKIT_PUBLIC_KEY &&
+      process.env.IMAGEKIT_PRIVATE_KEY &&
+      process.env.IMAGEKIT_URL_ENDPOINT;
 
-    if (hasCloudinary) {
-      // Upload images to Cloudinary
+    if (hasImageKit) {
+      // Upload images to ImageKit
       try {
         const uploadImages = req.files.map(async (file) => {
-          const result = await cloudinary.uploader.upload(file.path);
-          return result.secure_url;
+          const base64 = fs.readFileSync(file.path, { encoding: "base64" });
+          const base64File = `data:${file.mimetype};base64,${base64}`;
+          const result = await imagekit.upload({
+            file: base64File,
+            fileName: file.originalname || file.filename || `room-${Date.now()}`,
+          });
+          return result.url;
         });
         images = await Promise.all(uploadImages);
-        console.log("✅ Images uploaded to Cloudinary");
-      } catch (cloudinaryError) {
-        console.error("❌ Cloudinary upload failed:", cloudinaryError.message);
+        console.log("✅ Images uploaded to ImageKit");
+      } catch (uploadError) {
+        console.error("❌ ImageKit upload failed:", uploadError.message || uploadError);
         return res.status(500).json({
           success: false,
-          message:
-            "Failed to upload images. Please check Cloudinary configuration.",
+          message: "Failed to upload images. Please check ImageKit configuration.",
         });
       }
     } else {
       // Fallback: Use placeholder images for testing
-      console.warn("⚠️ Cloudinary not configured. Using placeholder images.");
+      console.warn("⚠️ ImageKit not configured. Using placeholder images.");
       images = req.files.map(
         (file, index) =>
           `https://via.placeholder.com/600x400?text=Room+Image+${index + 1}`,
@@ -100,9 +104,9 @@ export const createRoom = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: hasCloudinary
+      message: hasImageKit
         ? "Room created successfully"
-        : "Room created with placeholder images (Configure Cloudinary for real images)",
+        : "Room created with placeholder images (Configure ImageKit for real images)",
       room: newRoom,
     });
   } catch (error) {
@@ -439,34 +443,34 @@ export const updateRoom = async (req, res) => {
     if (req.files && req.files.length > 0) {
       let newImages = [];
 
-      // Check if Cloudinary is configured
-      const hasCloudinary =
-        process.env.CLOUDINARY_CLOUD_NAME &&
-        process.env.CLOUDINARY_API_KEY &&
-        process.env.CLOUDINARY_API_SECRET &&
-        process.env.CLOUDINARY_CLOUD_NAME !== "your_cloud_name";
+      // Check if ImageKit is configured
+      const hasImageKit =
+        process.env.IMAGEKIT_PUBLIC_KEY &&
+        process.env.IMAGEKIT_PRIVATE_KEY &&
+        process.env.IMAGEKIT_URL_ENDPOINT;
 
-      if (hasCloudinary) {
+      if (hasImageKit) {
         try {
           const uploadImages = req.files.map(async (file) => {
-            const result = await cloudinary.uploader.upload(file.path);
-            return result.secure_url;
+            const base64 = fs.readFileSync(file.path, { encoding: "base64" });
+            const base64File = `data:${file.mimetype};base64,${base64}`;
+            const result = await imagekit.upload({
+              file: base64File,
+              fileName: file.originalname || file.filename || `room-${Date.now()}`,
+            });
+            return result.url;
           });
           newImages = await Promise.all(uploadImages);
-          console.log("✅ New images uploaded to Cloudinary");
-        } catch (cloudinaryError) {
-          console.error(
-            "❌ Cloudinary upload failed:",
-            cloudinaryError.message,
-          );
+          console.log("✅ New images uploaded to ImageKit");
+        } catch (uploadError) {
+          console.error("❌ ImageKit upload failed:", uploadError.message || uploadError);
           return res.status(500).json({
             success: false,
-            message:
-              "Failed to upload images. Please check Cloudinary configuration.",
+            message: "Failed to upload images. Please check ImageKit configuration.",
           });
         }
       } else {
-        console.warn("⚠️ Cloudinary not configured. Using placeholder images.");
+        console.warn("⚠️ ImageKit not configured. Using placeholder images.");
         newImages = req.files.map(
           (file, index) =>
             `https://via.placeholder.com/600x400?text=Room+Image+${index + 1}`,

@@ -143,7 +143,7 @@ File-file berikut sudah dikonfigurasi:
    ```
 
 2. **Upload logo StayZa**
-   - Gunakan file `public/favicon.svg`
+   - Gunakan logo proyek (disarankan ImageKit remote URL atau `public/icons/*` jika ingin fallback lokal)
    - Atau logo PNG dengan resolusi tinggi (minimal 512x512px)
 
 3. **Download hasil generate**
@@ -174,7 +174,7 @@ Upload logo dan download semua ukuran yang diperlukan:
 npm install -g pwa-asset-generator
 
 # Generate icons
-pwa-asset-generator public/favicon.svg public/icons --background "#14b8a6" --padding "10%"
+pwa-asset-generator public/icons/source-logo.svg public/icons --background "#14b8a6" --padding "10%"
 ```
 
 ---

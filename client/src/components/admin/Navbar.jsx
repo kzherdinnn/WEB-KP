@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <div className='flex items-center justify-between px-4 md:px-8 border-b border-gray-300 py-3 bg-white'>
       <Link to="/">
-        <img src="/favicon.svg" alt="Stayza" className="h-9" />
+        <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="Stayza" className="h-9" />
       </Link>
       <UserButton />
     </div>

@@ -13,10 +13,32 @@
   "categories": ["travel", "lifestyle", "booking"],
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
@@ -27,22 +49,21 @@
       "url": "/hotels",
       "icons": [
         {
-          "src": "/favicon.svg",
-          "sizes": "any"
+          "src": "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
+          "sizes": "192x192"
         }
       ]
     },
     {
-      "name": "My Bookings",
+      "name": "Booking Saya",
       "short_name": "Booking",
       "description": "Lihat booking saya",
       "url": "/my-bookings",
       "icons": [
         {
-          "src": "/favicon.svg",
-          "sizes": "any"
+          "src": "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
+          "sizes": "512x512"
         }
       ]
     }
   ]
-}

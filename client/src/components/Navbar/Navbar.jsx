@@ -174,7 +174,7 @@ const Navbar = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               <img
-                src="/favicon.svg"
+                src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
                 alt="Aan Audio Solutions Logo"
                 className="h-8 md:h-9 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
               />
@@ -384,7 +384,7 @@ const Navbar = () => {
             }}
             className="flex items-center gap-2"
           >
-            <img src="/favicon.svg" alt="Aan Audio Solutions Logo" className="h-8" />
+            <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="Aan Audio Solutions Logo" className="h-8" />
             <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">Aan Audio</span>
           </Link>
           <div className="flex items-center gap-2 md:hidden">
