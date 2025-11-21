@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.svg", "icons/*.png", "background.webp"],
+      includeAssets: ["icons/*.png", "background.webp"],
       manifest: {
         name: "StayZa - Hotel Booking Platform",
         short_name: "StayZa",
