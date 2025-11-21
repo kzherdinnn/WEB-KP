@@ -6,44 +6,44 @@ const Gallery = () => {
 
   const galleryImages = [
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540397/61f2c5fa82880_ddcyrd.png",
-      title: "Hotel Exterior",
-      category: "Building",
+      url: "https://ik.imagekit.io/dzlzhxcdo/93aecc28-af9e-41b6-92fc-c0a8666d1fdb_43_yeuudd.jpg?updatedAt=1763701230718",
+      title: "Interior Upgrade",
+      category: "Custom Interior",
     },
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540395/Electronic-power-steering-080620210510-1024x640_nc7vq6.jpg",
-      title: "Luxury Suite",
-      category: "Rooms",
+      url: "https://ik.imagekit.io/dzlzhxcdo/Head-Unit-04_uwxb4b.jpg?updatedAt=1763701230737",
+      title: "Head Unit Installation",
+      category: "Audio System",
     },
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540391/WhatsApp_Image_2025-11-12_at_13.19.46_321a5f85_bl886v.jpg",
-      title: "Deluxe Room",
-      category: "Rooms",
+      url: "https://ik.imagekit.io/dzlzhxcdo/Gps_wkzo2i.jpg?updatedAt=1763701230720",
+      title: "GPS Navigation",
+      category: "Electronics",
     },
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540391/93aecc28-af9e-41b6-92fc-c0a8666d1fdb_43_yeuudd.jpg",
-      title: "Hotel Lobby",
-      category: "Interior",
+      url: "https://ik.imagekit.io/dzlzhxcdo/xZV6Vyx2Ai_ffg4hb.jpg?updatedAt=1763701230671",
+      title: "Premium Sound System",
+      category: "Audio Setup",
     },
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540390/xZV6Vyx2Ai_ffg4hb.jpg",
-      title: "Swimming Pool",
-      category: "Facilities",
+      url: "https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.19.47_0aabd02a_ptdo4d.jpg?updatedAt=1763701230629",
+      title: "Speaker Installation",
+      category: "Workshop",
     },
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540390/Head-Unit-04_uwxb4b.jpg",
-      title: "Restaurant",
-      category: "Dining",
+      url: "https://ik.imagekit.io/dzlzhxcdo/61f2c5fa82880_ddcyrd.png?updatedAt=1763701231619",
+      title: "Audio Equipment",
+      category: "Components",
     },
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540391/WhatsApp_Image_2025-11-12_at_13.19.46_321a5f85_bl886v.jpg",
-      title: "Spa & Wellness",
-      category: "Facilities",
+      url: "https://ik.imagekit.io/dzlzhxcdo/Electronic-power-steering-080620210510-1024x640_nc7vq6.jpg?updatedAt=1763701231269",
+      title: "Steering Wheel Control",
+      category: "Integration",
     },
     {
-      url: "https://res.cloudinary.com/dphondhvc/image/upload/v1763540393/WhatsApp_Image_2025-11-12_at_13.19.47_0aabd02a_ptdo4d.jpg",
-      title: "Conference Room",
-      category: "Business",
+      url: "https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.19.46_321a5f85_bl886v.jpg?updatedAt=1763701230879",
+      title: "Vehicle Customization",
+      category: "Full Package",
     },
   ];
 

@@ -28,11 +28,6 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // User role sudah di-fetch oleh AppContext, update local state saat berubah
-  React.useEffect(() => {
-    setUserRole(userRole);
-  }, [userRole]);
-
   React.useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -56,7 +51,6 @@ const Navbar = () => {
 
   const [isScrolled, setIsScrolled] = React.useState(false);
 
-  // Navigation Menu Structure with Grouping (Bahasa Indonesia)
   const navLinks = [
     { name: "Beranda", path: "/", type: "link" },
     {
@@ -64,11 +58,11 @@ const Navbar = () => {
       type: "dropdown",
       items: [
         { name: "Profil Bengkel", path: "/#about", icon: <FaRegBuilding /> },
-        { name: "Layanan & Sparepart", path: "/#services", icon: <FaHotel /> },
+        { name: "Sparepart", path: "/#services", icon: <FaHotel /> },
         { name: "Galeri", path: "/#gallery", icon: <FaHotel /> },
       ],
     },
-    { name: "Layanan & Sparepart", path: "/hotels", type: "link" },
+    { name: "Sparepart", path: "/hotels", type: "link" },
     { name: "Promo", path: "/#promos", type: "link" },
     { name: "Artikel", path: "/articles", type: "link" },
     { name: "Kontak", path: "/#contact", type: "link" },
@@ -166,7 +160,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
         <div className="flex items-center justify-between py-2 md:py-3">
           {/* Logo */}
-            <Link
+          <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-3 group"
@@ -182,7 +176,7 @@ const Navbar = () => {
             <span
               className={`text-xl md:text-2xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300`}
             >
-              Aan Audio
+              Aan Audio Solutions
             </span>
           </Link>
 
@@ -301,37 +295,37 @@ const Navbar = () => {
           {/* Desktop Right (only render when viewport >= md via JS) */}
           {isDesktop && (
             <div className="flex items-center gap-3">
-            {/* Theme Toggle hanya desktop */}
-            <ThemeToggle />
-            <button
-              className={`relative p-2 ${iconColor} transition-all duration-300 rounded-lg hover:shadow-md hover:scale-110 active:scale-100 group overflow-hidden ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-gradient-to-br hover:from-teal-50 hover:to-emerald-50 hover:shadow-teal-100/50" : "hover:text-teal-400 hover:bg-gray-800/50 hover:shadow-teal-500/30"}`}
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/20 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></span>
-              <FiSearch className="relative z-10 h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
-            </button>
-            {user ? (
+              {/* Theme Toggle hanya desktop */}
+              <ThemeToggle />
+              <button
+                className={`relative p-2 ${iconColor} transition-all duration-300 rounded-lg hover:shadow-md hover:scale-110 active:scale-100 group overflow-hidden ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-gradient-to-br hover:from-teal-50 hover:to-emerald-50 hover:shadow-teal-100/50" : "hover:text-teal-400 hover:bg-gray-800/50 hover:shadow-teal-500/30"}`}
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/20 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></span>
+                <FiSearch className="relative z-10 h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+              </button>
+              {user ? (
                 <UserButton>
-                <UserButton.MenuItems>
-                  <UserButton.Action
-                    label="Pesanan Saya"
-                    labelIcon={<TbBrandBooking />}
-                    onClick={() => navigate("/my-bookings")}
-                  />
-                  {userRole === "admin" && (
+                  <UserButton.MenuItems>
                     <UserButton.Action
-                      label={
-                        isAdmin ? "Beralih ke Mode Pengguna" : "Beralih ke Mode Admin"
-                      }
-                      labelIcon={
-                        isAdmin ? <MdPerson /> : <MdAdminPanelSettings />
-                      }
-                      onClick={
-                        isAdmin ? handleSwitchToUser : handleSwitchToAdmin
-                      }
+                      label="Pesanan Saya"
+                      labelIcon={<TbBrandBooking />}
+                      onClick={() => navigate("/my-bookings")}
                     />
-                  )}
-                </UserButton.MenuItems>
-              </UserButton>
+                    {userRole === "admin" && (
+                      <UserButton.Action
+                        label={
+                          isAdmin ? "Beralih ke Mode Pengguna" : "Beralih ke Mode Admin"
+                        }
+                        labelIcon={
+                          isAdmin ? <MdPerson /> : <MdAdminPanelSettings />
+                        }
+                        onClick={
+                          isAdmin ? handleSwitchToUser : handleSwitchToAdmin
+                        }
+                      />
+                    )}
+                  </UserButton.MenuItems>
+                </UserButton>
             ) : (
               <button
                 onClick={openSignIn}
@@ -376,7 +370,7 @@ const Navbar = () => {
       >
         <div className="flex items-center justify-between px-4 pt-3 pb-1">
           {/* Logo */}
-            <Link
+          <Link
             to="/"
             onClick={() => {
               setIsMenuOpen(false);
@@ -385,7 +379,7 @@ const Navbar = () => {
             className="flex items-center gap-2"
           >
             <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="Aan Audio Solutions Logo" className="h-8" />
-            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">Aan Audio</span>
+            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">Aan Audio Solutions</span>
           </Link>
           <div className="flex items-center gap-2 md:hidden">
             {/* Search Icon */}
@@ -511,8 +505,6 @@ const Navbar = () => {
               </Link>
             );
           })}
-
-          
         </div>
 
         {/* Bottom Section - Divider */}
@@ -528,7 +520,7 @@ const Navbar = () => {
           </div>
 
           {/* Admin Dashboard Button */}
-            {user && userRole === "admin" && (
+          {user && userRole === "admin" && (
             <button
               onClick={() => {
                 navigate("/admin");

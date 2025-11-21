@@ -6,43 +6,53 @@ const Partners = () => {
   const partners = [
     {
       id: 1,
-      name: "Booking.com",
-      logo: "https://logo.clearbit.com/booking.com",
+      name: "Venom",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/download_7_u2wklr.png?updatedAt=1763701230924",
     },
     {
       id: 2,
-      name: "Expedia",
-      logo: "https://logo.clearbit.com/expedia.com",
+      name: "Sony",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/Tidak_dipastikan_53020_xextiy.png?updatedAt=1763701230874",
     },
     {
       id: 3,
-      name: "TripAdvisor",
-      logo: "https://logo.clearbit.com/tripadvisor.com",
+      name: "Audison",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/download_8_t69uzm.png?updatedAt=1763701230815",
     },
     {
       id: 4,
-      name: "Agoda",
-      logo: "https://logo.clearbit.com/agoda.com",
+      name: "Kenwood",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/download__11_-removebg-preview_vx3syl.png?updatedAt=1763701230744",
     },
     {
       id: 5,
-      name: "Hotels.com",
-      logo: "https://logo.clearbit.com/hotels.com",
+      name: "3M",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/3M-Emblem_fn4fww.png?updatedAt=1763701230963",
     },
     {
       id: 6,
-      name: "Airbnb",
-      logo: "https://logo.clearbit.com/airbnb.com",
+      name: "Pioneer",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/Pioneer-Logo-PNG-Transparent_bmgg6u.png?updatedAt=1763701230743",
     },
     {
       id: 7,
-      name: "Priceline",
-      logo: "https://logo.clearbit.com/priceline.com",
+      name: "Focal",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/download__10_-removebg-preview_biiigk.png?updatedAt=1763701230692",
     },
     {
       id: 8,
-      name: "Kayak",
-      logo: "https://logo.clearbit.com/kayak.com",
+      name: "JBL",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/JBL-Emblema_cdcpfv.png?updatedAt=1763701230843",
+    },
+    {
+      id: 9,
+      name: "Osram",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/osram-logo_h1f1bf.png?updatedAt=1763701230663",
+    },
+    {
+      id: 10,
+      name: "Alpine",
+      logo: "https://ik.imagekit.io/dzlzhxcdo/Alpine-Logo_c2j4fv.png?updatedAt=1763701230866",
     },
   ];
 
@@ -60,10 +70,10 @@ const Partners = () => {
           className="text-center mb-12"
         >
           <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 playfair">
-            Our Trusted Partners
+            Partner Terpercaya Kami
           </h3>
           <p className="text-gray-600 outfit">
-            Partnering with the world's leading travel platforms
+            Bermitra dengan brand audio mobil terkemuka di dunia
           </p>
         </motion.div>
 
@@ -113,9 +123,8 @@ const Partners = () => {
           className="text-center mt-12"
         >
           <p className="text-sm text-gray-500 outfit">
-            Trusted by over{" "}
-            <span className="font-bold text-blue-600">50,000+</span> travelers
-            worldwide
+            Dipercaya oleh lebih dari{" "}
+            <span className="font-bold text-blue-600">1000+</span> penggemar audio mobil
           </p>
         </motion.div>
       </div>

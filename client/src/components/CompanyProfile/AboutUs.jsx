@@ -32,7 +32,7 @@ const AboutUs = () => {
           >
             <div className="relative h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-2xl">
               <img
-                src="https://res.cloudinary.com/dphondhvc/image/upload/v1763536401/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg"
+                src="https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg?updatedAt=1763701230685"
                 alt="Contoh pemasangan audio mobil"
                 className="w-full h-full object-cover"
               />
