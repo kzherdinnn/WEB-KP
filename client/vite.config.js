@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["icons/*.png", "background.webp"],
+      includeAssets: ["favicon.svg", "icons/*.png", "background.webp"],
       manifest: {
         name: "StayZa - Hotel Booking Platform",
         short_name: "StayZa",
@@ -110,11 +110,8 @@ export default defineConfig({
           },
         ],
       },
-      // Disable dev-mode PWA assets lookup to avoid requiring a pre-generated
-      // `dev-dist/sw.js` file during development. The production build still
-      // generates the service worker as configured.
       devOptions: {
-        enabled: false,
+        enabled: true,
         type: "module",
       },
       strategies: "generateSW",
