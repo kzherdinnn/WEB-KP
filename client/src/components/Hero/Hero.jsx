@@ -314,7 +314,7 @@ const Hero = () => {
                 whileHover={{ x: "100%" }}
                 transition={{ duration: 0.5 }}
               />
-              <span className="relative z-10">Tentang kami</span>
+              <span className="relative z-10">Cari Disini</span>
               <motion.span
                 animate={{ y: [0, 3, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}

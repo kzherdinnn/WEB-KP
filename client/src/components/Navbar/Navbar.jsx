@@ -116,6 +116,26 @@ const Navbar = () => {
     if (path.includes("#")) {
       const [basePath, hash] = path.split("#");
 
+      // Helper: keep polling for the element until it appears, then scroll
+      const scrollToHashWhenReady = (hashId) => {
+        if (!hashId) return;
+        const selector = `#${hashId}`;
+        let attempts = 0;
+        const maxAttempts = 40; // ~2s (40 * 50ms)
+        const interval = setInterval(() => {
+          attempts += 1;
+          const element = document.querySelector(selector);
+          if (element) {
+            console.log("✅ Scrolling to element:", hashId);
+            element.scrollIntoView({ behavior: "smooth" });
+            clearInterval(interval);
+          } else if (attempts >= maxAttempts) {
+            console.log("⚠️ Element not found after waiting:", hashId);
+            clearInterval(interval);
+          }
+        }, 50);
+      };
+
       // Jika berada di halaman yang sama dengan basePath atau basePath kosong (berarti homepage)
       if (
         location.pathname === basePath ||
@@ -124,14 +144,9 @@ const Navbar = () => {
       ) {
         // Langsung scroll ke element
         console.log("✅ Same page, scrolling to:", hash);
-        const element = document.querySelector(hash ? `#${hash}` : "");
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        } else {
-          console.log("❌ Element not found:", hash);
-        }
+        scrollToHashWhenReady(hash);
       } else {
-        // Jika di halaman berbeda, navigate dulu baru scroll
+        // Jika di halaman berbeda, navigate dulu lalu polling untuk element
         console.log(
           "🔄 Different page, navigating to:",
           basePath || "/",
@@ -139,16 +154,8 @@ const Navbar = () => {
           hash,
         );
         navigate(basePath || "/");
-        // Tunggu sebentar agar halaman ter-render, baru scroll
-        setTimeout(() => {
-          const element = document.querySelector(hash ? `#${hash}` : "");
-          if (element) {
-            console.log("✅ Scrolling to element:", hash);
-            element.scrollIntoView({ behavior: "smooth" });
-          } else {
-            console.log("❌ Element not found after navigation:", hash);
-          }
-        }, 100);
+        // Start polling immediately after navigate; when target mounts it will be found
+        scrollToHashWhenReady(hash);
       }
     }
   };
@@ -255,7 +262,10 @@ const Navbar = () => {
                   <a
                     key={idx}
                     href={link.path}
-                    onClick={() => handleLinkClick(link.path)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link.path);
+                    }}
                     className={`relative ${textColor} transition-all duration-300 font-medium text-sm outfit py-2 px-3 rounded-lg hover:shadow-sm hover:scale-105 group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
                   >
                     <span className="relative z-10">{link.name}</span>
@@ -478,7 +488,8 @@ const Navbar = () => {
                 <a
                   key={idx}
                   href={link.path}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     handleLinkClick(link.path);
                     setIsMenuOpen(false);
                   }}
