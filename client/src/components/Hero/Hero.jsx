@@ -107,7 +107,7 @@ const Hero = () => {
     "Audio mobil, alarm, dan GPS berkualitas",
     "Pemasangan profesional untuk kendaraan Anda",
   ];
-  const typingText = useTypingEffect(typingTexts, 100, 50, 2000);
+  const typingText = useTypingEffect(typingTexts, 50, 30, 800);
 
   // Counter animations
   const [hotelsCount, startHotelsCounter] = useCounter(500, 2000);
@@ -314,7 +314,7 @@ const Hero = () => {
                 whileHover={{ x: "100%" }}
                 transition={{ duration: 0.5 }}
               />
-              <span className="relative z-10">Cari Disini</span>
+              <span className="relative z-10">Tentang kami</span>
               <motion.span
                 animate={{ y: [0, 3, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -425,7 +425,7 @@ const Hero = () => {
                     className="w-full h-[600px] object-cover"
                   />
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-teal-900/50 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 </motion.div>
 
                 {/* Floating Badge with Animation */}
