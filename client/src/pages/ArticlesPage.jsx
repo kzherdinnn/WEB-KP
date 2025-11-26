@@ -10,7 +10,7 @@ const ArticlesPage = () => {
       excerpt:
         "Pelajari perbedaan tipe speaker, ukuran, dan spesifikasi yang cocok untuk mobil Anda agar mendapatkan kualitas suara optimal.",
       image:
-        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article1(2).png",
       author: "Aan Audio",
       date: "15 Des 2024",
       readTime: "5 menit baca",
@@ -23,7 +23,7 @@ const ArticlesPage = () => {
       excerpt:
         "Panduan langkah demi langkah untuk mengatur level, fase, dan frekuensi crossover sehingga bass terdengar kuat namun tidak mengganggu.",
       image:
-        "https://images.unsplash.com/photo-1497294815431-9365093b7331?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article2.png",
       author: "Teknisi Aan",
       date: "10 Jan 2025",
       readTime: "7 menit baca",
@@ -36,7 +36,7 @@ const ArticlesPage = () => {
       excerpt:
         "Panduan memilih head unit yang kompatibel dengan mobil Anda, fitur penting yang perlu dicari, dan tips pemasangan aman.",
       image:
-        "https://images.unsplash.com/photo-1518544889020-3c6c37b8c8f0?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Head-Unit-04_uwxb4b.jpg?updatedAt=1763701230737",
       author: "M. Hadi",
       date: "22 Feb 2025",
       readTime: "6 menit baca",
@@ -49,7 +49,7 @@ const ArticlesPage = () => {
       excerpt:
         "Langkah sederhana untuk merawat kabel, konektor, dan komponen audio agar umur perangkat lebih panjang dan performa tetap stabil.",
       image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article3.png",
       author: "Rina Putri",
       date: "05 Mar 2025",
       readTime: "6 menit baca",
@@ -62,7 +62,7 @@ const ArticlesPage = () => {
       excerpt:
         "Rekomendasi subwoofer yang cocok untuk mobil dengan kabin kecil dan tips penempatan agar tidak mengorbankan kenyamanan.",
       image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article4(1).png",
       author: "Aan Audio",
       date: "18 Mar 2025",
       readTime: "8 menit baca",
@@ -75,7 +75,7 @@ const ArticlesPage = () => {
       excerpt:
         "Langkah instalasi alarm dasar dan fitur keamanan tambahan yang direkomendasikan untuk meningkatkan perlindungan kendaraan.",
       image:
-        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article6.png.jpg",
       author: "Joko Wirawan",
       date: "28 Mar 2025",
       readTime: "6 menit baca",
@@ -88,7 +88,7 @@ const ArticlesPage = () => {
       excerpt:
         "Cara menyetel equalizer untuk berbagai genre musik sehingga suara vokal dan instrumen seimbang.",
       image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article7.png",
       author: "Dewi S",
       date: "02 Apr 2025",
       readTime: "5 menit baca",
@@ -101,7 +101,7 @@ const ArticlesPage = () => {
       excerpt:
         "Daftar aksesoris penting seperti kabel bermutu, isolator, dan peredam suara untuk meningkatkan kualitas instalasi.",
       image:
-        "https://images.unsplash.com/photo-1583337130417-1f3de34e6f2c?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article8(2).png",
       author: "Aan Audio",
       date: "12 Apr 2025",
       readTime: "4 menit baca",
@@ -114,7 +114,7 @@ const ArticlesPage = () => {
       excerpt:
         "Ide dan prioritas upgrade audio yang memberikan peningkatan kualitas suara terbaik tanpa menguras anggaran.",
       image:
-        "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article9.png",
       author: "Arif Setiawan",
       date: "20 Apr 2025",
       readTime: "9 menit baca",
