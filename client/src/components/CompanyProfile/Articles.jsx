@@ -10,7 +10,7 @@ const Articles = () => {
       excerpt:
         "Pelajari perbedaan tipe speaker, ukuran, dan spesifikasi yang cocok untuk mobil Anda agar mendapatkan kualitas suara optimal.",
       image:
-        "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article1(2).png",
       author: "Aan Audio",
       date: "15 Des 2024",
       readTime: "5 menit baca",
@@ -23,7 +23,7 @@ const Articles = () => {
       excerpt:
         "Panduan langkah demi langkah untuk mengatur level, fase, dan frekuensi crossover sehingga bass terdengar kuat namun tidak mengganggu.",
       image:
-        "https://images.unsplash.com/photo-1497294815431-9365093b7331?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Article2.png",
       author: "Teknisi Aan",
       date: "10 Jan 2025",
       readTime: "7 menit baca",
@@ -36,7 +36,7 @@ const Articles = () => {
       excerpt:
         "Panduan memilih head unit yang kompatibel dengan mobil Anda, fitur penting yang perlu dicari, dan tips pemasangan aman.",
       image:
-        "https://images.unsplash.com/photo-1518544889020-3c6c37b8c8f0?w=600&h=400&fit=crop",
+        "https://ik.imagekit.io/dzlzhxcdo/Head-Unit-04_uwxb4b.jpg?updatedAt=1763701230737",
       author: "M. Hadi",
       date: "22 Feb 2025",
       readTime: "6 menit baca",
