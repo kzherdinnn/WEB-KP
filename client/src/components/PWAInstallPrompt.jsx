@@ -66,6 +66,9 @@ const PWAInstallPrompt = () => {
   const handleInstallClick = async () => {
     if (!deferredPrompt) {
       console.log("❌ PWA: No deferred prompt available");
+      // Show a manual instructions panel so user can follow steps for their device
+      setShowManualInstructions(true);
+      setInstallError("");
       return;
     }
 
@@ -85,19 +88,57 @@ const PWAInstallPrompt = () => {
     setShowPrompt(false);
   };
 
+  const [installError, setInstallError] = useState("");
+  const [showManualInstructions, setShowManualInstructions] = useState(false);
+
+  const manualInstructionsText =
+    'Untuk iOS: tekan tombol Share -> pilih "Add to Home Screen".\nUntuk Android/Chrome: buka menu browser -> pilih "Add to Home screen".';
+
+  const copyManualInstructions = async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(manualInstructionsText);
+        setInstallError("Instruksi telah disalin ke clipboard.");
+      } else {
+        setInstallError("Clipboard tidak tersedia pada browser ini.");
+      }
+    } catch (e) {
+      setInstallError("Gagal menyalin instruksi ke clipboard.");
+    }
+  };
+
+  const closeManualInstructions = () => {
+    setShowManualInstructions(false);
+  };
+
   const handleDismiss = () => {
     setShowPrompt(false);
     localStorage.setItem("pwa-prompt-dismissed", "true");
     localStorage.setItem("pwa-prompt-dismissed-time", Date.now().toString());
   };
 
+
   // Don't show if already installed
   if (isStandalone) {
     return null;
   }
 
+  // If the prompt is not open, show only the small floating opener button
   if (!showPrompt) {
-    return null;
+    return (
+      <div className="fixed bottom-4 right-4 z-[9999]">
+        <div>
+          <button
+            type="button"
+            onClick={() => setShowPrompt(true)}
+            aria-label="Open install prompt"
+            className="bg-teal-600 text-white p-3 rounded-full shadow-lg hover:bg-teal-500 transition-all"
+          >
+            <FiSmartphone className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    );
   }
 
   // iOS Prompt
@@ -109,13 +150,6 @@ const PWAInstallPrompt = () => {
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
           <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
 
-          <button
-            onClick={handleDismiss}
-            className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-all z-10"
-            aria-label="Close"
-          >
-            <FiX className="w-5 h-5" />
-          </button>
 
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-3">
@@ -153,6 +187,7 @@ const PWAInstallPrompt = () => {
             </div>
 
             <button
+              type="button"
               onClick={handleDismiss}
               className="w-full bg-white text-teal-600 font-semibold py-3 rounded-xl hover:bg-teal-50 transition-all shadow-lg"
             >
@@ -172,13 +207,6 @@ const PWAInstallPrompt = () => {
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
 
-        <button
-          onClick={handleDismiss}
-          className="absolute top-3 right-3 p-2 hover:bg-white/20 rounded-full transition-all z-10"
-          aria-label="Close"
-        >
-          <FiX className="w-4 h-4" />
-        </button>
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
@@ -216,12 +244,14 @@ const PWAInstallPrompt = () => {
 
           <div className="flex gap-3">
             <button
+              type="button"
               onClick={handleDismiss}
               className="flex-1 bg-white/20 backdrop-blur-sm hover:bg-white/30 font-semibold py-3 rounded-xl transition-all"
             >
               Nanti
             </button>
             <button
+              type="button"
               onClick={handleInstallClick}
               className="flex-1 bg-white text-teal-600 font-semibold py-3 rounded-xl hover:bg-teal-50 transition-all shadow-lg flex items-center justify-center gap-2"
             >
@@ -229,6 +259,38 @@ const PWAInstallPrompt = () => {
               Install
             </button>
           </div>
+
+          {showManualInstructions && (
+            <div className="mt-4 bg-white/10 rounded-lg p-4 text-sm text-teal-50">
+              <p className="font-semibold mb-2">Instruksi pemasangan manual</p>
+              <ol className="list-decimal pl-5 space-y-2 mb-3">
+                <li>Untuk iOS: tekan tombol <strong>Share</strong> lalu pilih <strong>Add to Home Screen</strong>.</li>
+                <li>Untuk Android/Chrome: buka menu browser lalu pilih <strong>Add to Home screen</strong>.</li>
+              </ol>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={copyManualInstructions}
+                  className="flex-1 bg-white/20 text-white py-2 rounded-md hover:bg-white/30"
+                >
+                  Salin Instruksi
+                </button>
+                <button
+                  type="button"
+                  onClick={closeManualInstructions}
+                  className="flex-1 bg-white text-teal-600 py-2 rounded-md hover:bg-teal-50"
+                >
+                  Tutup
+                </button>
+              </div>
+            </div>
+          )}
+
+          {installError && (
+            <div className="mt-3 text-sm text-yellow-100 bg-white/10 rounded-md p-2">
+              {installError}
+            </div>
+          )}
         </div>
       </div>
     </div>
