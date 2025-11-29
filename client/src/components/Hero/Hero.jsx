@@ -107,12 +107,13 @@ const Hero = () => {
     "Audio mobil, alarm, dan GPS berkualitas",
     "Pemasangan profesional untuk kendaraan Anda",
   ];
-  const typingText = useTypingEffect(typingTexts, 100, 50, 2000);
+  // Faster typing: typingSpeed=60ms, deletingSpeed=30ms, pauseDuration=1200ms
+  const typingText = useTypingEffect(typingTexts, 60, 30, 1200);
 
-  // Counter animations
-  const [hotelsCount, startHotelsCounter] = useCounter(500, 2000);
-  const [guestsCount, startGuestsCounter] = useCounter(10000, 2000, 200);
-  const [ratingCount, startRatingCounter] = useCounter(49, 2000, 400);
+  // Counter animations (aligned with AboutUs - bengkel)
+  const [installCount, startInstallCounter] = useCounter(1000, 2000); // Pemasangan Selesai
+  const [satisfiedCount, startSatisfiedCounter] = useCounter(1000, 2000, 200); // Pelanggan Puas
+  const [yearsCount, startYearsCounter] = useCounter(26, 2000, 400); // Tahun Pengalaman
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -269,16 +270,18 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className={`text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium outfit flex items-center gap-2 ${
+                className={`text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium outfit ${
                   isDarkMode ? "text-white/90" : "text-gray-800"
                 }`}
               >
-                {typingText}
-                <motion.span
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  className="inline-block w-0.5 h-6 sm:h-7 md:h-8 lg:h-10 bg-teal-400"
-                />
+                <span className="inline-block whitespace-normal">
+                  {typingText}
+                  <motion.span
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 0.5, repeat: Infinity }}
+                    className="inline-block w-0.5 h-6 sm:h-7 md:h-8 lg:h-10 bg-teal-400 align-text-bottom ml-2"
+                  />
+                </span>
               </motion.h2>
             </div>
 
@@ -329,9 +332,9 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.2 }}
               onViewportEnter={() => {
-                startHotelsCounter(true);
-                startGuestsCounter(true);
-                startRatingCounter(true);
+                startInstallCounter(true);
+                startSatisfiedCounter(true);
+                startYearsCounter(true);
               }}
               className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 pt-4 sm:pt-6 md:pt-8"
             >
@@ -342,12 +345,12 @@ const Hero = () => {
                 whileHover={{ scale: 1.1 }}
               >
                 <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent outfit">
-                  {hotelsCount}+
+                  {installCount}+
                 </p>
                 <p
                   className={`text-xs sm:text-sm mt-1 outfit ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
                 >
-                  Hotels
+                  Pemasangan Selesai
                 </p>
               </motion.div>
               <motion.div
@@ -357,12 +360,12 @@ const Hero = () => {
                 whileHover={{ scale: 1.1 }}
               >
                 <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent outfit">
-                  {(guestsCount / 1000).toFixed(0)}k+
+                  {(satisfiedCount / 1000).toFixed(0)}k+
                 </p>
                 <p
                   className={`text-xs sm:text-sm mt-1 outfit ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
                 >
-                  Happy Guests
+                  Pelanggan Puas
                 </p>
               </motion.div>
               <motion.div
@@ -372,12 +375,12 @@ const Hero = () => {
                 whileHover={{ scale: 1.1 }}
               >
                 <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent outfit">
-                  {(ratingCount / 10).toFixed(1)}★
+                  {yearsCount}+
                 </p>
                 <p
                   className={`text-xs sm:text-sm mt-1 outfit ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
                 >
-                  Rating
+                  Tahun Pengalaman
                 </p>
               </motion.div>
             </motion.div>
@@ -390,10 +393,10 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative hidden lg:block"
           >
-            {/* Floating Animation Wrapper */}
+            {/* Floating Animation Wrapper (reduced amplitude) */}
             <motion.div
               animate={{
-                y: [0, -20, 0],
+                y: [0, -9, 0],
               }}
               transition={{
                 duration: 4,
@@ -420,12 +423,10 @@ const Hero = () => {
                     }}
                   />
                   <img
-                    src="https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg?updatedAt=1763701230685"
+                    src="https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg"
                     alt=""
                     className="w-full h-[600px] object-cover"
                   />
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-teal-900/50 to-transparent"></div>
                 </motion.div>
 
                 {/* Floating Badge with Animation */}
@@ -450,7 +451,7 @@ const Hero = () => {
                     transition={{ duration: 0.5, delay: 1.9 }}
                     className="text-2xl font-bold text-teal-700 outfit"
                   >
-                    5000+ Users
+                    1000+ Users
                   </motion.p>
                 </motion.div>
               </div>

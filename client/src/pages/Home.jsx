@@ -3,7 +3,6 @@ import {
   Hero,
   Featured,
   Testimonial,
-  Newsletter,
   Footer,
   AboutUs,
   Facilities,
@@ -72,8 +71,8 @@ const Home = () => {
       {/* 10. Contact & Location Section - Get in Touch */}
       <ContactLocation />
 
-      {/* 11. Newsletter Section - Stay Connected */}
-      <Newsletter />
+      {/* 11. Newsletter Section - Hidden */}
+      {/* Newsletter component hidden per request */}
 
       {/* 12. Footer */}
       <Footer />
