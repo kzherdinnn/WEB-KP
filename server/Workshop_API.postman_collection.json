@@ -1,0 +1,257 @@
+{
+    "info": {
+        "name": "Workshop Booking API",
+        "description": "API Collection for Workshop Booking System",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Spareparts",
+            "item": [
+                {
+                    "name": "Get All Spareparts",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/spareparts",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "spareparts"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Sparepart by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/spareparts/:id",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "spareparts",
+                                ":id"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Check Stock Status",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/spareparts/:id/stock",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "spareparts",
+                                ":id",
+                                "stock"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Check Vehicle Compatibility",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/spareparts/:id/compatibility?brand=Toyota&model=Avanza&year=2020",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "spareparts",
+                                ":id",
+                                "compatibility"
+                            ],
+                            "query": [
+                                {
+                                    "key": "brand",
+                                    "value": "Toyota"
+                                },
+                                {
+                                    "key": "model",
+                                    "value": "Avanza"
+                                },
+                                {
+                                    "key": "year",
+                                    "value": "2020"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Services",
+            "item": [
+                {
+                    "name": "Get All Services",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/services",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "services"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Service by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/services/:id",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "services",
+                                ":id"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Technicians",
+            "item": [
+                {
+                    "name": "Get All Technicians",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/technicians",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "technicians"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Available Technicians",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/technicians/available?date=2025-12-15&time=09:00",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "technicians",
+                                "available"
+                            ],
+                            "query": [
+                                {
+                                    "key": "date",
+                                    "value": "2025-12-15"
+                                },
+                                {
+                                    "key": "time",
+                                    "value": "09:00"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Workshop",
+            "item": [
+                {
+                    "name": "Get Workshop Info",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/workshop",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "workshop"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Available Time Slots",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:3000/api/workshop/timeslots?date=2025-12-15",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "workshop",
+                                "timeslots"
+                            ],
+                            "query": [
+                                {
+                                    "key": "date",
+                                    "value": "2025-12-15"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -12,8 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { toast } from "react-hot-toast";
 
-// Atur base URL secara global
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+// Atur base URL secara global (remove trailing slash untuk avoid double slashes)
+const baseURL = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/$/, '');
+axios.defaults.baseURL = baseURL;
 
 const AppContext = createContext();
 
@@ -79,18 +80,19 @@ export const AppContextProvider = ({ children }) => {
   }, [getToken]); // Dijalankan kembali jika fungsi getToken berubah
   // =============================================================
 
-  //Fetch Rooms on load
-  const fetchRooms = useCallback(async () => {
+  //Fetch Spareparts on load (Workshop System)
+  const fetchSpareparts = useCallback(async () => {
     try {
-      // Tidak perlu header manual lagi, interceptor akan menanganinya
-      const { data } = await axios.get("/api/room");
+      // Fetch spareparts instead of rooms
+      const { data } = await axios.get("/api/spareparts");
       if (data.success) {
-        setRooms(data.rooms);
+        setRooms(data.data); // Keep variable name for compatibility
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      // Silent fail - not critical for app to work
+      console.log('Could not fetch spareparts:', error.message);
     }
   }, []);
 
@@ -116,9 +118,9 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       fetchUser();
-      fetchRooms();
+      fetchSpareparts();
     }
-  }, [user, fetchUser, fetchRooms]); // Tambahkan fetchRooms ke dependensi
+  }, [user, fetchUser, fetchSpareparts]); // Updated to fetchSpareparts
 
   const value = {
     axios,

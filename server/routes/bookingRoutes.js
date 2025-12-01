@@ -1,41 +1,35 @@
 import express from "express";
 import {
-  checkAvailabilityAPI,
-  createBookingAndPay,
+  createBooking,
   getUserBookings,
+  getAllBookings,
   getBookingById,
-  midtransRetryPayment,
+  assignTechnician,
+  updateBookingStatus,
+  addWorkNote,
+  addAdditionalCost,
   cancelBooking,
-  getHotelBookings,
+  initiatePayment,
+  getBookingStatistics,
 } from "../controllers/bookingController.js";
-import { protectedRoute } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-// --------------------------------------------------
-// 🔗 Definisi Rute untuk Booking
-// --------------------------------------------------
+// ===== ADMIN ROUTES =====
+router.get("/", getAllBookings); // Get all bookings (admin)
+router.get("/statistics/dashboard", getBookingStatistics); // Get booking statistics
+router.post("/:id/assign-technician", assignTechnician); // Assign technician to booking
+router.patch("/:id/status", updateBookingStatus); // Update booking status
+router.post("/:id/work-notes", addWorkNote); // Add work note
+router.post("/:id/additional-cost", addAdditionalCost); // Add additional cost
 
-// Rute untuk cek ketersediaan (tidak perlu login)
-router.post("/check-availability", checkAvailabilityAPI);
+// ===== USER ROUTES =====
+router.post("/", createBooking); // Create new booking
+router.get("/my-bookings", getUserBookings); // Get user's bookings
+router.get("/:id", getBookingById); // Get booking by ID
+router.post("/:id/cancel", cancelBooking); // Cancel booking
 
-// Rute untuk membuat booking baru dan langsung memicu pembayaran
-router.post("/book", protectedRoute, createBookingAndPay);
-
-// Rute untuk melihat semua booking milik pengguna
-router.get("/my-bookings", protectedRoute, getUserBookings);
-
-// Rute untuk admin dashboard - get all bookings for admin's hotel
-router.get("/hotel", protectedRoute, getHotelBookings);
-
-// Rute ini khusus untuk menangani tombol "Bayar Sekarang"
-router.post("/pay", protectedRoute, midtransRetryPayment);
-
-// Rute untuk mendapatkan detail booking berdasarkan ID
-router.get("/:bookingId", protectedRoute, getBookingById);
-
-// Rute ini khusus untuk menangani tombol "Batalkan"
-// Menggunakan metode DELETE dan mengambil bookingId dari parameter URL
-router.delete("/:bookingId", protectedRoute, cancelBooking);
+// ===== PAYMENT ROUTES =====
+router.post("/:id/payment", initiatePayment); // Initiate payment with Midtrans
 
 export default router;

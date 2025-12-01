@@ -5,11 +5,20 @@ import {
   FaArrowLeft,
   FaCheckCircle,
   FaExclamationTriangle,
+  FaShieldAlt,
+  FaHourglassHalf,
+  FaInfoCircle,
+  FaCreditCard,
+  FaUniversity,
+  FaWallet,
+  FaStore,
+  FaFileInvoice,
 } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 import BookingSummary from "../components/Payment/BookingSummary";
 import PaymentLoadingOverlay from "../components/Payment/PaymentLoadingOverlay";
+import { generateInvoice } from "../utils/invoiceGenerator";
 
 const MIDTRANS_SNAP_URL = "https://app.sandbox.midtrans.com/snap/snap.js";
 const MIDTRANS_CLIENT_KEY = import.meta.env.VITE_MIDTRANS_CLIENT_KEY;
@@ -152,7 +161,7 @@ const CustomPaymentPage = () => {
               "Pembayaran berhasil! Booking Anda telah dikonfirmasi.",
               {
                 duration: 4000,
-                icon: "✅",
+                icon: <FaCheckCircle className="text-green-500" />,
               },
             );
             navigate("/my-bookings");
@@ -165,7 +174,7 @@ const CustomPaymentPage = () => {
           toast(
             "Pembayaran sedang diproses. Kami akan mengkonfirmasi dalam beberapa saat.",
             {
-              icon: "⏳",
+              icon: <FaHourglassHalf className="text-yellow-500" />,
               duration: 5000,
             },
           );
@@ -188,7 +197,7 @@ const CustomPaymentPage = () => {
           toast(
             "Form pembayaran ditutup. Anda dapat melanjutkan pembayaran kapan saja.",
             {
-              icon: "ℹ️",
+              icon: <FaInfoCircle className="text-blue-500" />,
               duration: 3000,
             },
           );
@@ -225,9 +234,12 @@ const CustomPaymentPage = () => {
             status === "settlement"
           ) {
             setPaymentStatus("success");
+            setBookingData(data.booking); // Update booking data with latest status
             stopPolling();
 
-            toast.success("✅ Pembayaran berhasil dikonfirmasi!");
+            toast.success("Pembayaran berhasil dikonfirmasi!", {
+              icon: <FaCheckCircle className="text-green-500" />,
+            });
             setTimeout(() => {
               navigate("/my-bookings");
             }, 2000);
@@ -264,7 +276,7 @@ const CustomPaymentPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-28 pb-8 px-4">
       {/* Loading Overlay */}
       <PaymentLoadingOverlay
         isVisible={
@@ -295,8 +307,8 @@ const CustomPaymentPage = () => {
                   Selesaikan pembayaran untuk mengkonfirmasi booking Anda
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-green-600 bg-green-50 px-4 py-2 rounded-lg">
-                <FaLock className="text-xl" />
+              <div className="flex items-center gap-2 text-teal-600 bg-teal-50 px-4 py-2 rounded-lg">
+                <FaShieldAlt className="text-xl" />
                 <span className="font-semibold text-sm">Pembayaran Aman</span>
               </div>
             </div>
@@ -309,9 +321,9 @@ const CustomPaymentPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
               {/* Payment Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6">
+              <div className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white p-6">
                 <h2 className="text-2xl font-bold mb-2">Metode Pembayaran</h2>
-                <p className="text-blue-100 text-sm">
+                <p className="text-teal-100 text-sm">
                   Pilih metode pembayaran yang Anda inginkan
                 </p>
               </div>
@@ -320,7 +332,7 @@ const CustomPaymentPage = () => {
               <div className="p-4">
                 {!isScriptLoaded && (
                   <div className="flex flex-col items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mb-4"></div>
                     <p className="text-gray-600">Memuat sistem pembayaran...</p>
                   </div>
                 )}
@@ -348,14 +360,14 @@ const CustomPaymentPage = () => {
                 ></div>
 
                 {/* Security Info */}
-                <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="mt-4 bg-teal-50 border border-teal-200 rounded-lg p-4">
                   <div className="flex items-start gap-3">
-                    <FaLock className="text-blue-600 text-xl flex-shrink-0 mt-1" />
+                    <FaLock className="text-teal-600 text-xl flex-shrink-0 mt-1" />
                     <div>
-                      <p className="text-sm font-semibold text-blue-900 mb-1">
+                      <p className="text-sm font-semibold text-teal-900 mb-1">
                         Keamanan Terjamin
                       </p>
-                      <p className="text-xs text-blue-700 leading-relaxed">
+                      <p className="text-xs text-teal-700 leading-relaxed">
                         Pembayaran Anda diproses melalui Midtrans dengan
                         enkripsi tingkat bank. Kami tidak menyimpan informasi
                         kartu kredit Anda.
@@ -370,17 +382,17 @@ const CustomPaymentPage = () => {
                     Metode Pembayaran yang Diterima:
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                      💳 Credit Card
+                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full flex items-center gap-1">
+                      <FaCreditCard /> Credit Card
                     </span>
-                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                      🏦 Bank Transfer
+                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full flex items-center gap-1">
+                      <FaUniversity /> Bank Transfer
                     </span>
-                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                      🛒 E-Wallet
+                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full flex items-center gap-1">
+                      <FaWallet /> E-Wallet
                     </span>
-                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                      🏪 Convenience Store
+                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full flex items-center gap-1">
+                      <FaStore /> Convenience Store
                     </span>
                   </div>
                 </div>
@@ -400,6 +412,14 @@ const CustomPaymentPage = () => {
                       Booking Anda telah dikonfirmasi. Detail pemesanan telah
                       dikirim ke email Anda.
                     </p>
+
+                    <button
+                      onClick={() => generateInvoice(bookingData)}
+                      className="mb-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 text-sm font-medium shadow-sm"
+                    >
+                      <FaFileInvoice /> Download Invoice
+                    </button>
+
                     <p className="text-sm text-green-600">
                       Anda akan dialihkan ke halaman My Bookings...
                     </p>
@@ -446,8 +466,8 @@ const CustomPaymentPage = () => {
             <p className="text-sm text-gray-600 mb-2">
               Butuh bantuan? Hubungi customer service kami
             </p>
-            <p className="text-sm font-semibold text-blue-600">
-              📞 +62 123-4567-890 | 📧 support@hotel.com
+            <p className="text-sm font-semibold text-teal-600">
+              📞 +62 812-3456-7890 | 📧 support@aanaudio.com
             </p>
           </div>
         </div>

@@ -3,7 +3,7 @@ import {
   getAuditLogs,
   getResourceAuditLogs,
   getUserAuditLogs,
-  getRoomCapacityHistory,
+  getSparepartStockHistory,
   getAuditStatistics,
   exportAuditLogs,
 } from "../controllers/auditLogController.js";
@@ -31,11 +31,11 @@ auditLogRouter.get(
   getUserAuditLogs,
 );
 
-// Get room capacity change history
+// Get sparepart stock change history
 auditLogRouter.get(
-  "/room/:roomId/capacity-history",
+  "/sparepart/:sparepartId/stock-history",
   ClerkExpressRequireAuth(),
-  getRoomCapacityHistory,
+  getSparepartStockHistory,
 );
 
 // Get audit statistics

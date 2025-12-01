@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  FaMapMarkerAlt,
-  FaCalendarAlt,
+  FaWrench,
+  FaCar,
   FaSearch,
-  FaUsers,
-  FaArrowDown,
+  FaStar,
+  FaArrowRight,
+  FaTools,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
-import toast from "react-hot-toast";
-
-const cities = ["Delhi", "Mumbai", "Chennai", "Banglore"];
 
 // Typing Animation Hook
 const useTypingEffect = (
@@ -93,668 +92,261 @@ const useCounter = (end, duration = 2000, delay = 0) => {
 };
 
 const Hero = () => {
-  const { navigate } = useAppContext();
-  const [destination, setDestination] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
-
-  // Get theme from context
   const { isDarkMode } = useAppContext();
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: (e.clientY / window.innerHeight) * 2 - 1,
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   // Typing animation texts
   const typingTexts = [
-    "Audio mobil, alarm, dan GPS berkualitas",
-    "Pemasangan profesional untuk kendaraan Anda",
+    "Spesialis Audio Mobil Premium",
+    "Pemasangan Alarm & GPS Tracker",
+    "Kaca Film Berkualitas Tinggi",
+    "Perdam Suara & Karpet Mobil",
   ];
-  // Faster typing: typingSpeed=60ms, deletingSpeed=30ms, pauseDuration=1200ms
-  const typingText = useTypingEffect(typingTexts, 60, 30, 1200);
+  const typingText = useTypingEffect(typingTexts, 60, 30, 2000);
 
-  // Counter animations (aligned with AboutUs - bengkel)
-  const [installCount, startInstallCounter] = useCounter(1000, 2000); // Pemasangan Selesai
-  const [satisfiedCount, startSatisfiedCounter] = useCounter(1000, 2000, 200); // Pelanggan Puas
-  const [yearsCount, startYearsCounter] = useCounter(26, 2000, 400); // Tahun Pengalaman
+  // Counter animations
+  const [installCount, startInstallCounter] = useCounter(1500, 2000);
+  const [satisfiedCount, startSatisfiedCounter] = useCounter(1200, 2000, 200);
+  const [yearsCount, startYearsCounter] = useCounter(15, 2000, 400);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (!destination) {
-        toast.error("Please select a destination");
-        return;
-      }
-      navigate(`/hotels/?destination=${destination}`);
-    } catch (error) {
-      toast.error(error.message);
-    }
+  // Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.1, 0.25, 1], // Cubic bezier for smooth "Apple-like" easing
+      },
+    },
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden pt-16 md:pt-0">
-      {/* Dynamic Gradient Background based on theme */}
+    <div className="relative h-screen overflow-hidden pt-16 md:pt-20 pb-4 md:pb-8 flex items-center">
+      {/* Dynamic Gradient Background */}
       <div
-        className={`absolute inset-0 transition-colors duration-500 ${
-          isDarkMode
-            ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
-            : "bg-gradient-to-br from-white via-gray-50 to-teal-50"
-        }`}
+        className={`absolute inset-0 transition-colors duration-500 ${isDarkMode
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
+          : "bg-gradient-to-br from-white via-gray-50 to-teal-50"
+          }`}
       ></div>
 
-      {/* Animated Decorative Shapes */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className={`absolute top-0 left-0 w-96 h-96 rounded-full filter blur-3xl ${
-          isDarkMode ? "bg-teal-500/10" : "bg-teal-500/20"
-        }`}
-      />
-      <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          x: [0, -30, 0],
-          y: [0, 50, 0],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-        className={`absolute top-0 right-0 w-96 h-96 rounded-full filter blur-3xl ${
-          isDarkMode ? "bg-emerald-500/10" : "bg-emerald-500/20"
-        }`}
-      />
-      <motion.div
-        animate={{
-          scale: [1, 1.1, 1],
-          x: [0, -20, 0],
-          y: [0, -40, 0],
-        }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 4,
-        }}
-        className={`absolute bottom-0 left-1/2 w-96 h-96 rounded-full filter blur-3xl ${
-          isDarkMode ? "bg-teal-500/10" : "bg-teal-500/20"
-        }`}
-      />
+      {/* Background Shapes with Parallax */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          animate={{
+            rotate: 360,
+            x: mousePosition.x * -20,
+            y: mousePosition.y * -20,
+          }}
+          transition={{
+            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+            x: { type: "spring", stiffness: 50, damping: 20 },
+            y: { type: "spring", stiffness: 50, damping: 20 },
+          }}
+          className={`absolute -top-1/2 -right-1/2 w-[1000px] h-[1000px] rounded-full opacity-20 blur-3xl ${isDarkMode ? "bg-teal-900" : "bg-teal-100"
+            }`}
+        />
+        <motion.div
+          animate={{
+            rotate: -360,
+            x: mousePosition.x * 20,
+            y: mousePosition.y * 20,
+          }}
+          transition={{
+            rotate: { duration: 25, repeat: Infinity, ease: "linear" },
+            x: { type: "spring", stiffness: 50, damping: 20 },
+            y: { type: "spring", stiffness: 50, damping: 20 },
+          }}
+          className={`absolute -bottom-1/2 -left-1/2 w-[800px] h-[800px] rounded-full opacity-20 blur-3xl ${isDarkMode ? "bg-emerald-900" : "bg-emerald-100"
+            }`}
+        />
+      </div>
 
-      {/* Content Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 py-8 sm:py-12 md:py-16 lg:py-20">
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center min-h-[calc(100vh-200px)] sm:min-h-[calc(100vh-160px)]">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-4 sm:space-y-6 md:space-y-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-4 md:space-y-6"
           >
-            {/* Main Title with Stagger Animation */}
-            <div className="space-y-2 sm:space-y-3 md:space-y-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-1 sm:mb-2"
+            <motion.div variants={itemVariants} className="space-y-3 md:space-y-4">
+              <div
+                className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-teal-100/80 backdrop-blur-sm text-teal-800 font-medium text-xs md:text-sm border border-teal-200"
               >
-                <motion.div
-                  className="relative"
-                  animate={{
-                    rotate: [0, 5, -5, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-50"
-                    animate={{
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  />
-                  <img
-                    src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg"
-                    className="h-10 sm:h-12 md:h-16 lg:h-20 relative z-10"
-                  />
-                </motion.div>
-                <motion.h1
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight outfit relative"
-                >
-                  {"Aan Audio".split("").map((letter, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{
-                        opacity: 1,
-                        y: [0, -10, 0],
-                      }}
-                      transition={{
-                        opacity: { duration: 0.3, delay: 0.5 + index * 0.1 },
-                        y: {
-                          duration: 2,
-                          repeat: Infinity,
-                          delay: index * 0.2,
-                          ease: "easeInOut",
-                        },
-                      }}
-                      className="inline-block bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent"
-                      style={{
-                        textShadow: "0 0 30px rgba(45, 212, 191, 0.5)",
-                      }}
-                    >
-                      {letter}
-                    </motion.span>
-                  ))}
-                </motion.h1>
-              </motion.div>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className={`text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium outfit ${
-                  isDarkMode ? "text-white/90" : "text-gray-800"
-                }`}
-              >
-                <span className="inline-block whitespace-normal">
-                  {typingText}
-                  <motion.span
-                    animate={{ opacity: [1, 0, 1] }}
-                    transition={{ duration: 0.5, repeat: Infinity }}
-                    className="inline-block w-0.5 h-6 sm:h-7 md:h-8 lg:h-10 bg-teal-400 align-text-bottom ml-2"
-                  />
+                <FaStar className="text-yellow-500 animate-spin-slow" />
+                <span>Bengkel Variasi Mobil Terpercaya</span>
+              </div>
+
+              <h1 className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight font-outfit ${isDarkMode ? "text-white" : "text-gray-900"
+                }`}>
+                Tingkatkan Kenyamanan <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-500">
+                  Berkendara Anda
                 </span>
-              </motion.h2>
-            </div>
+              </h1>
 
-            {/* Description with Fade In */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className={`text-sm sm:text-base md:text-lg lg:text-xl max-w-xl leading-relaxed outfit font-light ${
-                isDarkMode ? "text-gray-300" : "text-gray-600"
-              }`}
-            >
-              Temukan kualitas terbaik untuk audio mobil pilihan Anda. Nikmati produk unggulan dengan teknologi modern untuk pengalaman berkendara yang lebih nyaman dan aman.
-            </motion.p>
+              <div className={`h-12 md:h-16 text-lg md:text-xl lg:text-2xl font-medium font-outfit flex items-center ${isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}>
+                <span className="mr-2">Ahli dalam</span>
+                <span className="text-teal-600 font-bold">
+                  {typingText}
+                </span>
+                <span className="animate-pulse ml-1 text-teal-500">|</span>
+              </div>
 
-            {/* CTA Button with Advanced Animation */}
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() =>
-                document
-                  .getElementById("search-form")
-                  .scrollIntoView({ behavior: "smooth" })
-              }
-              className="relative inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-bold text-sm sm:text-base md:text-lg shadow-xl shadow-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/60 transition-all duration-300 outfit group overflow-hidden"
-            >
-              <motion.span
-                className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.5 }}
-              />
-              <span className="relative z-10">Cari Disini</span>
-              <motion.span
-                animate={{ y: [0, 3, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+              <p className={`text-base md:text-lg max-w-xl leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"
+                }`}>
+                Kami menyediakan layanan pemasangan audio, aksesoris, dan perawatan mobil dengan teknisi berpengalaman dan produk berkualitas original.
+              </p>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2">
+              <Link
+                to="/booking"
+                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-teal-600 text-white rounded-xl font-bold text-base md:text-lg overflow-hidden transition-all shadow-lg hover:shadow-teal-500/30 hover:-translate-y-1"
               >
-                <FaArrowDown className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
-              </motion.span>
-            </motion.button>
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="relative z-10 flex items-center gap-2">
+                  <FaTools className="group-hover:rotate-12 transition-transform" />
+                  Booking Service
+                </span>
+              </Link>
+              <Link
+                to="/spareparts"
+                className={`group inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 rounded-xl font-bold text-base md:text-lg border-2 transition-all hover:-translate-y-1 ${isDarkMode
+                  ? "border-gray-600 text-white hover:bg-gray-800 hover:border-gray-500"
+                  : "border-gray-200 text-gray-700 hover:bg-white hover:border-teal-200 hover:shadow-lg hover:shadow-teal-100"
+                  }`}
+              >
+                <FaSearch className="group-hover:scale-110 transition-transform" />
+                Cari Sparepart
+              </Link>
+            </motion.div>
 
-            {/* Stats with Counter Animation */}
+            {/* Stats */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
+              variants={itemVariants}
               onViewportEnter={() => {
                 startInstallCounter(true);
                 startSatisfiedCounter(true);
                 startYearsCounter(true);
               }}
-              className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 pt-4 sm:pt-6 md:pt-8"
+              className="grid grid-cols-3 gap-4 md:gap-6 pt-4 md:pt-8 border-t border-gray-200/50"
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.3 }}
-                whileHover={{ scale: 1.1 }}
-              >
-                <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent outfit">
-                  {installCount}+
-                </p>
-                <p
-                  className={`text-xs sm:text-sm mt-1 outfit ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
-                >
-                  Pemasangan Selesai
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.5 }}
-                whileHover={{ scale: 1.1 }}
-              >
-                <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent outfit">
-                  {(satisfiedCount / 1000).toFixed(0)}k+
-                </p>
-                <p
-                  className={`text-xs sm:text-sm mt-1 outfit ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
-                >
-                  Pelanggan Puas
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.7 }}
-                whileHover={{ scale: 1.1 }}
-              >
-                <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent outfit">
-                  {yearsCount}+
-                </p>
-                <p
-                  className={`text-xs sm:text-sm mt-1 outfit ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
-                >
-                  Tahun Pengalaman
-                </p>
-              </motion.div>
+              <div className="group cursor-default">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">{installCount}+</h3>
+                <p className={`text-xs md:text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Project Selesai</p>
+              </div>
+              <div className="group cursor-default">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">{satisfiedCount}+</h3>
+                <p className={`text-xs md:text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Pelanggan Puas</p>
+              </div>
+              <div className="group cursor-default">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">{yearsCount}+</h3>
+                <p className={`text-xs md:text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Tahun Pengalaman</p>
+              </div>
             </motion.div>
           </motion.div>
 
-          {/* Right Image - Showcase with Parallax */}
+          {/* Right Image */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative hidden lg:block"
+            initial={{ opacity: 0, scale: 0.9, x: 50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="relative hidden lg:block perspective-1000"
           >
-            {/* Floating Animation Wrapper (reduced amplitude) */}
             <motion.div
               animate={{
-                y: [0, -9, 0],
+                rotateY: mousePosition.x * 5,
+                rotateX: mousePosition.y * -5,
+              }}
+              transition={{ type: "spring", stiffness: 50, damping: 20 }}
+              className="relative z-10 rounded-3xl overflow-hidden shadow-2xl shadow-teal-900/20"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+              <img
+                src="https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg?updatedAt=1764432000989"
+                alt="Workshop Interior"
+                className="w-full h-[350px] md:h-[400px] xl:h-[500px] object-cover transform transition-transform duration-700 hover:scale-105"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-8 z-20 transform translate-y-2 hover:translate-y-0 transition-transform duration-300">
+                <div className="text-white">
+                  <p className="font-bold text-xl tracking-wide mb-2">Workshop Modern</p>
+                  <p className="text-gray-200 text-sm">Peralatan lengkap & Teknisi Profesional</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Floating Cards with Parallax */}
+            <motion.div
+              animate={{
+                y: [0, -15, 0],
+                x: mousePosition.x * -15,
               }}
               transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
+                y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                x: { type: "spring", stiffness: 50, damping: 20 }
               }}
+              className="absolute -top-8 -left-8 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl shadow-teal-900/10 z-20 flex items-center gap-4 border border-white/20"
             >
-              <div className="relative">
-                {/* Main Image Container with Rounded Effect */}
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative rounded-[3rem] overflow-hidden shadow-2xl"
-                >
-                  {/* Shimmer Effect Overlay */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent z-10"
-                    animate={{ x: ["-100%", "200%"] }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatDelay: 2,
-                      ease: "easeInOut",
-                    }}
-                  />
-                  <img
-                    src="https://ik.imagekit.io/dzlzhxcdo/WhatsApp_Image_2025-11-12_at_13.48.51_dd74069b_d3gxbj.jpg"
-                    alt=""
-                    className="w-full h-[600px] object-cover"
-                  />
-                </motion.div>
+              <div className="bg-gradient-to-br from-teal-100 to-teal-50 p-3 rounded-xl text-teal-600 shadow-inner">
+                <FaWrench className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="font-bold text-gray-900">Servis Cepat</p>
+                <p className="text-xs text-gray-500 font-medium">Estimasi akurat</p>
+              </div>
+            </motion.div>
 
-                {/* Floating Badge with Animation */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50, y: 50 }}
-                  animate={{ opacity: 1, x: 0, y: 0 }}
-                  transition={{ duration: 0.8, delay: 1.5 }}
-                  whileHover={{ scale: 1.05, rotate: 2 }}
-                  className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-2xl p-6"
-                >
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 1.7 }}
-                    className="text-sm text-gray-600 outfit mb-1"
-                  >
-                    Trusted by
-                  </motion.p>
-                  <motion.p
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.9 }}
-                    className="text-2xl font-bold text-teal-700 outfit"
-                  >
-                    1000+ Users
-                  </motion.p>
-                </motion.div>
+            <motion.div
+              animate={{
+                y: [0, 15, 0],
+                x: mousePosition.x * -10,
+              }}
+              transition={{
+                y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 },
+                x: { type: "spring", stiffness: 50, damping: 20 }
+              }}
+              className="absolute -bottom-8 -right-8 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl shadow-emerald-900/10 z-20 flex items-center gap-4 border border-white/20"
+            >
+              <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-3 rounded-xl text-emerald-600 shadow-inner">
+                <FaCar className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="font-bold text-gray-900">Garansi Resmi</p>
+                <p className="text-xs text-gray-500 font-medium">Jaminan kualitas</p>
               </div>
             </motion.div>
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll Down Indicator with Animation */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 2 }}
-        className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className={`flex flex-col items-center gap-2 cursor-pointer hover:text-teal-400 transition-colors ${
-            isDarkMode ? "text-white/80" : "text-gray-600"
-          }`}
-          onClick={() =>
-            document
-              .getElementById("search-form")
-              .scrollIntoView({ behavior: "smooth" })
-          }
-        >
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 2.2 }}
-            className="text-xs sm:text-sm outfit"
-          >
-            Scroll untuk booking
-          </motion.p>
-          <motion.div
-            animate={{
-              y: [0, 5, 0],
-              opacity: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <FaArrowDown className="w-3 h-3 sm:w-4 sm:h-4" />
-          </motion.div>
-        </motion.div>
-      </motion.div>
-
-      {/* Search Form Section - Below Fold */}
-      <div
-        id="search-form"
-        className={`relative py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 lg:px-16 transition-colors duration-500 ${
-          isDarkMode ? "bg-gray-900" : "bg-white"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-6 sm:mb-8 md:mb-12"
-          >
-            <h2
-              className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 md:mb-4 outfit ${
-                isDarkMode ? "text-white" : "text-gray-900"
-              }`}
-            >
-              Find Your Perfect Stay
-            </h2>
-            <p
-              className={`outfit text-sm sm:text-base md:text-lg ${
-                isDarkMode ? "text-gray-300" : "text-gray-600"
-              }`}
-            >
-              Search and book the best hotels for your next adventure
-            </p>
-          </motion.div>
-
-          <motion.form
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            onSubmit={onSubmit}
-            className={`rounded-2xl sm:rounded-3xl shadow-xl border p-4 sm:p-6 md:p-8 transition-colors duration-500 ${
-              isDarkMode
-                ? "bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700"
-                : "bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-100"
-            }`}
-          >
-            {/* Form Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mb-4 sm:mb-5 md:mb-6">
-              {/* Destination Input */}
-              <div className="space-y-2 sm:space-y-3">
-                <label
-                  htmlFor="destinationInput"
-                  className={`flex items-center gap-2 sm:gap-3 font-semibold outfit text-xs sm:text-sm md:text-base ${
-                    isDarkMode ? "text-gray-200" : "text-gray-800"
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 ${
-                      isDarkMode ? "bg-teal-900/50" : "bg-teal-100"
-                    }`}
-                  >
-                    <FaMapMarkerAlt
-                      className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        isDarkMode ? "text-teal-400" : "text-teal-600"
-                      }`}
-                    />
-                  </div>
-                  <span>Destination</span>
-                </label>
-                <input
-                  list="destinations"
-                  id="destinationInput"
-                  name="destination"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  type="text"
-                  className={`w-full rounded-lg sm:rounded-xl border-2 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base outline-none focus:ring-2 transition-all duration-300 outfit ${
-                    isDarkMode
-                      ? "bg-gray-800 border-gray-600 text-white focus:border-teal-500 focus:ring-teal-500/30 placeholder:text-gray-500"
-                      : "bg-white border-teal-200 text-gray-900 focus:border-teal-500 focus:ring-teal-200 placeholder:text-gray-400"
-                  }`}
-                  placeholder="Where to?"
-                  required
-                />
-                <datalist id="destinations">
-                  {cities.map((city, index) => (
-                    <option value={city} key={index} />
-                  ))}
-                </datalist>
-              </div>
-
-              {/* Check-in Date */}
-              <div className="space-y-2 sm:space-y-3">
-                <label
-                  htmlFor="checkIn"
-                  className={`flex items-center gap-2 sm:gap-3 font-semibold outfit text-xs sm:text-sm md:text-base ${
-                    isDarkMode ? "text-gray-200" : "text-gray-800"
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 ${
-                      isDarkMode ? "bg-emerald-900/50" : "bg-emerald-100"
-                    }`}
-                  >
-                    <FaCalendarAlt
-                      className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        isDarkMode ? "text-emerald-400" : "text-emerald-600"
-                      }`}
-                    />
-                  </div>
-                  <span>Check in</span>
-                </label>
-                <input
-                  id="checkIn"
-                  type="date"
-                  value={checkIn}
-                  onChange={(e) => setCheckIn(e.target.value)}
-                  className={`w-full rounded-lg sm:rounded-xl border-2 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base outline-none focus:ring-2 transition-all duration-300 outfit ${
-                    isDarkMode
-                      ? "bg-gray-800 border-gray-600 text-white focus:border-emerald-500 focus:ring-emerald-500/30"
-                      : "bg-white border-teal-200 text-gray-900 focus:border-emerald-500 focus:ring-emerald-200"
-                  }`}
-                />
-              </div>
-
-              {/* Check-out Date */}
-              <div className="space-y-2 sm:space-y-3">
-                <label
-                  htmlFor="checkOut"
-                  className={`flex items-center gap-2 sm:gap-3 font-semibold outfit text-xs sm:text-sm md:text-base ${
-                    isDarkMode ? "text-gray-200" : "text-gray-800"
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 ${
-                      isDarkMode ? "bg-yellow-900/50" : "bg-yellow-100"
-                    }`}
-                  >
-                    <FaCalendarAlt
-                      className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        isDarkMode ? "text-yellow-400" : "text-yellow-600"
-                      }`}
-                    />
-                  </div>
-                  <span>Check out</span>
-                </label>
-                <input
-                  id="checkOut"
-                  type="date"
-                  value={checkOut}
-                  onChange={(e) => setCheckOut(e.target.value)}
-                  className={`w-full rounded-lg sm:rounded-xl border-2 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base outline-none focus:ring-2 transition-all duration-300 outfit ${
-                    isDarkMode
-                      ? "bg-gray-800 border-gray-600 text-white focus:border-yellow-500 focus:ring-yellow-500/30"
-                      : "bg-white border-teal-200 text-gray-900 focus:border-yellow-500 focus:ring-yellow-200"
-                  }`}
-                />
-              </div>
-
-              {/* Guests Input */}
-              <div className="space-y-2 sm:space-y-3">
-                <label
-                  htmlFor="guests"
-                  className={`flex items-center gap-2 sm:gap-3 font-semibold outfit text-xs sm:text-sm md:text-base ${
-                    isDarkMode ? "text-gray-200" : "text-gray-800"
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 ${
-                      isDarkMode ? "bg-teal-900/50" : "bg-teal-100"
-                    }`}
-                  >
-                    <FaUsers
-                      className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        isDarkMode ? "text-teal-400" : "text-teal-600"
-                      }`}
-                    />
-                  </div>
-                  <span>Guests</span>
-                </label>
-                <input
-                  min={1}
-                  max={10}
-                  id="guests"
-                  type="number"
-                  value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
-                  className={`w-full rounded-lg sm:rounded-xl border-2 px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base outline-none focus:ring-2 transition-all duration-300 outfit ${
-                    isDarkMode
-                      ? "bg-gray-800 border-gray-600 text-white focus:border-teal-500 focus:ring-teal-500/30 placeholder:text-gray-500"
-                      : "bg-white border-teal-200 text-gray-900 focus:border-teal-500 focus:ring-teal-200 placeholder:text-gray-400"
-                  }`}
-                  placeholder="1"
-                />
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div>
-              <button
-                type="submit"
-                className="relative w-full flex items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 py-4 px-6 text-white font-semibold text-base md:text-lg outfit hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] transform cursor-pointer group overflow-hidden"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                <FaSearch className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-                <span>Search Hotels</span>
-              </button>
-            </div>
-
-            {/* Popular Destinations */}
-            <div className="flex flex-wrap items-center gap-3 mt-6 pt-6 border-t border-teal-200">
-              <span className="text-gray-600 text-sm outfit font-medium">
-                Popular:
-              </span>
-              {cities.slice(0, 4).map((city, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => setDestination(city)}
-                  className="px-4 py-2 bg-white text-teal-700 text-sm rounded-full hover:bg-teal-50 transition-all duration-300 border border-teal-200 outfit font-medium shadow-sm hover:shadow"
-                >
-                  {city}
-                </button>
-              ))}
-            </div>
-          </motion.form>
-        </div>
-      </div>
-
-      {/* CSS for animations */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      ` }} />
     </div>
   );
 };

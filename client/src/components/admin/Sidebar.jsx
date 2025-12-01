@@ -1,15 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaPlus, FaComments, FaUsers } from "react-icons/fa";
+import { FaHome, FaUsers, FaTools, FaBox, FaUserCog } from "react-icons/fa";
 
 const sidebarLinks = [
   { name: "Dashboard", path: "/admin", icon: <FaHome className="text-lg" /> },
-  { name: "Add Room", path: "add-room", icon: <FaPlus className="text-lg" /> },
-  {
-    name: "List Rooms",
-    path: "list-rooms",
-    icon: <FaComments className="text-lg" />,
-  },
+  { name: "Spareparts", path: "spareparts", icon: <FaBox className="text-lg" /> },
+  { name: "Services", path: "services", icon: <FaTools className="text-lg" /> },
+  { name: "Technicians", path: "technicians", icon: <FaUserCog className="text-lg" /> },
   { name: "Users", path: "users", icon: <FaUsers className="text-lg" /> },
 ];
 
@@ -21,10 +18,9 @@ const Sidebar = () => {
           to={item.path}
           key={index}
           className={({ isActive }) =>
-            `flex items-center py-3 px-4 gap-3 transition-colors duration-200 ${
-              isActive
-                ? "border-r-4 md:border-r-[6px] bg-indigo-500/10 border-indigo-500 text-indigo-500"
-                : "hover:bg-gray-100/90 text-gray-700 border-transparent"
+            `flex items-center py-3 px-4 gap-3 transition-colors duration-200 ${isActive
+              ? "border-r-4 md:border-r-[6px] bg-indigo-500/10 border-indigo-500 text-indigo-500"
+              : "hover:bg-gray-100/90 text-gray-700 border-transparent"
             }`
           }
         >

@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { FaCheck, FaArrowRight } from "react-icons/fa";
 
 const AboutUs = () => {
   return (
@@ -15,7 +16,7 @@ const AboutUs = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
             Aan Audio Solutions
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-teal-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
             Bengkel audio mobil — pemasangan, tuning, dan perbaikan sistem audio kendaraan
           </p>
@@ -42,14 +43,14 @@ const AboutUs = () => {
             <div className="absolute -bottom-8 -right-8 bg-white p-6 rounded-lg shadow-xl border border-gray-100">
               <div className="flex items-center gap-4">
                 <div className="text-center">
-                  <p className="text-4xl font-bold text-blue-600 outfit">26+</p>
+                  <p className="text-4xl font-bold text-teal-600 outfit">26+</p>
                   <p className="text-sm text-gray-600 outfit">
                     Tahun Pengalaman
                   </p>
                 </div>
                 <div className="h-16 w-px bg-gray-300"></div>
                 <div className="text-center">
-                  <p className="text-4xl font-bold text-blue-600 outfit">
+                  <p className="text-4xl font-bold text-teal-600 outfit">
                     1k+
                   </p>
                   <p className="text-sm text-gray-600 outfit">Pelanggan Puas</p>
@@ -84,20 +85,8 @@ const AboutUs = () => {
             {/* Features List */}
             <div className="grid grid-cols-2 gap-4 pt-4">
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-                  <svg
-                    className="w-4 h-4 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center mt-1">
+                  <FaCheck className="w-3 h-3 text-teal-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
@@ -110,20 +99,8 @@ const AboutUs = () => {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-                  <svg
-                    className="w-4 h-4 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center mt-1">
+                  <FaCheck className="w-3 h-3 text-teal-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
@@ -136,20 +113,8 @@ const AboutUs = () => {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-                  <svg
-                    className="w-4 h-4 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center mt-1">
+                  <FaCheck className="w-3 h-3 text-teal-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
@@ -162,20 +127,8 @@ const AboutUs = () => {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mt-1">
-                  <svg
-                    className="w-4 h-4 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center mt-1">
+                  <FaCheck className="w-3 h-3 text-teal-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 outfit">
@@ -192,22 +145,10 @@ const AboutUs = () => {
             <div className="pt-6">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl outfit"
+                className="inline-flex items-center gap-2 bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors duration-300 shadow-lg hover:shadow-xl outfit"
               >
                 Hubungi Kami
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+                <FaArrowRight className="w-4 h-4" />
               </a>
             </div>
           </motion.div>
@@ -222,19 +163,19 @@ const AboutUs = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-16 border-t border-gray-200"
         >
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">1k+</p>
+            <p className="text-4xl font-bold text-teal-600 mb-2 outfit">1k+</p>
             <p className="text-gray-600 outfit">Pemasangan Selesai</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">5+</p>
+            <p className="text-4xl font-bold text-teal-600 mb-2 outfit">5+</p>
             <p className="text-gray-600 outfit">Teknisi Berpengalaman</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">98%</p>
+            <p className="text-4xl font-bold text-teal-600 mb-2 outfit">98%</p>
             <p className="text-gray-600 outfit">Kepuasan Pelanggan</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2 outfit">5+</p>
+            <p className="text-4xl font-bold text-teal-600 mb-2 outfit">5+</p>
             <p className="text-gray-600 outfit">Penghargaan</p>
           </div>
         </motion.div>

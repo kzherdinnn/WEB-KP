@@ -4,49 +4,52 @@ import { FaPercent, FaCalendarAlt, FaTag, FaArrowRight } from "react-icons/fa";
 
 const Promos = () => {
   const promos = [
-  {
-    id: 1,
-    title: "Pemasangan Audio Mobil",
-    discount: "Diskon 20%",
-    description: "Upgrade sistem audio mobil Anda dengan pemasangan profesional",
-    validUntil: "31 Desember 2025",
-    image: "https://ds18.com/cdn/shop/files/CARAUDIO-STG2-2000X2000_1800x.jpg?v=1742314678",
-    badge: "Promo Spesial",
-    color: "from-blue-500 to-blue-700",
-    features: ["Upgrade Speaker", "Pemasangan Subwoofer", "Setting Bluetooth"],
-  },
-  {
-    id: 2,
-    title: "Paket Alarm Mobil Premium",
-    discount: "Diskon 15%",
-    description: "Tingkatkan keamanan mobil Anda dengan paket alarm premium",
-    validUntil: "31 Januari 2026",
-    image: "https://images-cdn.ubuy.co.id/634f4c5162f0f2751e446b3f-car-alarm-security-system-universal-car.jpg",
-    badge: "Paling Populer",
-    color: "from-orange-500 to-red-600",
-    features: ["Remote Alarm", "Shock Sensor", "Pemantauan 24/7"],
-  },
-  {
-    id: 3,
-    title: "Pemasangan GPS Tracker",
-    discount: "Diskon 25%",
-    description: "Pasang GPS tracker dan pantau kendaraan Anda kapan saja",
-    validUntil: "28 Februari 2026",
-    image: "https://ik.imagekit.io/dzlzhxcdo/Gps_wkzo2i.jpg?updatedAt=1763701230720",
-    badge: "Harga Terbaik",
-    color: "from-emerald-500 to-teal-700",
-    features: ["Pelacakan Real-Time", "Geo-Fencing", "Akses Aplikasi Mobile"],
-  },
-  {
-    id: 4,
-    title: "Paket Keamanan Mobil Lengkap",
-    discount: "Diskon 30%",
-    description: "Gabungkan audio, alarm, dan GPS untuk perlindungan maksimal",
-    validUntil: "31 Maret 2026",
-    image: "https://www.pyleaudio.com/1000/PWD701.jpg",
-    badge: "Eksklusif",
-    color: "from-pink-500 to-rose-700",
-    features: ["Upgrade Audio", "Pemasangan Alarm", "GPS Tracker"],
+    {
+      id: 1,
+      title: "Pemasangan Audio Mobil",
+      discount: "Diskon 20%",
+      description: "Upgrade sistem audio mobil Anda dengan pemasangan profesional",
+      validUntil: "31 Desember 2025",
+      image:
+        "https://ds18.com/cdn/shop/files/CARAUDIO-STG2-2000X2000_1800x.jpg?v=1742314678",
+      badge: "Promo Spesial",
+      color: "from-teal-500 to-teal-700",
+      features: ["Upgrade Speaker", "Pemasangan Subwoofer", "Setting Bluetooth"],
+    },
+    {
+      id: 2,
+      title: "Paket Alarm Mobil Premium",
+      discount: "Diskon 15%",
+      description: "Tingkatkan keamanan mobil Anda dengan paket alarm premium",
+      validUntil: "31 Januari 2026",
+      image:
+        "https://images-cdn.ubuy.co.id/634f4c5162f0f2751e446b3f-car-alarm-security-system-universal-car.jpg",
+      badge: "Paling Populer",
+      color: "from-amber-500 to-orange-600",
+      features: ["Remote Alarm", "Shock Sensor", "Pemantauan 24/7"],
+    },
+    {
+      id: 3,
+      title: "Pemasangan GPS Tracker",
+      discount: "Diskon 25%",
+      description: "Pasang GPS tracker dan pantau kendaraan Anda kapan saja",
+      validUntil: "28 Februari 2026",
+      image:
+        "https://ik.imagekit.io/dzlzhxcdo/Gps_wkzo2i.jpg?updatedAt=1763701230720",
+      badge: "Harga Terbaik",
+      color: "from-emerald-500 to-emerald-700",
+      features: ["Pelacakan Real-Time", "Geo-Fencing", "Akses Aplikasi Mobile"],
+    },
+    {
+      id: 4,
+      title: "Paket Keamanan Mobil Lengkap",
+      discount: "Diskon 30%",
+      description: "Gabungkan audio, alarm, dan GPS untuk perlindungan maksimal",
+      validUntil: "31 Maret 2026",
+      image: "https://www.pyleaudio.com/1000/PWD701.jpg",
+      badge: "Eksklusif",
+      color: "from-cyan-500 to-blue-700",
+      features: ["Upgrade Audio", "Pemasangan Alarm", "GPS Tracker"],
     },
   ];
 
@@ -72,7 +75,10 @@ const Promos = () => {
   };
 
   return (
-    <section id="promos" className="pt-12 pb-12 bg-gradient-to-b from-white to-gray-50">
+    <section
+      id="promos"
+      className="pt-12 pb-12 bg-gradient-to-b from-white to-gray-50"
+    >
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -84,9 +90,10 @@ const Promos = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
             Penawaran Khusus & Promo
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-red-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
-            Perbarui mobil Anda dengan paket audio, alarm, dan GPS kami dengan harga spesial.
+            Perbarui mobil Anda dengan paket audio, alarm, dan GPS kami dengan
+            harga spesial.
           </p>
         </motion.div>
 
@@ -105,7 +112,9 @@ const Promos = () => {
             >
               {/* Badge */}
               <div className="absolute top-4 right-4 z-10">
-                <span className={`bg-gradient-to-r ${promo.color} text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg outfit`}>
+                <span
+                  className={`bg-gradient-to-r ${promo.color} text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg outfit`}
+                >
                   {promo.badge}
                 </span>
               </div>
@@ -122,7 +131,9 @@ const Promos = () => {
 
                 {/* Discount Badge on Image */}
                 <div className="absolute bottom-4 left-4">
-                  <div className={`bg-gradient-to-r ${promo.color} text-white px-4 py-2 rounded-xl shadow-xl`}>
+                  <div
+                    className={`bg-gradient-to-r ${promo.color} text-white px-4 py-2 rounded-xl shadow-xl`}
+                  >
                     <p className="text-2xl font-bold outfit">{promo.discount}</p>
                   </div>
                 </div>
@@ -141,7 +152,10 @@ const Promos = () => {
                 {/* Features */}
                 <div className="space-y-2">
                   {promo.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2 text-sm text-gray-700">
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 text-sm text-gray-700"
+                    >
                       <div className="w-1.5 h-1.5 bg-teal-500 rounded-full"></div>
                       <span className="outfit">{feature}</span>
                     </div>
@@ -151,11 +165,15 @@ const Promos = () => {
                 {/* Valid Until */}
                 <div className="flex items-center gap-2 text-xs text-gray-500 pt-3 border-t border-gray-100">
                   <FaCalendarAlt className="w-3 h-3" />
-                  <span className="outfit">Berlaku sampai {promo.validUntil}</span>
+                  <span className="outfit">
+                    Berlaku sampai {promo.validUntil}
+                  </span>
                 </div>
 
                 {/* CTA Button */}
-                <button className={`w-full flex items-center justify-center gap-2 bg-gradient-to-r ${promo.color} text-white py-3 rounded-xl font-semibold outfit hover:shadow-xl transition-all duration-300 group-hover:scale-105`}>
+                <button
+                  className={`w-full flex items-center justify-center gap-2 bg-gradient-to-r ${promo.color} text-white py-3 rounded-xl font-semibold outfit hover:shadow-xl transition-all duration-300 group-hover:scale-105`}
+                >
                   <span>Pesan Sekarang</span>
                   <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
@@ -185,7 +203,8 @@ const Promos = () => {
               Ingin Promo Eksklusif Lainnya?
             </h3>
             <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto outfit">
-              Berlangganan newsletter kami dan dapatkan informasi tentang penawaran spesial, paket musiman, serta diskon khusus untuk anggota
+              Berlangganan newsletter kami dan dapatkan informasi tentang
+              penawaran spesial, paket musiman, serta diskon khusus untuk anggota
             </p>
             <a
               href="#contact"

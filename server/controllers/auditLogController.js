@@ -1,5 +1,5 @@
 import auditLogModel from "../models/auditLog.models.js";
-import roomModel from "../models/room.models.js";
+import sparepartModel from "../models/sparepart.models.js";
 import bookingModel from "../models/booking.models.js";
 import userModel from "../models/user.models.js";
 
@@ -144,10 +144,10 @@ export const getUserAuditLogs = async (req, res) => {
   }
 };
 
-// Get capacity change history for a room
-export const getRoomCapacityHistory = async (req, res) => {
+// Get stock change history for a sparepart
+export const getSparepartStockHistory = async (req, res) => {
   try {
-    const { roomId } = req.params;
+    const { sparepartId } = req.params;
     const { limit = 50 } = req.query;
 
     const userId = req.auth?.userId || req.user?._id;
@@ -166,20 +166,20 @@ export const getRoomCapacityHistory = async (req, res) => {
       });
     }
 
-    // Get room info
-    const room = await roomModel.findById(roomId);
-    if (!room) {
+    // Get sparepart info
+    const sparepart = await sparepartModel.findById(sparepartId);
+    if (!sparepart) {
       return res.status(404).json({
         success: false,
-        message: "Room not found",
+        message: "Sparepart not found",
       });
     }
 
-    // Get capacity update logs
+    // Get stock update logs
     const logs = await auditLogModel
       .find({
-        resourceId: roomId,
-        action: "CAPACITY_UPDATE",
+        resourceId: sparepartId,
+        action: "STOCK_UPDATE",
       })
       .populate("performedBy", "name email")
       .sort({ createdAt: -1 })
@@ -187,16 +187,17 @@ export const getRoomCapacityHistory = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      room: {
-        _id: room._id,
-        type: room.type,
-        totalRooms: room.totalRooms,
-        availableRooms: room.availableRooms,
+      sparepart: {
+        _id: sparepart._id,
+        name: sparepart.name,
+        category: sparepart.category,
+        stock: sparepart.stock,
+        lowStockThreshold: sparepart.lowStockThreshold,
       },
       history: logs,
     });
   } catch (error) {
-    console.error("Error fetching room capacity history:", error);
+    console.error("Error fetching sparepart stock history:", error);
     return res.status(500).json({
       success: false,
       message: error.message,

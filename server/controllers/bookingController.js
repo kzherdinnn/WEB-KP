@@ -1,483 +1,534 @@
 import bookingModel from "../models/booking.models.js";
-import roomModel from "../models/room.models.js";
-import hotelModel from "../models/hotel.models.js";
-import userModel from "../models/user.models.js";
+import sparepartModel from "../models/sparepart.models.js";
+import serviceModel from "../models/service.models.js";
+import technicianModel from "../models/technician.models.js";
 import midtransClient from "midtrans-client";
-import mongoose from "mongoose";
 
-// --------------------------------------------------
-// 🔹 Inisialisasi Midtrans Snap Client
-// --------------------------------------------------
-const snap = new midtransClient.Snap({
-  isProduction: process.env.MIDTRANS_IS_PRODUCTION === "true",
-  serverKey: process.env.MIDTRANS_SERVER_KEY,
-  clientKey: process.env.MIDTRANS_CLIENT_KEY,
-});
-
-// --------------------------------------------------
-// 헬 Helper Function: Cek Ketersediaan Kamar Berdasarkan Kapasitas
-// --------------------------------------------------
-const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
-  // Cek room data untuk kapasitas
-  const roomData = await roomModel.findById(room);
-  if (!roomData) {
-    return { available: false, message: "Kamar tidak ditemukan." };
-  }
-
-  // Cek apakah masih ada available rooms
-  if (roomData.availableRooms <= 0) {
-    return {
-      available: false,
-      message: "Kamar sudah penuh. Tidak ada kamar tersedia.",
-    };
-  }
-
-  // Cek booking yang overlap dengan tanggal yang diminta
-  const overlappingBookings = await bookingModel.countDocuments({
-    room,
-    checkInDate: { $lte: checkOutDate },
-    checkOutDate: { $gte: checkInDate },
-    paymentStatus: "paid",
-  });
-
-  // Bandingkan jumlah booking dengan total rooms
-  const isAvailable = overlappingBookings < roomData.totalRooms;
-
-  return {
-    available: isAvailable,
-    message: isAvailable
-      ? `Tersedia ${roomData.availableRooms} kamar`
-      : "Kamar tidak tersedia pada tanggal yang dipilih.",
-    availableRooms: roomData.availableRooms,
-    totalRooms: roomData.totalRooms,
-  };
-};
-
-// --------------------------------------------------
-// ✅ API: Endpoint untuk Cek Ketersediaan
-// --------------------------------------------------
-export const checkAvailabilityAPI = async (req, res) => {
+// ===== CREATE BOOKING =====
+export const createBooking = async (req, res) => {
   try {
-    const { room, checkInDate, checkOutDate } = req.body;
-    const availabilityCheck = await checkAvailability({
-      room,
-      checkInDate,
-      checkOutDate,
-    });
-    res.json({ success: true, ...availabilityCheck });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+    const {
+      customerName,
+      customerPhone,
+      customerEmail,
+      vehicleInfo,
+      bookingType,
+      spareparts,
+      services,
+      scheduledDate,
+      scheduledTime,
+      serviceLocation,
+      onsiteAddress,
+      paymentMethod,
+    } = req.body;
 
-// -----------------------------------------------------------------
-// 💳 FUNGSI UTAMA: Buat Booking Baru & Inisiasi Pembayaran Midtrans
-// -----------------------------------------------------------------
-export const createBookingAndPay = async (req, res) => {
-  try {
-    const { room, checkInDate, checkOutDate, guests, numberOfRooms } = req.body;
-    const user = req.user;
+    const userId = req.auth.userId;
 
-    // Validasi numberOfRooms
-    const roomsToBook = parseInt(numberOfRooms) || 1;
-    if (roomsToBook < 1) {
-      return res.status(400).json({
-        success: false,
-        message: "Jumlah kamar harus minimal 1.",
-      });
+    // Validate booking type
+    if (!["sparepart_only", "service_only", "sparepart_and_service"].includes(bookingType)) {
+      return res.status(400).json({ success: false, message: "Invalid booking type" });
     }
 
-    // Cek ketersediaan dengan sistem kapasitas baru
-    const availabilityCheck = await checkAvailability({
-      room,
-      checkInDate,
-      checkOutDate,
-    });
+    // Calculate prices
+    let subtotalSpareparts = 0;
+    let subtotalServices = 0;
+    let sparepartsData = [];
+    let servicesData = [];
 
-    if (!availabilityCheck.available) {
-      return res.status(400).json({
-        success: false,
-        message: availabilityCheck.message,
-      });
+    // Process spareparts
+    if (spareparts && spareparts.length > 0) {
+      for (const item of spareparts) {
+        const sparepart = await sparepartModel.findById(item.sparepart);
+        
+        if (!sparepart) {
+          return res.status(404).json({ 
+            success: false, 
+            message: `Sparepart ${item.sparepart} not found` 
+          });
+        }
+
+        // Check stock
+        if (sparepart.stock < item.quantity) {
+          return res.status(400).json({
+            success: false,
+            message: `Insufficient stock for ${sparepart.name}. Available: ${sparepart.stock}`
+          });
+        }
+
+        // Update stock
+        sparepart.stock -= item.quantity;
+        await sparepart.save();
+
+        // Use price from frontend if available (for discounts), otherwise DB price
+        const priceToUse = item.price !== undefined ? item.price : sparepart.price;
+        const itemTotal = priceToUse * item.quantity;
+        subtotalSpareparts += itemTotal;
+
+        sparepartsData.push({
+          sparepart: sparepart._id,
+          quantity: item.quantity,
+          price: priceToUse
+        });
+      }
     }
 
-    const roomData = await roomModel.findById(room).populate("hotel");
-    if (!roomData) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Kamar tidak ditemukan." });
+    // Process services
+    if (services && services.length > 0) {
+      for (const item of services) {
+        const service = await serviceModel.findById(item.service);
+        
+        if (!service) {
+          return res.status(404).json({ 
+            success: false, 
+            message: `Service ${item.service} not found` 
+          });
+        }
+
+        if (!service.isAvailable) {
+          return res.status(400).json({
+            success: false,
+            message: `Service ${service.name} is currently unavailable`
+          });
+        }
+
+        // Use price from frontend if available (for discounts), otherwise DB price
+        const priceToUse = item.price !== undefined ? item.price : service.price;
+        subtotalServices += priceToUse;
+
+        servicesData.push({
+          service: service._id,
+          price: priceToUse
+        });
+      }
     }
 
-    // Double check availableRooms - cek apakah cukup untuk jumlah yang dipesan
-    if (roomData.availableRooms < roomsToBook) {
-      return res.status(400).json({
-        success: false,
-        message: `Maaf, hanya tersedia ${roomData.availableRooms} kamar. Anda memesan ${roomsToBook} kamar.`,
-      });
-    }
+    const subtotal = subtotalSpareparts + subtotalServices;
+    const taxAmount = Math.round(subtotal * 0.11); // PPN 11%
+    const totalPrice = subtotal + taxAmount;
 
-    const nights = Math.ceil(
-      (new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) /
-        (1000 * 3600 * 24),
-    );
-    // Hitung total price: pricePerNight × nights × numberOfRooms
-    const totalPrice = roomData.pricePerNight * nights * roomsToBook;
-
+    // Create booking
     const newBooking = await bookingModel.create({
-      _id: new mongoose.Types.ObjectId(),
-      user: user._id,
-      room,
-      hotel: roomData.hotel._id,
-      checkInDate,
-      checkOutDate,
+      user: userId,
+      customerName,
+      customerPhone,
+      customerEmail,
+      vehicleInfo,
+      bookingType,
+      spareparts: sparepartsData,
+      services: servicesData,
+      scheduledDate: new Date(scheduledDate),
+      scheduledTime,
+      serviceLocation,
+      onsiteAddress: serviceLocation === "onsite" ? onsiteAddress : undefined,
+      subtotalSpareparts,
+      subtotalServices,
+      taxAmount,
       totalPrice,
-      guests: +guests,
-      numberOfRooms: roomsToBook,
+      paymentMethod,
       paymentStatus: "pending",
+      bookingStatus: "pending"
     });
 
-    const parameter = {
-      transaction_details: {
-        order_id: newBooking._id.toString(),
-        gross_amount: totalPrice,
-      },
-      customer_details: {
-        first_name: user.username,
-        email: user.email,
-      },
-      item_details: [
-        {
-          id: roomData._id,
-          price: roomData.pricePerNight,
-          quantity: nights * roomsToBook,
-          name: `${roomsToBook}x ${roomData.type}`.substring(0, 50),
-        },
-      ],
-      // ✅ TAMBAHKAN BLOK INI: Beri tahu Midtrans alamat kembali
-      callbacks: {
-        finish: `${process.env.FRONTEND_URL}/my-bookings`,
-      },
-    };
-
-    const transaction = await snap.createTransaction(parameter);
-
-    // ⚠️ PENTING: Kurangi availableRooms sesuai jumlah yang dipesan
-    roomData.availableRooms -= roomsToBook;
-    await roomData.save();
+    // Populate the booking
+    await newBooking.populate("spareparts.sparepart services.service");
 
     res.status(201).json({
       success: true,
-      message: "Transaksi Midtrans berhasil dibuat.",
-      token: transaction.token,
-      bookingId: newBooking._id,
-      availableRooms: roomData.availableRooms,
+      message: "Booking created successfully",
+      data: newBooking
     });
   } catch (error) {
-    console.error("🔥 Error saat membuat transaksi Midtrans:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Gagal membuat transaksi pembayaran." });
-  }
-};
-
-// --------------------------------------------------
-// 📖 API: Get Single Booking by ID
-// --------------------------------------------------
-export const getBookingById = async (req, res) => {
-  try {
-    const { bookingId } = req.params;
-    const userId = req.user._id;
-
-    const booking = await bookingModel.findById(bookingId).populate({
-      path: "room",
-      populate: {
-        path: "hotel",
-      },
-    });
-
-    if (!booking) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Booking tidak ditemukan." });
-    }
-
-    // Check if user owns this booking or is admin of the hotel
-    const isOwner = booking.user.toString() === userId.toString();
-    const isHotelAdmin =
-      req.user.role === "admin" &&
-      booking.room?.hotel?.admin?.toString() === userId.toString();
-
-    if (!isOwner && !isHotelAdmin) {
-      return res
-        .status(403)
-        .json({ success: false, message: "Akses ditolak." });
-    }
-
-    res.json({ success: true, booking });
-  } catch (error) {
-    console.error("🔥 Error fetching booking:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// --------------------------------------------------
-// 📚 API: Get Semua Booking Milik User
-// --------------------------------------------------
+// ===== GET ALL BOOKINGS (USER) =====
 export const getUserBookings = async (req, res) => {
   try {
-    const userId = req.auth?.userId;
+    const userId = req.auth.userId;
+    
     const bookings = await bookingModel
       .find({ user: userId })
-      .populate({
-        path: "room",
-        populate: {
-          path: "hotel",
-        },
-      })
+      .populate("spareparts.sparepart services.service technician")
       .sort({ createdAt: -1 });
-    res.json({ success: true, bookings });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-// --------------------------------------------------
-// 🔄 API: Untuk Tombol "Bayar Sekarang" (Retry Payment)
-// --------------------------------------------------
-export const midtransRetryPayment = async (req, res) => {
-  try {
-    const { bookingId } = req.body;
-    const user = req.user;
-
-    console.log("📝 Retry Payment - bookingId:", bookingId);
-    console.log("📝 Retry Payment - user:", user._id);
-
-    const booking = await bookingModel
-      .findById(bookingId)
-      .populate({ path: "room", populate: { path: "hotel" } });
-
-    console.log("📝 Booking found:", booking ? "YES" : "NO");
-    console.log("📝 Room found:", booking?.room ? "YES" : "NO");
-    console.log("📝 Hotel found:", booking?.room?.hotel ? "YES" : "NO");
-
-    if (!booking || !booking.room || !booking.room.hotel) {
-      console.error("❌ Detail booking tidak lengkap");
-      return res
-        .status(404)
-        .json({ success: false, message: "Detail booking tidak ditemukan." });
-    }
-    if (booking.user.toString() !== user._id.toString()) {
-      console.error("❌ User tidak memiliki akses ke booking ini");
-      return res
-        .status(403)
-        .json({ success: false, message: "Akses ditolak." });
-    }
-    if (booking.paymentStatus === "paid") {
-      console.error("❌ Booking sudah dibayar");
-      return res
-        .status(400)
-        .json({ success: false, message: "Booking ini sudah lunas." });
-    }
-
-    const nights = Math.ceil(
-      (new Date(booking.checkOutDate).getTime() -
-        new Date(booking.checkInDate).getTime()) /
-        (1000 * 3600 * 24),
-    );
-
-    const roomsBooked = booking.numberOfRooms || 1;
-
-    console.log("📝 Nights:", nights);
-    console.log("📝 Rooms booked:", roomsBooked);
-    console.log("📝 Price per night:", booking.room.pricePerNight);
-    console.log("📝 Total price:", booking.totalPrice);
-
-    // Tambahkan suffix timestamp untuk retry payment agar order_id unik
-    const retryTimestamp = Date.now();
-    const uniqueOrderId = `${booking._id.toString()}-${retryTimestamp}`;
-
-    console.log("📝 Unique Order ID:", uniqueOrderId);
-
-    const parameter = {
-      transaction_details: {
-        order_id: uniqueOrderId,
-        gross_amount: booking.totalPrice,
-      },
-      customer_details: {
-        first_name: user.username,
-        email: user.email,
-      },
-      item_details: [
-        {
-          id: booking.room._id.toString(),
-          price: booking.room.pricePerNight,
-          quantity: nights * roomsBooked,
-          name: `${roomsBooked}x ${booking.room.type}`.substring(0, 50),
-        },
-      ],
-      callbacks: {
-        finish: `${process.env.FRONTEND_URL}/my-bookings`,
-      },
-    };
-
-    console.log("📝 Midtrans parameter:", JSON.stringify(parameter, null, 2));
-
-    const transaction = await snap.createTransaction(parameter);
-
-    console.log("✅ Transaction created successfully");
 
     res.status(200).json({
       success: true,
-      token: transaction.token,
+      data: bookings,
+      total: bookings.length
     });
   } catch (error) {
-    console.error("🔥 Error saat mencoba ulang pembayaran Midtrans:");
-    console.error("🔥 Error message:", error.message);
-    console.error("🔥 Error stack:", error.stack);
-    if (error.ApiResponse) {
-      console.error("🔥 Midtrans API Response:", error.ApiResponse);
-    }
-    res.status(500).json({
-      success: false,
-      message: "Gagal memulai pembayaran.",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// --------------------------------------------------
-// ❌ API: Untuk Membatalkan Booking
-// --------------------------------------------------
-export const cancelBooking = async (req, res) => {
+// ===== GET ALL BOOKINGS (ADMIN) =====
+export const getAllBookings = async (req, res) => {
   try {
-    const { bookingId } = req.params;
-    const user = req.user;
-    const booking = await bookingModel.findById(bookingId);
-    if (!booking) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Booking tidak ditemukan." });
-    }
-    if (booking.user.toString() !== user._id.toString()) {
-      return res
-        .status(403)
-        .json({ success: false, message: "Akses ditolak." });
-    }
-    // Hanya tolak pembatalan jika booking sudah dibayar atau sudah dibatalkan sebelumnya
-    if (booking.paymentStatus === "paid") {
-      return res.status(400).json({
-        success: false,
-        message: "Booking sudah dibayar dan tidak bisa dibatalkan.",
-      });
-    }
-    if (booking.paymentStatus === "cancelled") {
-      return res.status(400).json({
-        success: false,
-        message: "Booking sudah dibatalkan sebelumnya.",
-      });
-    }
+    const { status, paymentStatus, date } = req.query;
+    
+    let filter = {};
+    if (status) filter.bookingStatus = status;
+    if (paymentStatus) filter.paymentStatus = paymentStatus;
+    if (date) filter.scheduledDate = new Date(date);
 
-    // Kembalikan availableRooms ketika booking dibatalkan
-    const roomData = await roomModel.findById(booking.room);
-    if (roomData) {
-      const roomsToRestore = booking.numberOfRooms || 1;
-      roomData.availableRooms = Math.min(
-        roomData.availableRooms + roomsToRestore,
-        roomData.totalRooms,
-      );
-      await roomData.save();
-    }
-
-    await bookingModel.findByIdAndDelete(bookingId);
-    res
-      .status(200)
-      .json({ success: true, message: "Booking berhasil dibatalkan." });
-  } catch (error) {
-    console.error("🔥 Error saat membatalkan booking:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Gagal membatalkan booking." });
-  }
-};
-
-// --------------------------------------------------
-// 📊 API: Get Hotel Bookings untuk Admin Dashboard
-// --------------------------------------------------
-export const getHotelBookings = async (req, res) => {
-  try {
-    const userId = req.user._id;
-
-    // Cek apakah user adalah admin
-    if (req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ success: false, message: "Akses ditolak. Hanya admin." });
-    }
-
-    // Cari hotel yang dimiliki admin ini
-    const hotel = await hotelModel.findOne({ admin: userId });
-    if (!hotel) {
-      return res.status(404).json({
-        success: false,
-        message:
-          "Hotel tidak ditemukan. Silakan register hotel terlebih dahulu.",
-      });
-    }
-
-    // Cari semua room yang dimiliki hotel ini
-    const rooms = await roomModel.find({ hotel: hotel._id });
-    const roomIds = rooms.map((room) => room._id.toString());
-
-    // Cari semua booking untuk room-room tersebut
     const bookings = await bookingModel
-      .find({ room: { $in: roomIds } })
-      .populate({
-        path: "room",
-        populate: {
-          path: "hotel",
-        },
-      })
+      .find(filter)
+      .populate("spareparts.sparepart services.service technician user")
       .sort({ createdAt: -1 });
 
-    // Ambil user data untuk setiap booking (karena user field adalah string, bukan ObjectId)
-    const userIds = [...new Set(bookings.map((b) => b.user))];
-    const users = await userModel.find({ _id: { $in: userIds } });
-    const userMap = {};
-    users.forEach((user) => {
-      userMap[user._id] = user;
-    });
-
-    // Tambahkan user data ke setiap booking
-    const bookingsWithUser = bookings.map((booking) => {
-      const bookingObj = booking.toObject();
-      bookingObj.user = userMap[booking.user] || {
-        _id: booking.user,
-        username: "Unknown User",
-        email: "N/A",
-      };
-      return bookingObj;
-    });
-
-    // Hitung statistik
-    const totalBookings = bookings.length;
-    const totalRevenue = bookings
-      .filter((booking) => booking.paymentStatus === "paid")
-      .reduce((sum, booking) => sum + booking.totalPrice, 0);
-
-    res.json({
+    res.status(200).json({
       success: true,
-      bookings: bookingsWithUser,
-      totalBookings,
-      totalRevenue,
-      hotel: {
-        name: hotel.name,
-        totalRooms: rooms.length,
-      },
+      data: bookings,
+      total: bookings.length
     });
   } catch (error) {
-    console.error("🔥 Error saat mengambil data dashboard:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Gagal mengambil data dashboard." });
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== GET BOOKING BY ID =====
+export const getBookingById = async (req, res) => {
+  try {
+    const booking = await bookingModel
+      .findById(req.params.id)
+      .populate("spareparts.sparepart services.service technician");
+
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+
+    res.status(200).json({ success: true, data: booking });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== ASSIGN TECHNICIAN (ADMIN) =====
+export const assignTechnician = async (req, res) => {
+  try {
+    const { technicianId } = req.body;
+    
+    const technician = await technicianModel.findById(technicianId);
+    if (!technician) {
+      return res.status(404).json({ success: false, message: "Technician not found" });
+    }
+
+    const booking = await bookingModel.findByIdAndUpdate(
+      req.params.id,
+      { 
+        technician: technicianId,
+        bookingStatus: "confirmed"
+      },
+      { new: true }
+    ).populate("technician");
+
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Technician assigned successfully",
+      data: booking
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== UPDATE BOOKING STATUS (ADMIN) =====
+export const updateBookingStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    
+    const validStatuses = ["pending", "confirmed", "in_progress", "completed", "cancelled"];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ success: false, message: "Invalid status" });
+    }
+
+    const updateData = { bookingStatus: status };
+
+    // Check payment status before allowing progress
+    if (["confirmed", "in_progress", "completed"].includes(status)) {
+      const currentBooking = await bookingModel.findById(req.params.id);
+      if (!currentBooking) {
+        return res.status(404).json({ success: false, message: "Booking not found" });
+      }
+      
+      const allowedPaymentStatuses = ["paid", "dp_paid", "settlement", "capture"];
+      if (!allowedPaymentStatuses.includes(currentBooking.paymentStatus)) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Cannot update status. Payment not completed yet." 
+        });
+      }
+    }
+    
+    // If completed, set completedAt
+    if (status === "completed") {
+      updateData.completedAt = new Date();
+      
+      // Update technician stats
+      const booking = await bookingModel.findById(req.params.id);
+      if (booking && booking.technician) {
+        await technicianModel.findByIdAndUpdate(booking.technician, {
+          $inc: { totalJobs: 1 }
+        });
+      }
+      
+      // Reduce stock for spareparts
+      if (booking && booking.spareparts) {
+        for (const item of booking.spareparts) {
+          await sparepartModel.findByIdAndUpdate(item.sparepart, {
+            $inc: { stock: -item.quantity }
+          });
+        }
+      }
+    }
+
+    const booking = await bookingModel.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    ).populate("spareparts.sparepart services.service technician");
+
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Booking status updated to ${status}`,
+      data: booking
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== ADD WORK NOTE (TECHNICIAN/ADMIN) =====
+export const addWorkNote = async (req, res) => {
+  try {
+    const { note, photos } = req.body;
+    const userId = req.auth.userId;
+
+    const booking = await bookingModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: {
+          workNotes: {
+            note,
+            addedBy: userId,
+            photos: photos || [],
+            addedAt: new Date()
+          }
+        }
+      },
+      { new: true }
+    );
+
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Work note added successfully",
+      data: booking
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== ADD ADDITIONAL COST (ADMIN) =====
+export const addAdditionalCost = async (req, res) => {
+  try {
+    const { description, amount } = req.body;
+
+    const booking = await bookingModel.findById(req.params.id);
+    
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+
+    booking.additionalCosts.push({
+      description,
+      amount,
+      addedAt: new Date()
+    });
+
+    // Recalculate total
+    const additionalTotal = booking.additionalCosts.reduce((sum, cost) => sum + cost.amount, 0);
+    const tax = booking.taxAmount || 0;
+    booking.totalPrice = booking.subtotalSpareparts + booking.subtotalServices + tax + additionalTotal;
+    
+    // Update remaining payment if DP was paid
+    if (booking.dpAmount > 0) {
+      booking.remainingPayment = booking.totalPrice - booking.dpAmount;
+    }
+
+    await booking.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Additional cost added successfully",
+      data: booking
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== CANCEL BOOKING =====
+export const cancelBooking = async (req, res) => {
+  try {
+    const { reason } = req.body;
+    const userId = req.auth.userId;
+
+    const booking = await bookingModel.findById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+
+    // Check if user owns this booking
+    if (booking.user !== userId) {
+      return res.status(403).json({ success: false, message: "Unauthorized" });
+    }
+
+    // Can't cancel if already in progress or completed
+    if (["in_progress", "completed"].includes(booking.bookingStatus)) {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot cancel booking that is in progress or completed"
+      });
+    }
+
+    booking.bookingStatus = "cancelled";
+    booking.cancellationReason = reason;
+    booking.cancelledAt = new Date();
+    booking.cancelledBy = userId;
+
+    await booking.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Booking cancelled successfully",
+      data: booking
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== INITIATE PAYMENT (MIDTRANS) =====
+export const initiatePayment = async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+    const { paymentType } = req.body; // "full" or "dp"
+
+    const booking = await bookingModel.findById(bookingId).populate("user");
+
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+
+    if (booking.paymentStatus === "paid") {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Booking already paid" 
+      });
+    }
+
+    // Calculate amount
+    let paymentAmount = booking.totalPrice;
+    if (paymentType === "dp") {
+      paymentAmount = Math.round(booking.totalPrice * 0.5); // 50% DP
+      booking.dpAmount = paymentAmount;
+      booking.remainingPayment = booking.totalPrice - paymentAmount;
+    }
+
+    // Initialize Midtrans Snap
+    const snap = new midtransClient.Snap({
+      isProduction: process.env.MIDTRANS_IS_PRODUCTION === "true",
+      serverKey: process.env.MIDTRANS_SERVER_KEY,
+      clientKey: process.env.MIDTRANS_CLIENT_KEY,
+    });
+
+    const orderId = `BOOKING-${bookingId}-${Date.now()}`;
+    
+    const parameter = {
+      transaction_details: {
+        order_id: orderId,
+        gross_amount: paymentAmount,
+      },
+      customer_details: {
+        first_name: booking.customerName,
+        email: booking.customerEmail || "customer@bengkel.com",
+        phone: booking.customerPhone,
+      },
+      item_details: [
+        {
+          id: bookingId,
+          price: paymentAmount,
+          quantity: 1,
+          name: `Booking - ${booking.bookingType}`,
+        },
+      ],
+    };
+
+    const transaction = await snap.createTransaction(parameter);
+
+    // Update booking with Midtrans info
+    booking.midtransOrderId = orderId;
+    await booking.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Payment initiated successfully",
+      data: {
+        snapToken: transaction.token,
+        snapRedirectUrl: transaction.redirect_url,
+        orderId: orderId,
+        amount: paymentAmount
+      }
+    });
+  } catch (error) {
+    console.error("Midtrans Error:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ===== GET BOOKING STATISTICS (ADMIN) =====
+export const getBookingStatistics = async (req, res) => {
+  try {
+    const totalBookings = await bookingModel.countDocuments();
+    const pendingBookings = await bookingModel.countDocuments({ bookingStatus: "pending" });
+    const confirmedBookings = await bookingModel.countDocuments({ bookingStatus: "confirmed" });
+    const inProgressBookings = await bookingModel.countDocuments({ bookingStatus: "in_progress" });
+    const completedBookings = await bookingModel.countDocuments({ bookingStatus: "completed" });
+    const cancelledBookings = await bookingModel.countDocuments({ bookingStatus: "cancelled" });
+
+    const totalRevenue = await bookingModel.aggregate([
+      { $match: { paymentStatus: "paid", bookingStatus: { $ne: "cancelled" } } },
+      { $group: { _id: null, total: { $sum: "$totalPrice" } } }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalBookings,
+        pendingBookings,
+        confirmedBookings,
+        inProgressBookings,
+        completedBookings,
+        cancelledBookings,
+        totalRevenue: totalRevenue[0]?.total || 0
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };

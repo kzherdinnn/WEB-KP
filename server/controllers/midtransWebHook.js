@@ -1,6 +1,5 @@
 import midtransClient from "midtrans-client";
 import bookingModel from "../models/booking.models.js";
-import roomModel from "../models/room.models.js";
 
 // Buat instance Core API Midtrans untuk verifikasi notifikasi
 const coreApi = new midtransClient.CoreApi({
@@ -12,7 +11,7 @@ const coreApi = new midtransClient.CoreApi({
 export const midtransWebHook = async (req, res) => {
   try {
     console.log("=".repeat(60));
-    console.log("🔔 WEBHOOK MIDTRANS DITERIMA");
+    console.log("🔔 WEBHOOK MIDTRANS DITERIMA (WORKSHOP BOOKING)");
     console.log("=".repeat(60));
 
     // 1. Terima notifikasi dari Midtrans
@@ -28,19 +27,22 @@ export const midtransWebHook = async (req, res) => {
     const orderId = statusResponse.order_id;
     const transactionStatus = statusResponse.transaction_status;
     const fraudStatus = statusResponse.fraud_status;
+    const transactionId = statusResponse.transaction_id;
 
     console.log(`📬 Webhook Details:`);
     console.log(`   - Order ID: ${orderId}`);
+    console.log(`   - Transaction ID: ${transactionId}`);
     console.log(`   - Transaction Status: ${transactionStatus}`);
     console.log(`   - Fraud Status: ${fraudStatus}`);
 
-    // 3. Extract booking ID asli (hapus timestamp suffix jika ada)
-    // Format: bookingId-timestamp atau hanya bookingId
-    const bookingId = orderId.includes("-") ? orderId.split("-")[0] : orderId;
+    // 3. Extract booking ID dari order ID
+    // Format: BOOKING-{bookingId}-{timestamp}
+    const bookingIdMatch = orderId.match(/BOOKING-([a-f0-9]+)-/);
+    const bookingId = bookingIdMatch ? bookingIdMatch[1] : orderId.split("-")[1];
 
     console.log(`🔍 Extracted Booking ID: ${bookingId}`);
 
-    // 4. Cari booking di database menggunakan bookingId yang sudah di-extract
+    // 4. Cari booking di database
     const booking = await bookingModel.findById(bookingId);
 
     if (!booking) {
@@ -53,26 +55,39 @@ export const midtransWebHook = async (req, res) => {
 
     console.log(`📦 Booking ditemukan:`);
     console.log(`   - Booking ID: ${booking._id}`);
-    console.log(`   - User: ${booking.user}`);
-    console.log(`   - Status Saat Ini: ${booking.paymentStatus}`);
+    console.log(`   - Customer: ${booking.customerName}`);
+    console.log(`   - Payment Status: ${booking.paymentStatus}`);
     console.log(`   - Total Price: Rp${booking.totalPrice}`);
+    console.log(`   - DP Amount: Rp${booking.dpAmount}`);
 
     // 5. Update status booking berdasarkan notifikasi
     let newPaymentStatus = booking.paymentStatus;
+    let updateData = {
+      midtransTransactionId: transactionId,
+      midtransOrderId: orderId,
+    };
 
-    if (transactionStatus == "settlement") {
+    if (transactionStatus == "settlement" || transactionStatus == "capture") {
       // Jika transaksi berhasil dan tidak dianggap fraud
       if (fraudStatus == "accept") {
-        newPaymentStatus = "paid";
-        console.log(`✅ Status akan diupdate menjadi: PAID`);
+        // Check if this is DP or full payment
+        if (booking.dpAmount > 0 && booking.remainingPayment > 0) {
+          newPaymentStatus = "dp_paid";
+          console.log(`✅ Status akan diupdate menjadi: DP_PAID`);
+        } else {
+          newPaymentStatus = "paid";
+          console.log(`✅ Status akan diupdate menjadi: PAID`);
+        }
+        updateData.paidAt = new Date();
+        updateData.bookingStatus = "confirmed"; // Auto confirm when paid
       }
     } else if (
       transactionStatus == "cancel" ||
       transactionStatus == "expire" ||
       transactionStatus == "deny"
     ) {
-      newPaymentStatus = "cancelled";
-      console.log(`❌ Status akan diupdate menjadi: CANCELLED`);
+      newPaymentStatus = "failed";
+      console.log(`❌ Status akan diupdate menjadi: FAILED`);
     } else if (transactionStatus == "pending") {
       newPaymentStatus = "pending";
       console.log(`⏳ Status tetap: PENDING`);
@@ -84,28 +99,17 @@ export const midtransWebHook = async (req, res) => {
         `🔄 Melakukan update status dari '${booking.paymentStatus}' ke '${newPaymentStatus}'...`,
       );
 
-      booking.paymentStatus = newPaymentStatus;
+      updateData.paymentStatus = newPaymentStatus;
+      
+      Object.keys(updateData).forEach(key => {
+        booking[key] = updateData[key];
+      });
+      
       await booking.save();
 
       console.log(
         `✅ Status untuk Booking ID: ${bookingId} berhasil diperbarui menjadi '${newPaymentStatus}'`,
       );
-
-      // 🔄 Kembalikan availableRooms jika pembayaran dibatalkan/expired
-      if (newPaymentStatus === "cancelled") {
-        const roomData = await roomModel.findById(booking.room);
-        if (roomData) {
-          const roomsToRestore = booking.numberOfRooms || 1;
-          roomData.availableRooms = Math.min(
-            roomData.availableRooms + roomsToRestore,
-            roomData.totalRooms,
-          );
-          await roomData.save();
-          console.log(
-            `🔓 Room ${roomData._id} availableRooms dikembalikan +${roomsToRestore}: ${roomData.availableRooms}/${roomData.totalRooms}`,
-          );
-        }
-      }
 
       // Verifikasi update berhasil
       const updatedBooking = await bookingModel.findById(bookingId);

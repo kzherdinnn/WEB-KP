@@ -15,7 +15,7 @@ const ArticlesPage = () => {
       date: "15 Des 2024",
       readTime: "5 menit baca",
       category: "Tips Audio",
-      categoryColor: "bg-blue-500",
+      categoryColor: "bg-teal-500",
     },
     {
       id: 2,
@@ -41,7 +41,7 @@ const ArticlesPage = () => {
       date: "22 Feb 2025",
       readTime: "6 menit baca",
       category: "Modifikasi",
-      categoryColor: "bg-purple-500",
+      categoryColor: "bg-cyan-500",
     },
     {
       id: 4,
@@ -67,7 +67,7 @@ const ArticlesPage = () => {
       date: "18 Mar 2025",
       readTime: "8 menit baca",
       category: "Tips Audio",
-      categoryColor: "bg-pink-500",
+      categoryColor: "bg-teal-600",
     },
     {
       id: 6,
@@ -80,7 +80,7 @@ const ArticlesPage = () => {
       date: "28 Mar 2025",
       readTime: "6 menit baca",
       category: "Keamanan",
-      categoryColor: "bg-yellow-500",
+      categoryColor: "bg-amber-500",
     },
     {
       id: 7,
@@ -93,7 +93,7 @@ const ArticlesPage = () => {
       date: "02 Apr 2025",
       readTime: "5 menit baca",
       category: "Modifikasi",
-      categoryColor: "bg-orange-500",
+      categoryColor: "bg-cyan-600",
     },
     {
       id: 8,
@@ -106,7 +106,7 @@ const ArticlesPage = () => {
       date: "12 Apr 2025",
       readTime: "4 menit baca",
       category: "Tips",
-      categoryColor: "bg-indigo-500",
+      categoryColor: "bg-emerald-600",
     },
     {
       id: 9,
@@ -119,7 +119,7 @@ const ArticlesPage = () => {
       date: "20 Apr 2025",
       readTime: "9 menit baca",
       category: "Modifikasi",
-      categoryColor: "bg-red-500",
+      categoryColor: "bg-cyan-700",
     },
   ];
 
@@ -173,7 +173,7 @@ const ArticlesPage = () => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 outfit">
             Artikel & Panduan Audio Mobil
           </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-6"></div>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto outfit">
             Tips pemasangan, panduan produk, dan inspirasi modifikasi audio mobil dari para ahli kami
           </p>
