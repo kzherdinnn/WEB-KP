@@ -25,9 +25,8 @@ export const AppContextProvider = ({ children }) => {
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState("user");
-  const [showHotelReg, setShowHotelReg] = useState(false);
   const [searchedCities, setSearchedCities] = useState([]);
-  const [rooms, setRooms] = useState([]);
+  // rooms dan showHotelReg dihapus karena tidak digunakan lagi
 
   // Dark/Light Mode State
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -80,16 +79,13 @@ export const AppContextProvider = ({ children }) => {
   }, [getToken]); // Dijalankan kembali jika fungsi getToken berubah
   // =============================================================
 
-  //Fetch Spareparts on load (Workshop System)
+  //Fetch Spareparts on load (Workshop System) - Optional global fetch
   const fetchSpareparts = useCallback(async () => {
     try {
       // Fetch spareparts instead of rooms
-      const { data } = await axios.get("/api/spareparts");
-      if (data.success) {
-        setRooms(data.data); // Keep variable name for compatibility
-      } else {
-        toast.error(data.message);
-      }
+      // Note: We don't store it in global state anymore as pages fetch their own data
+      // But we keep the function if needed for pre-fetching
+      await axios.get("/api/spareparts");
     } catch (error) {
       // Silent fail - not critical for app to work
       console.log('Could not fetch spareparts:', error.message);
@@ -120,7 +116,7 @@ export const AppContextProvider = ({ children }) => {
       fetchUser();
       fetchSpareparts();
     }
-  }, [user, fetchUser, fetchSpareparts]); // Updated to fetchSpareparts
+  }, [user, fetchUser, fetchSpareparts]);
 
   const value = {
     axios,
@@ -131,12 +127,8 @@ export const AppContextProvider = ({ children }) => {
     setIsAdmin,
     userRole,
     setUserRole,
-    showHotelReg,
-    setShowHotelReg,
     searchedCities,
     setSearchedCities,
-    rooms,
-    setRooms,
     isDarkMode,
     setIsDarkMode,
     toggleTheme,

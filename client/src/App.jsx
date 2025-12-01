@@ -4,7 +4,7 @@ import { Home, Spareparts, SparepartDetails, Services, ServiceDetails, Booking, 
 import CustomPaymentPage from "./pages/CustomPaymentPage";
 import ArticlesPage from "./pages/ArticlesPage";
 import ArticleDetail from "./pages/ArticleDetail";
-import { Navbar, HotelRegister, Loader } from "./components";
+import { Navbar, Loader } from "./components";
 import AdminRedirect from "./components/AdminRedirect";
 import Layout from "./pages/Admin/Layout";
 import Dashboard from "./pages/Admin/Dashboard";
@@ -18,11 +18,10 @@ import PWAInstallPrompt from "./components/PWAInstallPrompt";
 
 const App = () => {
   const isAdmin = useLocation().pathname.includes("admin");
-  const { showHotelReg } = useAppContext();
+
   return (
     <div>
       {!isAdmin && <Navbar />}
-      {showHotelReg && <HotelRegister />}
       <AdminRedirect />
       <Toaster />
       <PWAInstallPrompt />

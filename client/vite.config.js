@@ -11,10 +11,10 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "icons/*.png", "background.webp"],
       manifest: {
-        name: "StayZa - Hotel Booking Platform",
-        short_name: "StayZa",
+        name: "Bengkel Las Kurnia Jaya - Jasa Las & Konstruksi",
+        short_name: "Kurnia Jaya",
         description:
-          "Platform pemesanan hotel terpercaya dengan berbagai pilihan kamar dan fasilitas terbaik",
+          "Layanan jasa las profesional, pembuatan pagar, kanopi, tralis, dan konstruksi besi lainnya",
         theme_color: "#14b8a6",
         background_color: "#ffffff",
         display: "standalone",
