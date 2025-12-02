@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Home, Spareparts, SparepartDetails, Services, ServiceDetails, Booking, MyBookings, Cart } from "./pages";
-import CustomPaymentPage from "./pages/CustomPaymentPage";
+import PaymentPage from "./pages/PaymentPage";
 import ArticlesPage from "./pages/ArticlesPage";
 import ArticleDetail from "./pages/ArticleDetail";
 import { Navbar, Loader } from "./components";
@@ -38,7 +38,7 @@ const App = () => {
         <Route path="/my-bookings" element={<MyBookings />} />
 
         {/* Other Routes */}
-        <Route path="/payment" element={<CustomPaymentPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
         <Route path="/loader/:nextUrl" element={<Loader />} />
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/articles/:id" element={<ArticleDetail />} />

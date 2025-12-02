@@ -435,10 +435,14 @@ const Dashboard = () => {
                     <p className="text-gray-500">Tipe Layanan:</p>
                     <p className="font-medium text-gray-900 capitalize">{selectedBooking.bookingType.replace(/_/g, " ")}</p>
                   </div>
-                  {selectedBooking.address && (
+                  <div>
+                    <p className="text-gray-500">Lokasi:</p>
+                    <p className="font-medium text-gray-900">{selectedBooking.serviceLocation === 'onsite' ? 'Home Service' : 'Bengkel'}</p>
+                  </div>
+                  {selectedBooking.serviceLocation === 'onsite' && selectedBooking.onsiteAddress && (
                     <div className="col-span-2">
-                      <p className="text-gray-500">Alamat:</p>
-                      <p className="font-medium text-gray-900">{selectedBooking.address}</p>
+                      <p className="text-gray-500">Alamat Home Service:</p>
+                      <p className="font-medium text-gray-900">📍 {selectedBooking.onsiteAddress}</p>
                     </div>
                   )}
                 </div>

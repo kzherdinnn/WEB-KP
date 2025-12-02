@@ -3,6 +3,7 @@ import sparepartModel from "../models/sparepart.models.js";
 import serviceModel from "../models/service.models.js";
 import technicianModel from "../models/technician.models.js";
 import midtransClient from "midtrans-client";
+import { sendCustomerBookingStatusUpdate } from "../utils/whatsappService.js";
 
 // ===== CREATE BOOKING =====
 export const createBooking = async (req, res) => {
@@ -297,6 +298,12 @@ export const updateBookingStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: "Booking not found" });
     }
 
+    // ===== SEND WHATSAPP NOTIFICATION TO CUSTOMER =====
+    // Send notification in background (don't wait for it)
+    sendCustomerBookingStatusUpdate(booking, status).catch(error => {
+      console.error("❌ Error mengirim notifikasi status update ke customer:", error.message);
+    });
+
     res.status(200).json({
       success: true,
       message: `Booking status updated to ${status}`,
@@ -450,6 +457,26 @@ export const initiatePayment = async (req, res) => {
       booking.remainingPayment = booking.totalPrice - paymentAmount;
     }
 
+    // ===== HANDLE FREE BOOKING (TOTAL = 0) =====
+    if (paymentAmount === 0 || booking.totalPrice === 0) {
+      // Skip Midtrans for free bookings, mark as paid immediately
+      booking.paymentStatus = "paid";
+      booking.paymentMethod = "free";
+      booking.midtransOrderId = `FREE-${bookingId}-${Date.now()}`;
+      await booking.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Free booking confirmed",
+        data: {
+          snapToken: null, // No Midtrans needed
+          isFree: true,
+          orderId: booking.midtransOrderId,
+          amount: 0
+        }
+      });
+    }
+
     // Initialize Midtrans Snap
     const snap = new midtransClient.Snap({
       isProduction: process.env.MIDTRANS_IS_PRODUCTION === "true",
@@ -492,7 +519,8 @@ export const initiatePayment = async (req, res) => {
         snapToken: transaction.token,
         snapRedirectUrl: transaction.redirect_url,
         orderId: orderId,
-        amount: paymentAmount
+        amount: paymentAmount,
+        isFree: false
       }
     });
   } catch (error) {

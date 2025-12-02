@@ -1,5 +1,9 @@
 import midtransClient from "midtrans-client";
 import bookingModel from "../models/booking.models.js";
+import {
+  sendAdminBookingNotification,
+  sendCustomerPaymentConfirmation,
+} from "../utils/whatsappService.js";
 
 // Buat instance Core API Midtrans untuk verifikasi notifikasi
 const coreApi = new midtransClient.CoreApi({
@@ -116,6 +120,32 @@ export const midtransWebHook = async (req, res) => {
       console.log(
         `✔️ Verifikasi: Status di database sekarang adalah '${updatedBooking.paymentStatus}'`,
       );
+
+      // ===== SEND WHATSAPP NOTIFICATIONS =====
+      if (newPaymentStatus === "paid" || newPaymentStatus === "dp_paid") {
+        console.log("📱 Mengirim notifikasi WhatsApp...");
+        
+        // Populate booking dengan data lengkap untuk notifikasi
+        const populatedBooking = await bookingModel
+          .findById(bookingId)
+          .populate("spareparts.sparepart services.service");
+
+        // Kirim notifikasi ke admin
+        try {
+          await sendAdminBookingNotification(populatedBooking);
+          console.log("✅ Notifikasi WhatsApp ke admin berhasil dikirim");
+        } catch (error) {
+          console.error("❌ Error mengirim notifikasi ke admin:", error.message);
+        }
+
+        // Kirim notifikasi ke customer
+        try {
+          await sendCustomerPaymentConfirmation(populatedBooking);
+          console.log("✅ Notifikasi WhatsApp ke customer berhasil dikirim");
+        } catch (error) {
+          console.error("❌ Error mengirim notifikasi ke customer:", error.message);
+        }
+      }
     } else {
       console.log(`ℹ️ Status tidak berubah, tetap '${booking.paymentStatus}'`);
     }

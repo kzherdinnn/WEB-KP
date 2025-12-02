@@ -30,6 +30,7 @@ Backend API untuk sistem booking bengkel audio mobil dengan integrasi pembayaran
 - ✅ Multiple metode (VA, E-Wallet, Transfer)
 - ✅ Webhook otomatis
 - ✅ Status tracking
+- ✅ WhatsApp notification otomatis ke admin & customer
 
 ### 5️⃣ **Manajemen Teknisi**
 - ✅ CRUD teknisi
@@ -474,6 +475,10 @@ IMAGEKIT_PUBLIC_KEY=...
 IMAGEKIT_PRIVATE_KEY=...
 IMAGEKIT_URL_ENDPOINT=...
 
+# WhatsApp Notification (Fonnte)
+FONNTE_API_TOKEN=...
+ADMIN_WHATSAPP_NUMBER=628xxx
+
 # Port
 PORT=3000
 ```
@@ -517,10 +522,10 @@ http://localhost:3000
 ### Yang perlu ditambahkan:
 1. ✅ Middleware untuk role checking (admin/user/technician)
 2. ✅ Generate PDF invoice
-3. ✅ Send WhatsApp notification (via WhatsApp Business API)
-4. ✅ Email notification
-5. ✅ Warranty tracking system
-6. ✅ Review & rating system
+3. ✅ **WhatsApp notification (via Fonnte API)** - COMPLETED! See `WHATSAPP_SETUP.md`
+4. 🔲 Email notification (optional)
+5. 🔲 Warranty tracking system (optional)
+6. 🔲 Review & rating system (optional)
 
 ---
 

@@ -195,7 +195,11 @@ export default function Cart() {
                                     {cartItems.services.map((item, idx) => (
                                         <div key={`sv-${idx}`} className="flex gap-4 py-4 border-b border-gray-100 last:border-0">
                                             <div className="w-20 h-20 bg-purple-50 rounded-lg flex-shrink-0 flex items-center justify-center text-purple-500">
-                                                <FiTool className="w-8 h-8" />
+                                                {item.image ? (
+                                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-lg" />
+                                                ) : (
+                                                    <FiTool className="w-8 h-8" />
+                                                )}
                                             </div>
                                             <div className="flex-1">
                                                 <div className="flex justify-between items-start mb-2">
@@ -204,7 +208,21 @@ export default function Cart() {
                                                         <FiTrash2 />
                                                     </button>
                                                 </div>
-                                                <p className="text-teal-600 font-bold mb-3">{formatCurrency(item.price)}</p>
+                                                {item.discount > 0 ? (
+                                                    <div className="mb-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-sm text-gray-400 line-through">
+                                                                {formatCurrency(item.originalPrice)}
+                                                            </span>
+                                                            <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded">
+                                                                -{item.discount}%
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-teal-600 font-bold">{formatCurrency(item.price)}</p>
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-teal-600 font-bold mb-3">{formatCurrency(item.price)}</p>
+                                                )}
                                                 <span className="inline-block px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded">Layanan</span>
                                             </div>
                                         </div>

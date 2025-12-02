@@ -63,10 +63,17 @@ export default function Services() {
             return;
         }
 
+        // Calculate discounted price if applicable
+        const finalPrice = service.discount > 0
+            ? service.price * (1 - service.discount / 100)
+            : service.price;
+
         services.push({
             serviceId: service._id,
             name: service.name,
-            price: service.price,
+            price: finalPrice,
+            originalPrice: service.price,
+            discount: service.discount || 0,
             image: service.images?.[0]
         });
 

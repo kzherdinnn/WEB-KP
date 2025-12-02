@@ -1,0 +1,24 @@
+# ====================================
+# INSTRUKSI SETUP WHATSAPP
+# ====================================
+# 
+# 1. Daftar/Login ke: https://fonnte.com
+# 2. Scan QR Code untuk hubungkan WhatsApp Anda
+# 3. Di dashboard Fonnte, klik menu "API"
+# 4. Copy API Token Anda
+# 5. Paste di FONNTE_API_TOKEN di bawah
+# 6. Isi ADMIN_WHATSAPP_NUMBER dengan nomor admin (format: 628xxx)
+# 7. Save file ini
+# 8. Restart server: npm run dev
+# 9. Test dengan melakukan booking + pembayaran
+#
+# ====================================
+
+# Paste API Token dari Fonnte disini
+FONNTE_API_TOKEN=
+
+# Nomor WhatsApp Admin (format: 628123456789)
+# PENTING: Tanpa tanda +, spasi, atau karakter lain
+# Contoh BENAR: 628123456789
+# Contoh SALAH: +62 812-3456-789 atau 08123456789
+ADMIN_WHATSAPP_NUMBER=

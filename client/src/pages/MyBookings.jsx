@@ -293,8 +293,9 @@ const MyBookings = () => {
                         </div>
                       </div>
 
+
                       {/* Booking Details Grid */}
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                         {/* Date */}
                         <div className="bg-teal-50 rounded-lg p-3 border border-teal-100">
                           <div className="flex items-center gap-2 mb-2">
@@ -319,6 +320,24 @@ const MyBookings = () => {
                           <p className="text-sm font-bold text-gray-900">
                             {booking.scheduledTime}
                           </p>
+                        </div>
+
+                        {/* Location/Address */}
+                        <div className="bg-teal-50 rounded-lg p-3 border border-teal-100">
+                          <div className="flex items-center gap-2 mb-2">
+                            <FaMapMarkerAlt className="text-teal-600" />
+                            <span className="text-xs font-semibold text-teal-900">
+                              Lokasi
+                            </span>
+                          </div>
+                          <p className="text-sm font-bold text-gray-900">
+                            {booking.serviceLocation === 'onsite' ? 'Home Service' : 'Bengkel'}
+                          </p>
+                          {booking.serviceLocation === 'onsite' && booking.onsiteAddress && (
+                            <p className="text-xs text-gray-600 mt-1 line-clamp-2" title={booking.onsiteAddress}>
+                              📍 {booking.onsiteAddress}
+                            </p>
+                          )}
                         </div>
 
                         {/* Mechanic */}
