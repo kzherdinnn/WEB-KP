@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaSearchPlus, FaTimes } from "react-icons/fa";
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -81,7 +82,7 @@ const Gallery = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Our Gallery
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-teal-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Lihat koleksi produk dan layanan unggulan kami untuk kebutuhan audio mobil Anda
           </p>
@@ -98,15 +99,13 @@ const Gallery = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className={`relative group cursor-pointer overflow-hidden rounded-lg shadow-lg ${
-                index === 0 || index === 5 ? "lg:col-span-2 lg:row-span-2" : ""
-              }`}
+              className={`relative group cursor-pointer overflow-hidden rounded-lg shadow-lg ${index === 0 || index === 5 ? "lg:col-span-2 lg:row-span-2" : ""
+                }`}
               onClick={() => setSelectedImage(image)}
             >
               <div
-                className={`relative ${
-                  index === 0 || index === 5 ? "h-[400px]" : "h-[200px]"
-                } overflow-hidden`}
+                className={`relative ${index === 0 || index === 5 ? "h-[400px]" : "h-[200px]"
+                  } overflow-hidden`}
               >
                 <img
                   src={image.url}
@@ -115,7 +114,7 @@ const Gallery = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="text-xs text-blue-300 font-semibold mb-1">
+                    <p className="text-xs text-teal-300 font-semibold mb-1">
                       {image.category}
                     </p>
                     <p className="text-white text-lg font-bold">
@@ -124,19 +123,7 @@ const Gallery = () => {
                   </div>
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <div className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center">
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
-                        />
-                      </svg>
+                      <FaSearchPlus className="w-6 h-6 text-white" />
                     </div>
                   </div>
                 </div>
@@ -159,19 +146,7 @@ const Gallery = () => {
                 className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
                 onClick={() => setSelectedImage(null)}
               >
-                <svg
-                  className="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <FaTimes className="w-8 h-8" />
               </button>
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
@@ -187,7 +162,7 @@ const Gallery = () => {
                   className="w-full h-auto rounded-lg shadow-2xl"
                 />
                 <div className="mt-4 text-center">
-                  <p className="text-blue-400 text-sm font-semibold mb-1">
+                  <p className="text-teal-400 text-sm font-semibold mb-1">
                     {selectedImage.category}
                   </p>
                   <p className="text-white text-xl font-bold">

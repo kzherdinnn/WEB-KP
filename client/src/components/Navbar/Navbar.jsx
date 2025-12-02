@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FiMenu, FiX, FiSearch, FiChevronDown } from "react-icons/fi";
+import { FiMenu, FiX, FiSearch, FiChevronDown, FiShoppingCart } from "react-icons/fi";
 import { FaRegBuilding, FaHotel } from "react-icons/fa";
 import { TbBrandBooking } from "react-icons/tb";
 import { MdAdminPanelSettings, MdPerson } from "react-icons/md";
@@ -58,11 +58,12 @@ const Navbar = () => {
       type: "dropdown",
       items: [
         { name: "Profil Bengkel", path: "/#about", icon: <FaRegBuilding /> },
-        { name: "Sparepart", path: "/#services", icon: <FaHotel /> },
+        { name: "Layanan", path: "/#services", icon: <FaHotel /> },
         { name: "Galeri", path: "/#gallery", icon: <FaHotel /> },
       ],
     },
-    { name: "Sparepart", path: "/hotels", type: "link" },
+    { name: "Sparepart", path: "/spareparts", type: "link" },
+    { name: "Services", path: "/services", type: "link" },
     { name: "Promo", path: "/#promos", type: "link" },
     { name: "Artikel", path: "/articles", type: "link" },
     { name: "Kontak", path: "/#contact", type: "link" },
@@ -81,7 +82,7 @@ const Navbar = () => {
 
   // Check if the current path contains 'hotel'
   const isHotelPage = location.pathname.includes("hotel");
-  const isBookingPage = location.pathname.includes("my-bookings");
+  const isBookingPage = location.pathname.includes("my-bookings") || location.pathname.includes("cart");
 
   // Dynamic navbar styles based on URL - matching dark hero theme
   const navBg =
@@ -164,31 +165,33 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${navBg} ${isScrolled ? "shadow-lg" : "shadow-none"}`}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
-        <div className="flex items-center justify-between py-2 md:py-3">
-          {/* Logo */}
-          <Link
-            to="/"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-3 group"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-              <img
-                src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
-                alt="Aan Audio Solutions Logo"
-                className="h-8 md:h-9 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-            <span
-              className={`text-xl md:text-2xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300`}
+      <div className="w-full px-4 md:px-8 lg:px-12">
+        <div className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center py-2 md:py-3 gap-4">
+          {/* Logo - Left Aligned */}
+          <div className="flex justify-start">
+            <Link
+              to="/"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="flex items-center gap-3 group"
             >
-              Aan Audio Solutions
-            </span>
-          </Link>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                <img
+                  src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
+                  alt="Aan Audio Solutions Logo"
+                  className="h-8 md:h-9 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <span
+                className={`text-xl md:text-2xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300 whitespace-nowrap`}
+              >
+                Aan Audio Solutions
+              </span>
+            </Link>
+          </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-6">
+          {/* Desktop Nav - Perfectly Centered */}
+          <div className="hidden md:flex items-center justify-center gap-1">
             {navLinks.map((link, idx) => {
               if (link.type === "dropdown") {
                 return (
@@ -199,22 +202,24 @@ const Navbar = () => {
                     onMouseLeave={() => setDropdownOpen(null)}
                   >
                     <button
-                      className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-300 font-medium text-sm outfit group ${
-                        dropdownOpen === link.name
-                          ? "text-teal-400 bg-gray-800/90 shadow-lg shadow-teal-500/30 scale-105"
-                          : `${textColor} ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"} hover:shadow-md hover:scale-105`
-                      }`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      className={`relative flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm outfit whitespace-nowrap group ${dropdownOpen === link.name
+                        ? "text-teal-400 bg-gray-800/90 shadow-lg shadow-teal-500/30 scale-105"
+                        : `${textColor} ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"} hover:shadow-md hover:scale-105`
+                        }`}
                     >
                       {dropdownOpen === link.name && (
                         <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-500/20 to-emerald-500/20 blur-sm"></span>
                       )}
                       <span className="relative z-10">{link.name}</span>
                       <FiChevronDown
-                        className={`relative z-10 w-3.5 h-3.5 transition-all duration-300 ${
-                          dropdownOpen === link.name
-                            ? "rotate-180 text-teal-400"
-                            : "group-hover:translate-y-0.5"
-                        }`}
+                        className={`relative z-10 w-3.5 h-3.5 transition-all duration-300 ${dropdownOpen === link.name
+                          ? "rotate-180 text-teal-400"
+                          : "group-hover:translate-y-0.5"
+                          }`}
                       />
                     </button>
 
@@ -222,14 +227,13 @@ const Navbar = () => {
                     <div
                       onMouseEnter={() => setDropdownOpen(link.name)}
                       onMouseLeave={() => setDropdownOpen(null)}
-                      className={`absolute top-full left-0 mt-1 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 z-[100] ${
-                        dropdownOpen === link.name
-                          ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
-                          : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
-                      }`}
+                      className={`absolute top-full left-1/2 -translate-x-1/2 mt-1 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 z-[100] ${dropdownOpen === link.name
+                        ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
+                        : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
+                        }`}
                     >
                       {dropdownOpen === link.name && (
-                        <div className="absolute -top-1 left-8 w-2.5 h-2.5 bg-white/95 backdrop-blur-xl border-l border-t border-teal-100/50 rotate-45"></div>
+                        <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white/95 backdrop-blur-xl border-l border-t border-teal-100/50 rotate-45"></div>
                       )}
                       {link.items.map((item, itemIdx) => (
                         <button
@@ -266,7 +270,7 @@ const Navbar = () => {
                       e.preventDefault();
                       handleLinkClick(link.path);
                     }}
-                    className={`relative ${textColor} transition-all duration-300 font-medium text-sm outfit py-2 px-3 rounded-lg hover:shadow-sm hover:scale-105 group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
+                    className={`relative ${textColor} transition-all duration-300 font-medium text-sm outfit py-2 px-4 rounded-lg hover:shadow-sm hover:scale-105 whitespace-nowrap group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
                   >
                     <span className="relative z-10">{link.name}</span>
                     <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-gradient-to-r from-teal-600 to-emerald-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -283,7 +287,7 @@ const Navbar = () => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
                   }}
-                  className={`relative ${textColor} transition-all duration-300 font-medium text-sm outfit py-2 px-3 rounded-lg hover:shadow-sm hover:scale-105 group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
+                  className={`relative ${textColor} transition-all duration-300 font-medium text-sm outfit py-2 px-4 rounded-lg hover:shadow-sm hover:scale-105 whitespace-nowrap group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
                 >
                   <span className="relative z-10">{link.name}</span>
                   <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-gradient-to-r from-teal-600 to-emerald-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -294,7 +298,7 @@ const Navbar = () => {
             {user && userRole === "admin" && (
               <button
                 onClick={() => navigate("/admin")}
-                className={`relative border-2 px-4 py-1.5 rounded-full text-xs cursor-pointer transition-all duration-300 ${borderColor} ${textColor} hover:bg-gradient-to-r hover:from-teal-600 hover:to-emerald-600 hover:text-white hover:border-teal-500 hover:shadow-lg hover:shadow-teal-500/50 hover:scale-105 active:scale-100 font-semibold outfit overflow-hidden group`}
+                className={`relative border-2 px-4 py-1.5 rounded-full text-xs cursor-pointer transition-all duration-300 whitespace-nowrap ${borderColor} ${textColor} hover:bg-gradient-to-r hover:from-teal-600 hover:to-emerald-600 hover:text-white hover:border-teal-500 hover:shadow-lg hover:shadow-teal-500/50 hover:scale-105 active:scale-100 font-semibold outfit overflow-hidden group`}
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-teal-500/20 to-emerald-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 <span className="relative z-10">Dashboard</span>
@@ -304,22 +308,24 @@ const Navbar = () => {
 
           {/* Desktop Right (only render when viewport >= md via JS) */}
           {isDesktop && (
-            <div className="flex items-center gap-3">
-              {/* Theme Toggle hanya desktop */}
-              <ThemeToggle />
-              <button
-                className={`relative p-2 ${iconColor} transition-all duration-300 rounded-lg hover:shadow-md hover:scale-110 active:scale-100 group overflow-hidden ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-gradient-to-br hover:from-teal-50 hover:to-emerald-50 hover:shadow-teal-100/50" : "hover:text-teal-400 hover:bg-gray-800/50 hover:shadow-teal-500/30"}`}
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/20 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></span>
-                <FiSearch className="relative z-10 h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
-              </button>
+            <div className="flex items-center justify-end gap-3">
               {user ? (
                 <UserButton>
                   <UserButton.MenuItems>
                     <UserButton.Action
+                      label="Keranjang Pesanan"
+                      labelIcon={<FiShoppingCart />}
+                      onClick={() => navigate("/cart")}
+                    />
+                    <UserButton.Action
                       label="Pesanan Saya"
                       labelIcon={<TbBrandBooking />}
                       onClick={() => navigate("/my-bookings")}
+                    />
+                    <UserButton.Action
+                      label={isDarkMode ? "Mode Terang" : "Mode Gelap"}
+                      labelIcon={isDarkMode ? <FiSun /> : <FiMoon />}
+                      onClick={toggleTheme}
                     />
                     {userRole === "admin" && (
                       <UserButton.Action
@@ -336,23 +342,30 @@ const Navbar = () => {
                     )}
                   </UserButton.MenuItems>
                 </UserButton>
-            ) : (
-              <button
-                onClick={openSignIn}
-                className="relative bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-2 rounded-full text-sm hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 cursor-pointer font-bold outfit shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 hover:scale-105 active:scale-100 overflow-hidden group"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-                <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-                <span className="relative z-10 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
-                  Masuk
-                </span>
-              </button>
-            )}
+              ) : (
+                <button
+                  onClick={openSignIn}
+                  className="relative bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-2 rounded-full text-sm hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 cursor-pointer font-bold outfit shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 hover:scale-105 active:scale-100 overflow-hidden group"
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                  <span className="relative z-10 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+                    Masuk
+                  </span>
+                </button>
+              )}
             </div>
           )}
 
           {/* Mobile header: only search + menu button */}
           <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={() => navigate("/cart")}
+              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+              aria-label="Cart"
+            >
+              <FiShoppingCart className="h-5 w-5" />
+            </button>
             <button
               className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
               aria-label="Search"

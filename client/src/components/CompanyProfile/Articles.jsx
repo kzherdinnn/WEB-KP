@@ -15,7 +15,7 @@ const Articles = () => {
       date: "15 Des 2024",
       readTime: "5 menit baca",
       category: "Tips Audio",
-      categoryColor: "bg-blue-500",
+      categoryColor: "bg-teal-500",
     },
     {
       id: 2,
@@ -41,7 +41,7 @@ const Articles = () => {
       date: "22 Feb 2025",
       readTime: "6 menit baca",
       category: "Modifikasi",
-      categoryColor: "bg-purple-500",
+      categoryColor: "bg-cyan-500",
     },
   ];
 
@@ -82,7 +82,7 @@ const Articles = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
             Artikel & Panduan Audio Mobil
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
             Tips pemasangan, panduan pemilihan komponen, dan inspirasi modifikasi
             audio mobil dari para ahli kami
@@ -173,7 +173,7 @@ const Articles = () => {
         >
           <a
             href="/articles"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-xl font-semibold text-lg outfit hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-10 py-4 rounded-xl font-semibold text-lg outfit hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
           >
             <span>Selengkapnya</span>
             <FaArrowRight className="w-5 h-5" />

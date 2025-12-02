@@ -6,8 +6,10 @@ import { ClerkExpressWithAuth } from "@clerk/clerk-sdk-node";
 
 // Impor router Anda
 import userRouter from "./routes/userRoutes.js";
-import hotelRouter from "./routes/hotelRoutes.js";
-import roomRouter from "./routes/roomRoutes.js";
+import sparepartRouter from "./routes/sparepartRoutes.js";
+import serviceRouter from "./routes/serviceRoutes.js";
+import technicianRouter from "./routes/technicianRoutes.js";
+import workshopRouter from "./routes/workshopRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import auditLogRouter from "./routes/auditLogRoutes.js";
 import { connectImageKit } from "./config/imagekit.js";
@@ -77,8 +79,10 @@ app.use(ClerkExpressWithAuth());
 // 🧩 Rute API yang Dilindungi (Memerlukan Login)
 // =====================================================
 app.use("/api/user", userRouter);
-app.use("/api/hotel", hotelRouter);
-app.use("/api/room", roomRouter);
+app.use("/api/spareparts", sparepartRouter);
+app.use("/api/services", serviceRouter);
+app.use("/api/technicians", technicianRouter);
+app.use("/api/workshop", workshopRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/audit-logs", auditLogRouter);
 app.use("/api/imagekit", imagekitRoutes);

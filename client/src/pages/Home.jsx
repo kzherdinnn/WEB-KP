@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Hero,
-  Featured,
+  FeaturedSpareparts,
   Testimonial,
   Footer,
   AboutUs,
@@ -48,8 +48,8 @@ const Home = () => {
       {/* 3. Facilities Section - What We Offer */}
       <Facilities />
 
-      {/* 4. Featured Rooms Section - Our Products */}
-      <Featured />
+      {/* 4. Featured Spareparts Section - Our Products */}
+      <FeaturedSpareparts />
 
       {/* 5. Promos Section - Special Offers */}
       <Promos />

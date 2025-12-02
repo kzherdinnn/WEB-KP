@@ -27,7 +27,7 @@ const ArticleDetail = () => {
       date: "15 Des 2024",
       readTime: "6 menit baca",
       category: "Tips Audio",
-      categoryColor: "bg-blue-500",
+      categoryColor: "bg-teal-500",
       content: `
         <p class="mb-6">
           Memilih speaker mobil yang tepat merupakan langkah penting bagi siapa pun yang ingin meningkatkan kualitas audio di kendaraannya. Banyak pemilik mobil merasa bahwa mengganti speaker standar bawaan pabrik sudah cukup untuk memberikan peningkatan besar, tetapi kenyataannya memilih speaker tidak bisa asal. Setiap tipe speaker memiliki karakter, performa, dan kebutuhan instalasi yang berbeda. Artikel ini akan memberikan panduan lengkap untuk membantu Anda memahami perbedaan tipe speaker, spesifikasi teknis, serta pertimbangan penting sebelum Anda memutuskan untuk membeli.
@@ -156,7 +156,7 @@ const ArticleDetail = () => {
       date: "22 Feb 2025",
       readTime: "7 menit baca",
       category: "Modifikasi",
-      categoryColor: "bg-purple-500",
+      categoryColor: "bg-cyan-500",
       content: `
         <p class="mb-6">
           Meng-upgrade head unit adalah salah satu langkah paling efektif untuk meningkatkan kenyamanan dan pengalaman berkendara. Selain memberikan tampilan lebih modern, head unit baru biasanya menawarkan fitur-fitur canggih yang tidak tersedia pada sistem standar bawaan mobil. 
@@ -308,7 +308,7 @@ const ArticleDetail = () => {
       date: "18 Mar 2025",
       readTime: "7 menit baca",
       category: "Tips Audio",
-      categoryColor: "bg-pink-500",
+      categoryColor: "bg-teal-600",
       content: `
         <p class="mb-6">
           Memilih subwoofer untuk ruang kabin mobil yang kecil bukanlah tugas yang mudah. Banyak pengemudi ingin mendapatkan bass yang dalam dan bertenaga, namun tetap mempertahankan kenyamanan berkendara tanpa memakan terlalu banyak ruang. Oleh karena itu, penting untuk memahami karakteristik subwoofer, ukuran yang paling tepat, serta jenis box yang sesuai agar hasil bass tetap optimal.
@@ -384,7 +384,7 @@ const ArticleDetail = () => {
       date: "28 Mar 2025",
       readTime: "6 menit baca",
       category: "Keamanan",
-      categoryColor: "bg-yellow-500",
+      categoryColor: "bg-amber-500",
       content: `
         <p class="mb-6">
           Pemasangan alarm mobil adalah langkah penting untuk meningkatkan keamanan kendaraan dari risiko pencurian 
@@ -468,7 +468,7 @@ const ArticleDetail = () => {
       date: "02 Apr 2025",
       readTime: "5 menit baca",
       category: "Modifikasi",
-      categoryColor: "bg-orange-500",
+      categoryColor: "bg-cyan-600",
       content: `
         <p class="mb-6">
           Equalizer (EQ) adalah salah satu fitur paling penting dalam sistem audio mobil. Dengan EQ, Anda dapat 
@@ -549,7 +549,7 @@ const ArticleDetail = () => {
       date: "12 Apr 2025",
       readTime: "5 menit baca",
       category: "Tips",
-      categoryColor: "bg-indigo-500",
+      categoryColor: "bg-emerald-600",
       content: `
         <p class="mb-6">
           Aksesoris audio mobil sering kali dianggap sebagai pelengkap saja, padahal kualitas aksesoris sangat 
@@ -631,7 +631,7 @@ const ArticleDetail = () => {
       date: "20 Apr 2025",
       readTime: "8 menit baca",
       category: "Modifikasi",
-      categoryColor: "bg-red-500",
+      categoryColor: "bg-cyan-700",
       content: `
         <p class="mb-6">
           Banyak orang ingin meningkatkan kualitas audio mobil mereka, tetapi terkendala oleh anggaran yang terbatas. 

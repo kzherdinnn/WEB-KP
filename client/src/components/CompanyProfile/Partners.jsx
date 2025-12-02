@@ -124,7 +124,8 @@ const Partners = () => {
         >
           <p className="text-sm text-gray-500 outfit">
             Dipercaya oleh lebih dari{" "}
-            <span className="font-bold text-blue-600">1000+</span> penggemar audio mobil
+            <span className="font-bold text-teal-600">1000+</span> penggemar
+            audio mobil
           </p>
         </motion.div>
       </div>
