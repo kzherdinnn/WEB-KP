@@ -3,7 +3,6 @@ import Footer from "./Footer/Footer";
 import Hero from "./Hero/Hero";
 import FeaturedSpareparts from "./Featured/FeaturedSpareparts";
 import Testimonial from "./Testimonial/Testimonial";
-import Newsletter from "./Newsletter/Newsletter";
 import Loader from "./Loader/Loader";
 
 import {
@@ -22,7 +21,6 @@ export {
   Hero,
   FeaturedSpareparts,
   Testimonial,
-  Newsletter,
   Loader,
   AboutUs,
   Facilities,

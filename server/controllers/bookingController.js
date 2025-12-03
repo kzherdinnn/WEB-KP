@@ -3,7 +3,8 @@ import sparepartModel from "../models/sparepart.models.js";
 import serviceModel from "../models/service.models.js";
 import technicianModel from "../models/technician.models.js";
 import midtransClient from "midtrans-client";
-import { sendCustomerBookingStatusUpdate } from "../utils/whatsappService.js";
+import { sendBookingStatusUpdateEmail } from "../utils/emailService.js";
+import { sendAdminStatusUpdateNotification } from "../utils/telegramService.js";
 
 // ===== CREATE BOOKING =====
 export const createBooking = async (req, res) => {
@@ -228,6 +229,22 @@ export const assignTechnician = async (req, res) => {
       return res.status(404).json({ success: false, message: "Booking not found" });
     }
 
+    // ===== SEND EMAIL & TELEGRAM NOTIFICATIONS =====
+    // Populate booking dengan data lengkap untuk notifikasi
+    const populatedBooking = await bookingModel
+      .findById(req.params.id)
+      .populate("spareparts.sparepart services.service technician");
+
+    // Send email to customer in background
+    sendBookingStatusUpdateEmail(populatedBooking, "confirmed").catch(error => {
+      console.error("❌ Error mengirim email penugasan teknisi ke customer:", error.message);
+    });
+
+    // Send telegram to admin in background
+    sendAdminStatusUpdateNotification(populatedBooking, "confirmed").catch(error => {
+      console.error("❌ Error mengirim telegram penugasan teknisi ke admin:", error.message);
+    });
+
     res.status(200).json({
       success: true,
       message: "Technician assigned successfully",
@@ -298,10 +315,15 @@ export const updateBookingStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: "Booking not found" });
     }
 
-    // ===== SEND WHATSAPP NOTIFICATION TO CUSTOMER =====
-    // Send notification in background (don't wait for it)
-    sendCustomerBookingStatusUpdate(booking, status).catch(error => {
-      console.error("❌ Error mengirim notifikasi status update ke customer:", error.message);
+    // ===== SEND EMAIL & TELEGRAM NOTIFICATIONS =====
+    // Send email to customer in background
+    sendBookingStatusUpdateEmail(booking, status).catch(error => {
+      console.error("❌ Error mengirim email status update ke customer:", error.message);
+    });
+
+    // Send telegram to admin in background
+    sendAdminStatusUpdateNotification(booking, status).catch(error => {
+      console.error("❌ Error mengirim telegram status update ke admin:", error.message);
     });
 
     res.status(200).json({
