@@ -131,9 +131,20 @@ export const midtransWebHook = async (req, res) => {
           .findById(bookingId)
           .populate("spareparts.sparepart services.service");
 
+        // Extract payment details for notifications
+        const paymentDetails = {
+          paymentType: notificationJson.payment_type,
+          bank: notificationJson.va_numbers?.[0]?.bank || notificationJson.bank || null,
+          vaNumber: notificationJson.va_numbers?.[0]?.va_number || null,
+          store: notificationJson.store || null,
+          paymentCode: notificationJson.payment_code || null,
+          acquirer: notificationJson.acquirer || null,
+          issuer: notificationJson.issuer || null,
+        };
+
         // Kirim email ke customer
         try {
-          await sendBookingConfirmationEmail(populatedBooking);
+          await sendBookingConfirmationEmail(populatedBooking, paymentDetails);
           console.log("✅ Email konfirmasi berhasil dikirim ke customer");
         } catch (error) {
           console.error("❌ Error mengirim email ke customer:", error.message);
@@ -141,7 +152,7 @@ export const midtransWebHook = async (req, res) => {
 
         // Kirim telegram ke admin - booking notification
         try {
-          await sendAdminBookingNotification(populatedBooking);
+          await sendAdminBookingNotification(populatedBooking, paymentDetails);
           console.log("✅ Notifikasi Telegram booking berhasil dikirim ke admin");
         } catch (error) {
           console.error("❌ Error mengirim telegram booking ke admin:", error.message);
@@ -149,7 +160,7 @@ export const midtransWebHook = async (req, res) => {
 
         // Kirim telegram ke admin - payment notification
         try {
-          await sendAdminPaymentNotification(populatedBooking);
+          await sendAdminPaymentNotification(populatedBooking, paymentDetails);
           console.log("✅ Notifikasi Telegram payment berhasil dikirim ke admin");
         } catch (error) {
           console.error("❌ Error mengirim telegram payment ke admin:", error.message);

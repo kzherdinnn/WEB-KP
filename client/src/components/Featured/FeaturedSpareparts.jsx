@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useUser } from '@clerk/clerk-react';
 import { sparepartsAPI } from '../../utils/api';
 import { formatCurrency } from '../../utils/payment';
@@ -65,18 +66,25 @@ const FeaturedSpareparts = () => {
     };
 
     return (
-        <section className="py-16 bg-white" id="services">
+        <section className="py-8 bg-white" id="services">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 outfit">
-                        Produk <span className="text-teal-600">Unggulan</span>
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-8"
+                >
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 outfit">
+                        Produk Unggulan
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-4"></div>
+                    <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
                         Pilihan sparepart audio mobil terbaik untuk meningkatkan kualitas suara kendaraan Anda.
                     </p>
-                </div>
+                </motion.div>
 
-                <div className="flex flex-wrap justify-center gap-8">
+                <div className="flex flex-wrap justify-center gap-6">
                     {spareparts.map((item) => (
                         <div
                             key={item._id}
@@ -103,15 +111,15 @@ const FeaturedSpareparts = () => {
                             </div>
 
                             {/* Content */}
-                            <div className="p-6">
-                                <p className="text-xs font-bold text-teal-500 uppercase tracking-wider mb-2">
+                            <div className="p-5">
+                                <p className="text-xs font-bold text-teal-500 uppercase tracking-wider mb-1">
                                     {item.brand}
                                 </p>
-                                <h3 className="text-xl font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-teal-600 transition-colors leading-tight">
+                                <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-teal-600 transition-colors leading-tight">
                                     {item.name}
                                 </h3>
 
-                                <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center justify-between mb-3">
                                     <span className="text-2xl font-bold text-teal-600">
                                         {formatCurrency(item.price)}
                                     </span>
@@ -119,7 +127,7 @@ const FeaturedSpareparts = () => {
 
                                 <Link
                                     to={`/spareparts/${item._id}`}
-                                    className="mt-4 block w-full py-3 px-4 bg-gray-900 text-white text-center rounded-xl font-bold hover:bg-teal-600 transition-all duration-300 hover:shadow-lg"
+                                    className="mt-3 block w-full py-2.5 px-4 bg-gray-900 text-white text-center rounded-xl font-bold hover:bg-gradient-to-r hover:from-teal-600 hover:to-emerald-600 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
                                 >
                                     Lihat Detail
                                 </Link>
@@ -128,7 +136,7 @@ const FeaturedSpareparts = () => {
                     ))}
                 </div>
 
-                <div className="mt-12 text-center">
+                <div className="mt-8 text-center">
                     <Link
                         to="/spareparts"
                         className="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-teal-600 text-teal-600 rounded-full font-bold hover:bg-teal-600 hover:text-white transition-all duration-300 shadow-lg hover:shadow-teal-500/30"

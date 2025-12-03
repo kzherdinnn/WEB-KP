@@ -69,7 +69,7 @@ const Articles = () => {
   return (
     <section
       id="articles"
-      className="pt-12 pb-12 bg-gradient-to-b from-gray-50 to-white"
+      className="py-8 bg-gradient-to-b from-gray-50 to-white"
     >
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <motion.div
@@ -77,12 +77,12 @@ const Articles = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 outfit">
             Artikel & Panduan Audio Mobil
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
             Tips pemasangan, panduan pemilihan komponen, dan inspirasi modifikasi
             audio mobil dari para ahli kami
@@ -173,7 +173,7 @@ const Articles = () => {
         >
           <a
             href="/articles"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-10 py-4 rounded-xl font-semibold text-lg outfit hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-10 py-4 rounded-xl font-semibold text-lg outfit hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
           >
             <span>Selengkapnya</span>
             <FaArrowRight className="w-5 h-5" />

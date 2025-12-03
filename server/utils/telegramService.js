@@ -48,7 +48,7 @@ export const sendTelegramMessage = async (message) => {
 /**
  * Kirim notifikasi ke admin saat ada booking baru dan pembayaran berhasil
  */
-export const sendAdminBookingNotification = async (booking) => {
+export const sendAdminBookingNotification = async (booking, paymentDetailsObj = {}) => {
   // Format tanggal
   const bookingDate = new Date(booking.scheduledDate).toLocaleDateString("id-ID", {
     weekday: "long",
@@ -106,6 +106,24 @@ export const sendAdminBookingNotification = async (booking) => {
     paymentDetails = `*Status*: DOWN PAYMENT\n*DP*: Rp${booking.dpAmount?.toLocaleString("id-ID")}\n*Sisa*: Rp${booking.remainingPayment?.toLocaleString("id-ID")}`;
   }
 
+  // Format detailed payment method
+  let paymentMethodDetail = booking.paymentMethod.toUpperCase();
+  if (paymentDetailsObj && paymentDetailsObj.paymentType) {
+    if (paymentDetailsObj.paymentType === "bank_transfer" && paymentDetailsObj.bank) {
+      paymentMethodDetail = `BANK TRANSFER - ${paymentDetailsObj.bank.toUpperCase()}`;
+      if (paymentDetailsObj.vaNumber) paymentMethodDetail += `\nVA: \`${paymentDetailsObj.vaNumber}\``;
+    } else if (paymentDetailsObj.paymentType === "cstore" && paymentDetailsObj.store) {
+      paymentMethodDetail = `${paymentDetailsObj.store.toUpperCase()}`;
+      if (paymentDetailsObj.paymentCode) paymentMethodDetail += `\nKode: \`${paymentDetailsObj.paymentCode}\``;
+    } else if (paymentDetailsObj.paymentType === "qris") {
+      paymentMethodDetail = "QRIS";
+      if (paymentDetailsObj.issuer) paymentMethodDetail += ` (${paymentDetailsObj.issuer})`;
+    } else if (paymentDetailsObj.paymentType === "echannel") {
+      paymentMethodDetail = "MANDIRI BILL";
+      if (paymentDetailsObj.billKey) paymentMethodDetail += `\nBill Key: \`${paymentDetailsObj.billKey}\``;
+    }
+  }
+
   const message = `
 *NOTIFIKASI BOOKING BARU*
 
@@ -133,7 +151,7 @@ Pajak (11%): Rp${taxAmount.toLocaleString("id-ID")}
 *Total*: *Rp${totalPrice.toLocaleString("id-ID")}*
 
 ${paymentDetails}
-Metode: ${booking.paymentMethod.toUpperCase()}
+Metode: ${paymentMethodDetail}
 
 *ID Booking*: \`${booking._id}\`
 Diterima: ${new Date().toLocaleString("id-ID")}
@@ -147,12 +165,30 @@ _Silakan akses dashboard admin untuk detail lengkap dan penugasan teknisi._
 /**
  * Kirim notifikasi ke admin saat pembayaran berhasil
  */
-export const sendAdminPaymentNotification = async (booking) => {
+export const sendAdminPaymentNotification = async (booking, paymentDetailsObj = {}) => {
   let paymentInfo = "";
   if (booking.paymentStatus === "paid") {
     paymentInfo = `*Status*: LUNAS\n*Total*: Rp${booking.totalPrice?.toLocaleString("id-ID")}`;
   } else if (booking.paymentStatus === "dp_paid") {
     paymentInfo = `*Status*: DOWN PAYMENT TERBAYAR\n*DP*: Rp${booking.dpAmount?.toLocaleString("id-ID")}\n*Sisa*: Rp${booking.remainingPayment?.toLocaleString("id-ID")}`;
+  }
+
+  // Format detailed payment method
+  let paymentMethodDetail = booking.paymentMethod.toUpperCase();
+  if (paymentDetailsObj && paymentDetailsObj.paymentType) {
+    if (paymentDetailsObj.paymentType === "bank_transfer" && paymentDetailsObj.bank) {
+      paymentMethodDetail = `BANK TRANSFER - ${paymentDetailsObj.bank.toUpperCase()}`;
+      if (paymentDetailsObj.vaNumber) paymentMethodDetail += `\nVA: \`${paymentDetailsObj.vaNumber}\``;
+    } else if (paymentDetailsObj.paymentType === "cstore" && paymentDetailsObj.store) {
+      paymentMethodDetail = `${paymentDetailsObj.store.toUpperCase()}`;
+      if (paymentDetailsObj.paymentCode) paymentMethodDetail += `\nKode: \`${paymentDetailsObj.paymentCode}\``;
+    } else if (paymentDetailsObj.paymentType === "qris") {
+      paymentMethodDetail = "QRIS";
+      if (paymentDetailsObj.issuer) paymentMethodDetail += ` (${paymentDetailsObj.issuer})`;
+    } else if (paymentDetailsObj.paymentType === "echannel") {
+      paymentMethodDetail = "MANDIRI BILL";
+      if (paymentDetailsObj.billKey) paymentMethodDetail += `\nBill Key: \`${paymentDetailsObj.billKey}\``;
+    }
   }
 
   const message = `
@@ -165,7 +201,7 @@ Phone: ${booking.customerPhone}
 
 *PAYMENT*
 ${paymentInfo}
-Metode: ${booking.paymentMethod.toUpperCase()}
+Metode: ${paymentMethodDetail}
 
 Waktu: ${new Date().toLocaleString("id-ID")}
 `.trim();

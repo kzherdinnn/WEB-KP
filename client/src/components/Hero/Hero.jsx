@@ -196,7 +196,7 @@ const Hero = () => {
             animate="visible"
             className="space-y-4 md:space-y-6"
           >
-            <motion.div variants={itemVariants} className="space-y-3 md:space-y-4">
+            <motion.div variants={itemVariants} className="space-y-2 md:space-y-3">
               <div
                 className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-teal-100/80 backdrop-blur-sm text-teal-800 font-medium text-xs md:text-sm border border-teal-200"
               >
@@ -204,7 +204,7 @@ const Hero = () => {
                 <span>Bengkel Variasi Mobil Terpercaya</span>
               </div>
 
-              <h1 className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight font-outfit ${isDarkMode ? "text-white" : "text-gray-900"
+              <h1 className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-none font-outfit ${isDarkMode ? "text-white" : "text-gray-900"
                 }`}>
                 Tingkatkan Kenyamanan <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-500">
@@ -212,7 +212,7 @@ const Hero = () => {
                 </span>
               </h1>
 
-              <div className={`h-12 md:h-16 text-lg md:text-xl lg:text-2xl font-medium font-outfit flex items-center ${isDarkMode ? "text-gray-300" : "text-gray-600"
+              <div className={`h-8 md:h-12 text-lg md:text-xl lg:text-2xl font-medium font-outfit flex items-center ${isDarkMode ? "text-gray-300" : "text-gray-600"
                 }`}>
                 <span className="mr-2">Ahli dalam</span>
                 <span className="text-teal-600 font-bold">
@@ -230,9 +230,9 @@ const Hero = () => {
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2">
               <Link
                 to="/booking"
-                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-teal-600 text-white rounded-xl font-bold text-base md:text-lg overflow-hidden transition-all shadow-lg hover:shadow-teal-500/30 hover:-translate-y-1"
+                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl font-bold text-base md:text-lg overflow-hidden transition-all shadow-lg hover:shadow-teal-500/30 hover:-translate-y-1"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative z-10 flex items-center gap-2">
                   <FaTools className="group-hover:rotate-12 transition-transform" />
                   Booking Service

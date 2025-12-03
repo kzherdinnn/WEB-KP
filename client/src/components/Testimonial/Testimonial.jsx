@@ -61,7 +61,7 @@ const testimonials = [
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200",
     rating: 4,
     review:
-     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 7,
@@ -71,7 +71,7 @@ const testimonials = [
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200",
     rating: 5,
     review:
-     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     id: 8,
@@ -153,18 +153,18 @@ const Testimonial = () => {
   };
 
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 pt-12 pb-12">
+    <div className="w-full px-4 sm:px-8 lg:px-16 py-8">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="text-center mb-16"
+        className="text-center mb-8"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 playfair">
+        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 outfit">
           Ulasan tamu kami
         </h2>
-        <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+        <div className="w-24 h-1 bg-teal-600 mx-auto mb-4"></div>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
           Temukan apa yang membuat kami menjadi pilihan utama bagi mereka yang hanya menginginkan yang
           terbaik. Tamu-tamu kami mempercayai kami untuk menyediakan penginapan yang luar biasa yang melampaui
@@ -180,7 +180,7 @@ const Testimonial = () => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-blue-600 hover:text-white transition-all duration-300 group"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 lg:-translate-x-16 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-teal-600 hover:text-white transition-all duration-300 group"
           aria-label="Previous testimonials"
         >
           <FaChevronLeft className="w-5 h-5" />
@@ -188,7 +188,7 @@ const Testimonial = () => {
 
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-blue-600 hover:text-white transition-all duration-300 group"
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 lg:translate-x-16 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-teal-600 hover:text-white transition-all duration-300 group"
           aria-label="Next testimonials"
         >
           <FaChevronRight className="w-5 h-5" />
@@ -216,10 +216,10 @@ const Testimonial = () => {
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100"
+                  className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-1"
                 >
                   {/* Quote Icon */}
-                  <div className="text-blue-600 mb-4">
+                  <div className="text-teal-600 mb-4">
                     <svg
                       className="w-10 h-10 opacity-50"
                       fill="currentColor"
@@ -252,12 +252,12 @@ const Testimonial = () => {
                   <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
                     <img
                       loading="lazy"
-                      className="w-14 h-14 rounded-full object-cover border-2 border-blue-100"
+                      className="w-14 h-14 rounded-full object-cover border-2 border-teal-100"
                       src={testimonial.image}
                       alt={testimonial.name}
                     />
                     <div>
-                      <p className="font-bold text-gray-900 playfair">
+                      <p className="font-bold text-gray-900 outfit">
                         {testimonial.name}
                       </p>
                       <p className="text-sm text-gray-500 outfit">
@@ -267,27 +267,28 @@ const Testimonial = () => {
                   </div>
                 </motion.div>
               ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </motion.div >
+          </AnimatePresence >
+        </div >
 
         {/* Dots Navigation */}
-        <div className="flex justify-center gap-2 mt-8">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex
-                  ? "w-8 bg-blue-600"
+        < div className="flex justify-center gap-2 mt-8" >
+          {
+            Array.from({ length: totalSlides }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`h-2 rounded-full transition-all duration-300 ${index === currentIndex
+                  ? "w-8 bg-teal-600"
                   : "w-2 bg-gray-300 hover:bg-gray-400"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+                  }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))
+          }
+        </div >
+      </div >
+    </div >
   );
 };
 

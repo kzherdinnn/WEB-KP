@@ -62,26 +62,26 @@ const ContactLocation = () => {
   ];
 
   return (
-    <section id="contact" className="pt-12 pb-12 bg-gray-50">
+    <section id="contact" className="py-8 bg-gray-50">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
             Kontak & Lokasi
           </h2>
-          <div className="w-24 h-1 bg-teal-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-teal-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Hubungi kami atau kunjungi Alamat kami.
           </p>
         </motion.div>
 
         {/* Contact Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {contactInfo.map((info, index) => (
             <motion.div
               key={index}
@@ -89,7 +89,7 @@ const ContactLocation = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center text-teal-600 mb-4">
                 {info.icon}
@@ -186,7 +186,7 @@ const ContactLocation = () => {
 
               <button
                 type="submit"
-                className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors duration-300"
+                className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-teal-500/30 transition-all duration-300 hover:-translate-y-1"
               >
                 Kirim Pesan
               </button>

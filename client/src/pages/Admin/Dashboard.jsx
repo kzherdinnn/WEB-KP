@@ -27,6 +27,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [pendingData, setPendingData] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const fetchDashboardData = async (silent = false) => {
     try {
@@ -70,72 +72,85 @@ const Dashboard = () => {
 
   const handleRefresh = () => fetchDashboardData(true);
 
-  const handleStatusUpdate = async (newStatus) => {
-    if (!selectedBooking) return;
+  // Initialize pending data when a booking is selected
+  useEffect(() => {
+    if (selectedBooking) {
+      setPendingData({
+        bookingStatus: selectedBooking.bookingStatus,
+        technicianId: selectedBooking.technician?._id || selectedBooking.technician || "",
+        technician: selectedBooking.technician // Keep full object for display if needed
+      });
+    } else {
+      setPendingData(null);
+    }
+  }, [selectedBooking]);
+
+  const handleLocalStatusChange = (newStatus) => {
+    setPendingData(prev => ({ ...prev, bookingStatus: newStatus }));
+  };
+
+  const handleLocalTechnicianChange = (technicianId) => {
+    setPendingData(prev => ({ ...prev, technicianId }));
+  };
+
+  const handleSaveChanges = async () => {
+    if (!selectedBooking || !pendingData) return;
+
+    setIsSaving(true);
+    let successCount = 0;
+    let errorCount = 0;
 
     try {
-      const { data } = await axios.patch(`/api/bookings/${selectedBooking._id}/status`, {
-        status: newStatus
-      });
-
-      if (data.success) {
-        toast.success(`Status berhasil diubah menjadi ${newStatus}`);
-
-        // Update local state
-        setSelectedBooking(prev => ({ ...prev, bookingStatus: newStatus }));
-
-        // Update list state
-        setDashboardData(prev => ({
-          ...prev,
-          bookings: prev.bookings.map(b =>
-            b._id === selectedBooking._id ? { ...b, bookingStatus: newStatus } : b
-          )
-        }));
-
-        // Refresh stats if needed (optional, but good for consistency)
-        fetchDashboardData(true);
+      // 1. Update Status if changed
+      if (pendingData.bookingStatus !== selectedBooking.bookingStatus) {
+        try {
+          const { data } = await axios.patch(`/api/bookings/${selectedBooking._id}/status`, {
+            status: pendingData.bookingStatus
+          });
+          if (data.success) successCount++;
+        } catch (error) {
+          console.error("Failed to update status", error);
+          errorCount++;
+        }
       }
+
+      // 2. Assign Technician if changed
+      const currentTechId = selectedBooking.technician?._id || selectedBooking.technician || "";
+      if (pendingData.technicianId !== currentTechId) {
+        try {
+          const { data } = await axios.post(`/api/bookings/${selectedBooking._id}/assign-technician`, {
+            technicianId: pendingData.technicianId
+          });
+          if (data.success) successCount++;
+        } catch (error) {
+          console.error("Failed to assign technician", error);
+          errorCount++;
+        }
+      }
+
+      if (errorCount === 0 && successCount > 0) {
+        toast.success("Perubahan berhasil disimpan");
+        setSelectedBooking(null); // Close modal
+        fetchDashboardData(true); // Refresh data
+      } else if (errorCount > 0 && successCount > 0) {
+        toast.warning("Beberapa perubahan berhasil, namun ada yang gagal");
+        fetchDashboardData(true);
+      } else if (errorCount > 0) {
+        toast.error("Gagal menyimpan perubahan");
+      } else {
+        // No changes made
+        toast.info("Tidak ada perubahan yang disimpan");
+        setSelectedBooking(null);
+      }
+
     } catch (error) {
-      toast.error(error.response?.data?.message || "Gagal mengubah status");
+      toast.error("Terjadi kesalahan saat menyimpan");
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handleAssignTechnician = async (technicianId) => {
-    if (!selectedBooking) return;
 
-    try {
-      const { data } = await axios.post(`/api/bookings/${selectedBooking._id}/assign-technician`, {
-        technicianId
-      });
-
-      if (data.success) {
-        toast.success("Teknisi berhasil ditugaskan");
-
-        // Update local state
-        setSelectedBooking(prev => ({
-          ...prev,
-          technician: data.data.technician,
-          bookingStatus: data.data.bookingStatus
-        }));
-
-        // Update list state
-        setDashboardData(prev => ({
-          ...prev,
-          bookings: prev.bookings.map(b =>
-            b._id === selectedBooking._id ? {
-              ...b,
-              technician: data.data.technician,
-              bookingStatus: data.data.bookingStatus
-            } : b
-          )
-        }));
-
-        fetchDashboardData(true);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Gagal menugaskan teknisi");
-    }
-  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("id-ID", {
@@ -323,13 +338,13 @@ const Dashboard = () => {
                 <div className="flex-1 min-w-[200px]">
                   <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Status Booking</p>
                   <select
-                    value={selectedBooking.bookingStatus}
-                    onChange={(e) => handleStatusUpdate(e.target.value)}
-                    className={`w-full px-3 py-2 rounded-lg text-sm font-semibold border-2 focus:outline-none focus:ring-2 focus:ring-offset-1 transition-all cursor-pointer ${selectedBooking.bookingStatus === 'completed' ? 'bg-green-50 border-green-200 text-green-800 focus:ring-green-500' :
-                      selectedBooking.bookingStatus === 'cancelled' ? 'bg-red-50 border-red-200 text-red-800 focus:ring-red-500' :
-                        selectedBooking.bookingStatus === 'in_progress' ? 'bg-blue-50 border-blue-200 text-blue-800 focus:ring-blue-500' :
-                          selectedBooking.bookingStatus === 'confirmed' ? 'bg-teal-50 border-teal-200 text-teal-800 focus:ring-teal-500' :
-                            'bg-yellow-50 border-yellow-200 text-yellow-800 focus:ring-yellow-500'
+                    value={pendingData?.bookingStatus || selectedBooking.bookingStatus}
+                    onChange={(e) => handleLocalStatusChange(e.target.value)}
+                    className={`w-full px-3 py-2 rounded-lg text-sm font-semibold border-2 focus:outline-none focus:ring-2 focus:ring-offset-1 transition-all cursor-pointer ${(pendingData?.bookingStatus || selectedBooking.bookingStatus) === 'completed' ? 'bg-green-50 border-green-200 text-green-800 focus:ring-green-500' :
+                        (pendingData?.bookingStatus || selectedBooking.bookingStatus) === 'cancelled' ? 'bg-red-50 border-red-200 text-red-800 focus:ring-red-500' :
+                          (pendingData?.bookingStatus || selectedBooking.bookingStatus) === 'in_progress' ? 'bg-blue-50 border-blue-200 text-blue-800 focus:ring-blue-500' :
+                            (pendingData?.bookingStatus || selectedBooking.bookingStatus) === 'confirmed' ? 'bg-teal-50 border-teal-200 text-teal-800 focus:ring-teal-500' :
+                              'bg-yellow-50 border-yellow-200 text-yellow-800 focus:ring-yellow-500'
                       }`}
                   >
                     <option value="pending">Pending</option>
@@ -362,8 +377,8 @@ const Dashboard = () => {
                 </div>
                 <div className="flex gap-2">
                   <select
-                    value={selectedBooking.technician?._id || selectedBooking.technician || ""}
-                    onChange={(e) => handleAssignTechnician(e.target.value)}
+                    value={pendingData?.technicianId || ""}
+                    onChange={(e) => handleLocalTechnicianChange(e.target.value)}
                     className="flex-1 px-3 py-2 rounded-lg text-sm border border-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
                   >
                     <option value="">Pilih Teknisi...</option>
@@ -494,9 +509,24 @@ const Dashboard = () => {
             <div className="p-6 border-t border-gray-200 bg-gray-50 rounded-b-xl flex justify-end">
               <button
                 onClick={() => setSelectedBooking(null)}
-                className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                disabled={isSaving}
+                className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium mr-3"
               >
-                Tutup
+                Batal
+              </button>
+              <button
+                onClick={handleSaveChanges}
+                disabled={isSaving}
+                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium flex items-center gap-2"
+              >
+                {isSaving ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Menyimpan...</span>
+                  </>
+                ) : (
+                  <span>Simpan Perubahan</span>
+                )}
               </button>
             </div>
           </div>
