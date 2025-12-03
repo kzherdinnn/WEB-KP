@@ -1,12 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaUsers, FaTools, FaBox, FaUserCog } from "react-icons/fa";
+import { FaHome, FaUsers, FaTools, FaBox, FaUserCog, FaNewspaper } from "react-icons/fa";
 
 const sidebarLinks = [
   { name: "Dashboard", path: "/admin", icon: <FaHome className="text-lg" /> },
   { name: "Spareparts", path: "spareparts", icon: <FaBox className="text-lg" /> },
   { name: "Services", path: "services", icon: <FaTools className="text-lg" /> },
   { name: "Technicians", path: "technicians", icon: <FaUserCog className="text-lg" /> },
+  { name: "Articles", path: "articles", icon: <FaNewspaper className="text-lg" /> },
   { name: "Users", path: "users", icon: <FaUsers className="text-lg" /> },
 ];
 

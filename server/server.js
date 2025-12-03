@@ -12,6 +12,7 @@ import technicianRouter from "./routes/technicianRoutes.js";
 import workshopRouter from "./routes/workshopRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import auditLogRouter from "./routes/auditLogRoutes.js";
+import articleRouter from "./routes/articleRoutes.js";
 import { connectImageKit } from "./config/imagekit.js";
 import imagekitRoutes from "./routes/imagekitRoutes.js";
 import { midtransWebHook } from "./controllers/midtransWebHook.js";
@@ -85,6 +86,7 @@ app.use("/api/technicians", technicianRouter);
 app.use("/api/workshop", workshopRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/audit-logs", auditLogRouter);
+app.use("/api/articles", articleRouter);
 app.use("/api/imagekit", imagekitRoutes);
 
 // =====================================================

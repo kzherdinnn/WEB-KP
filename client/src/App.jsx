@@ -12,6 +12,8 @@ import UserManagement from "./pages/Admin/UserManagement";
 import ManageSpareparts from "./pages/Admin/ManageSpareparts";
 import ManageServices from "./pages/Admin/ManageServices";
 import ManageTechnicians from "./pages/admin/ManageTechnicians";
+import ManageArticles from "./pages/admin/ManageArticles";
+import ArticleEditor from "./pages/admin/ArticleEditor";
 import { Toaster } from "react-hot-toast";
 import { useAppContext } from "./context/AppContext";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
@@ -50,6 +52,9 @@ const App = () => {
           <Route path="spareparts" element={<ManageSpareparts />} />
           <Route path="services" element={<ManageServices />} />
           <Route path="technicians" element={<ManageTechnicians />} />
+          <Route path="articles" element={<ManageArticles />} />
+          <Route path="articles/new" element={<ArticleEditor />} />
+          <Route path="articles/edit/:id" element={<ArticleEditor />} />
         </Route>
       </Routes>
     </div>
