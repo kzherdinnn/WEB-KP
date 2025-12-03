@@ -282,3 +282,526 @@ select {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+/* ============================================
+   TipTap Editor Styles
+   ============================================ */
+
+/* Editor Content Styling */
+.ProseMirror {
+    outline: none !important;
+}
+
+.ProseMirror > * + * {
+    margin-top: 0.75em;
+}
+
+/* Headings */
+.ProseMirror h1 {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #111827;
+}
+
+.ProseMirror h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #111827;
+}
+
+.ProseMirror h3 {
+    font-size: 1.25em;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 0.75em;
+    margin-bottom: 0.5em;
+    color: #374151;
+}
+
+.ProseMirror h4 {
+    font-size: 1.1em;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 0.75em;
+    margin-bottom: 0.5em;
+    color: #374151;
+}
+
+/* Paragraph */
+.ProseMirror p {
+    line-height: 1.75;
+    color: #374151;
+}
+
+/* Links */
+.ProseMirror a {
+    color: #14b8a6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ProseMirror a:hover {
+    color: #0d9488;
+}
+
+/* Lists */
+.ProseMirror ul,
+.ProseMirror ol {
+    padding-left: 1.5em;
+    margin: 0.75em 0;
+}
+
+.ProseMirror ul {
+    list-style-type: disc;
+}
+
+.ProseMirror ol {
+    list-style-type: decimal;
+}
+
+.ProseMirror li {
+    margin: 0.25em 0;
+    padding-left: 0.25em;
+}
+
+.ProseMirror li > p {
+    margin: 0;
+}
+
+/* Task List */
+.ProseMirror ul[data-type="taskList"] {
+    list-style: none;
+    padding-left: 0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label {
+    flex: 0 0 auto;
+    margin-right: 0.5rem;
+    user-select: none;
+    margin-top: 0.25rem;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    accent-color: #14b8a6;
+}
+
+.ProseMirror ul[data-type="taskList"] li > div {
+    flex: 1;
+}
+
+.ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
+    text-decoration: line-through;
+    color: #9ca3af;
+}
+
+/* Blockquote */
+.ProseMirror blockquote {
+    border-left: 4px solid #14b8a6;
+    padding-left: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-style: italic;
+    color: #6b7280;
+    background: #f0fdfa;
+    padding: 1em;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Code */
+.ProseMirror code {
+    background: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    color: #ef4444;
+}
+
+/* Code Block */
+.ProseMirror pre {
+    background: #1f2937;
+    color: #f9fafb;
+    padding: 1em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-family: "Courier New", monospace;
+    font-size: 0.875em;
+    line-height: 1.5;
+}
+
+.ProseMirror pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+}
+
+/* Table Styling */
+.ProseMirror table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 1em 0;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+    min-width: 1em;
+    border: 1px solid #e5e7eb;
+    padding: 0.5em 0.75em;
+    vertical-align: top;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ProseMirror th {
+    font-weight: 600;
+    text-align: left;
+    background: #f9fafb;
+    color: #111827;
+}
+
+.ProseMirror td {
+    background: #ffffff;
+}
+
+.ProseMirror .selectedCell {
+    background: #f0fdfa;
+}
+
+.ProseMirror .column-resize-handle {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #14b8a6;
+    cursor: col-resize;
+    opacity: 0;
+}
+
+.ProseMirror table:hover .column-resize-handle {
+    opacity: 0.5;
+}
+
+.ProseMirror .column-resize-handle:hover {
+    opacity: 1 !important;
+}
+
+/* Highlighted Text */
+.ProseMirror mark {
+    background-color: #fef08a;
+    padding: 0.1em 0.2em;
+    border-radius: 0.2em;
+}
+
+/* Horizontal Rule */
+.ProseMirror hr {
+    border: none;
+    border-top: 2px solid #e5e7eb;
+    margin: 2em 0;
+}
+
+/* Image */
+.ProseMirror img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1em 0;
+    display: block;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+    outline: 3px solid #14b8a6;
+}
+
+/* Placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+    color: #9ca3af;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Selection */
+.ProseMirror ::selection {
+    background: rgba(20, 184, 166, 0.2);
+}
+
+/* Focus state for empty editor */
+.ProseMirror:focus {
+    outline: none;
+}
+
+/* ============================================
+   Article Content Styling (Frontend Display)
+   ============================================ */
+
+/* Apply same styling to article content display as in editor */
+.article-content > * + * {
+    margin-top: 0.75em;
+}
+
+/* Headings */
+.article-content h1 {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #111827;
+}
+
+.article-content h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #111827;
+}
+
+.article-content h3 {
+    font-size: 1.25em;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 0.75em;
+    margin-bottom: 0.5em;
+    color: #374151;
+}
+
+.article-content h4 {
+    font-size: 1.1em;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 0.75em;
+    margin-bottom: 0.5em;
+    color: #374151;
+}
+
+/* Paragraph */
+.article-content p {
+    line-height: 1.75;
+    color: #374151;
+    margin: 0.75em 0;
+}
+
+/* Links */
+.article-content a {
+    color: #14b8a6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.article-content a:hover {
+    color: #0d9488;
+}
+
+/* Lists */
+.article-content ul,
+.article-content ol {
+    padding-left: 1.5em;
+    margin: 0.75em 0;
+}
+
+.article-content ul {
+    list-style-type: disc;
+}
+
+.article-content ol {
+    list-style-type: decimal;
+}
+
+.article-content li {
+    margin: 0.25em 0;
+    padding-left: 0.25em;
+}
+
+.article-content li > p {
+    margin: 0;
+}
+
+/* Task List */
+.article-content ul[data-type="taskList"] {
+    list-style: none;
+    padding-left: 0;
+}
+
+.article-content ul[data-type="taskList"] li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.article-content ul[data-type="taskList"] li > label {
+    flex: 0 0 auto;
+    margin-right: 0.5rem;
+    user-select: none;
+    margin-top: 0.25rem;
+}
+
+.article-content ul[data-type="taskList"] li > label input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    accent-color: #14b8a6;
+}
+
+.article-content ul[data-type="taskList"] li > div {
+    flex: 1;
+}
+
+.article-content ul[data-type="taskList"] li[data-checked="true"] > div {
+    text-decoration: line-through;
+    color: #9ca3af;
+}
+
+/* Blockquote */
+.article-content blockquote {
+    border-left: 4px solid #14b8a6;
+    padding-left: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-style: italic;
+    color: #6b7280;
+    background: #f0fdfa;
+    padding: 1em;
+    border-radius: 0 0.5rem 0.5rem 0;
+    margin: 1em 0;
+}
+
+/* Code */
+.article-content code {
+    background: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    color: #ef4444;
+}
+
+/* Code Block */
+.article-content pre {
+    background: #1f2937;
+    color: #f9fafb;
+    padding: 1em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-family: "Courier New", monospace;
+    font-size: 0.875em;
+    line-height: 1.5;
+    margin: 1em 0;
+}
+
+.article-content pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+}
+
+/* Table Styling */
+.article-content table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 1em 0;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.article-content td,
+.article-content th {
+    min-width: 1em;
+    border: 1px solid #e5e7eb;
+    padding: 0.5em 0.75em;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+.article-content th {
+    font-weight: 600;
+    text-align: left;
+    background: #f9fafb;
+    color: #111827;
+}
+
+.article-content td {
+    background: #ffffff;
+}
+
+/* Highlighted Text */
+.article-content mark {
+    background-color: #fef08a;
+    padding: 0.1em 0.2em;
+    border-radius: 0.2em;
+}
+
+/* Horizontal Rule */
+.article-content hr {
+    border: none;
+    border-top: 2px solid #e5e7eb;
+    margin: 2em 0;
+}
+
+/* Image */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1em 0;
+    display: block;
+}
+
+/* Strong & Em */
+.article-content strong {
+    font-weight: 700;
+    color: #111827;
+}
+
+.article-content em {
+    font-style: italic;
+}
+
+/* Underline & Strikethrough */
+.article-content u {
+    text-decoration: underline;
+}
+
+.article-content s {
+    text-decoration: line-through;
+}
+
+/* Text Alignment */
+.article-content [style*="text-align: center"] {
+    text-align: center;
+}
+
+.article-content [style*="text-align: right"] {
+    text-align: right;
+}
+
+.article-content [style*="text-align: justify"] {
+    text-align: justify;
+}
+
