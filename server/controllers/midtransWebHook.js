@@ -1,9 +1,10 @@
 import midtransClient from "midtrans-client";
 import bookingModel from "../models/booking.models.js";
+import { sendBookingConfirmationEmail } from "../utils/emailService.js";
 import {
   sendAdminBookingNotification,
-  sendCustomerPaymentConfirmation,
-} from "../utils/whatsappService.js";
+  sendAdminPaymentNotification,
+} from "../utils/telegramService.js";
 
 // Buat instance Core API Midtrans untuk verifikasi notifikasi
 const coreApi = new midtransClient.CoreApi({
@@ -121,29 +122,37 @@ export const midtransWebHook = async (req, res) => {
         `✔️ Verifikasi: Status di database sekarang adalah '${updatedBooking.paymentStatus}'`,
       );
 
-      // ===== SEND WHATSAPP NOTIFICATIONS =====
+      // ===== SEND EMAIL & TELEGRAM NOTIFICATIONS =====
       if (newPaymentStatus === "paid" || newPaymentStatus === "dp_paid") {
-        console.log("📱 Mengirim notifikasi WhatsApp...");
+        console.log("📧 🤖 Mengirim notifikasi Email & Telegram...");
         
         // Populate booking dengan data lengkap untuk notifikasi
         const populatedBooking = await bookingModel
           .findById(bookingId)
           .populate("spareparts.sparepart services.service");
 
-        // Kirim notifikasi ke admin
+        // Kirim email ke customer
         try {
-          await sendAdminBookingNotification(populatedBooking);
-          console.log("✅ Notifikasi WhatsApp ke admin berhasil dikirim");
+          await sendBookingConfirmationEmail(populatedBooking);
+          console.log("✅ Email konfirmasi berhasil dikirim ke customer");
         } catch (error) {
-          console.error("❌ Error mengirim notifikasi ke admin:", error.message);
+          console.error("❌ Error mengirim email ke customer:", error.message);
         }
 
-        // Kirim notifikasi ke customer
+        // Kirim telegram ke admin - booking notification
         try {
-          await sendCustomerPaymentConfirmation(populatedBooking);
-          console.log("✅ Notifikasi WhatsApp ke customer berhasil dikirim");
+          await sendAdminBookingNotification(populatedBooking);
+          console.log("✅ Notifikasi Telegram booking berhasil dikirim ke admin");
         } catch (error) {
-          console.error("❌ Error mengirim notifikasi ke customer:", error.message);
+          console.error("❌ Error mengirim telegram booking ke admin:", error.message);
+        }
+
+        // Kirim telegram ke admin - payment notification
+        try {
+          await sendAdminPaymentNotification(populatedBooking);
+          console.log("✅ Notifikasi Telegram payment berhasil dikirim ke admin");
+        } catch (error) {
+          console.error("❌ Error mengirim telegram payment ke admin:", error.message);
         }
       }
     } else {
