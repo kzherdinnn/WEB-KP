@@ -4,25 +4,25 @@ import { FaCheck, FaArrowRight } from "react-icons/fa";
 
 const AboutUs = () => {
   return (
-    <section id="about" className="pt-16 pb-12 bg-white">
+    <section id="about" className="py-8 bg-white">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 outfit">
             Aan Audio Solutions
           </h2>
-          <div className="w-24 h-1 bg-teal-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-teal-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
             Bengkel audio mobil — pemasangan, tuning, dan perbaikan sistem audio kendaraan
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
           {/* Left Side - Image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -41,7 +41,7 @@ const AboutUs = () => {
             </div>
             {/* Floating Card */}
             <div className="absolute -bottom-8 -right-8 bg-white p-6 rounded-lg shadow-xl border border-gray-100">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-8">
                 <div className="text-center">
                   <p className="text-4xl font-bold text-teal-600 outfit">26+</p>
                   <p className="text-sm text-gray-600 outfit">
@@ -65,7 +65,7 @@ const AboutUs = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="space-y-4"
           >
             <h3 className="text-3xl font-bold text-gray-900 outfit">
               Selamat Datang di Aan Audio Solutions
@@ -142,10 +142,10 @@ const AboutUs = () => {
             </div>
 
             {/* CTA Button */}
-            <div className="pt-6">
+            <div className="pt-4">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors duration-300 shadow-lg hover:shadow-xl outfit"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-teal-500/30 transition-all duration-300 hover:-translate-y-1 outfit"
               >
                 Hubungi Kami
                 <FaArrowRight className="w-4 h-4" />
@@ -160,7 +160,7 @@ const AboutUs = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-16 border-t border-gray-200"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-8 border-t border-gray-200"
         >
           <div className="text-center">
             <p className="text-4xl font-bold text-teal-600 mb-2 outfit">1k+</p>

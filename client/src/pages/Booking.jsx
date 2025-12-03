@@ -215,7 +215,7 @@ export default function Booking() {
                                     <div className="space-y-4">
                                         <h3 className="font-semibold text-gray-700">Data Diri</h3>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span className="text-red-500">*</span></label>
                                             <input
                                                 type="text"
                                                 required
@@ -228,15 +228,14 @@ export default function Booking() {
 
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                No. HP / WhatsApp *
-                                                <span className="ml-1 text-xs text-gray-500">(untuk notifikasi)</span>
+                                                No. Handphone <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="tel"
                                                 required
-                                                placeholder="08123456789 atau 628123456789"
+                                                placeholder="08123456789"
                                                 pattern="^(08|628)[0-9]{8,11}$"
-                                                title="Format: 08xxxxxxxxx atau 628xxxxxxxxx"
+                                                title="Harap isi bidang ini."
                                                 value={formData.customerPhone}
                                                 onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
                                                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
@@ -245,12 +244,12 @@ export default function Booking() {
                                                 <svg className="w-3.5 h-3.5 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                                                 </svg>
-                                                Nomor aktif WhatsApp untuk notifikasi booking & pembayaran
+                                                Nomor handphone aktif yang dapat dihubungi
                                             </p>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Email <span className="text-red-500">*</span></label>
                                             <input
                                                 type="email"
                                                 value={formData.customerEmail}
@@ -258,6 +257,12 @@ export default function Booking() {
                                                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
                                                 placeholder="email@example.com"
                                             />
+                                            <p className="mt-1.5 text-xs text-gray-500 flex items-center gap-1">
+                                                <svg className="w-3.5 h-3.5 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                                </svg>
+                                                Email aktif untuk pengiriman invoice & bukti booking
+                                            </p>
                                         </div>
                                     </div>
 
@@ -265,7 +270,7 @@ export default function Booking() {
                                         <h3 className="font-semibold text-gray-700">Data Kendaraan</h3>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Merek *</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Merek <span className="text-red-500">*</span></label>
                                                 <input
                                                     type="text"
                                                     required
@@ -279,7 +284,7 @@ export default function Booking() {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Model *</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Model <span className="text-red-500">*</span></label>
                                                 <input
                                                     type="text"
                                                     required
@@ -296,7 +301,7 @@ export default function Booking() {
 
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Tahun *</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Tahun <span className="text-red-500">*</span></label>
                                                 <input
                                                     type="text"
                                                     required
@@ -310,7 +315,7 @@ export default function Booking() {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Nomor Plat</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Nomor Plat <span className="text-red-500">*</span></label>
                                                 <input
                                                     type="text"
                                                     placeholder="B 1234 XYZ"
@@ -329,7 +334,13 @@ export default function Booking() {
                                 <div className="flex justify-end">
                                     <button
                                         type="button"
-                                        onClick={() => setStep(2)}
+                                        onClick={() => {
+                                            if (!formData.customerName || !formData.customerPhone || !formData.customerEmail || !formData.vehicleInfo.brand || !formData.vehicleInfo.model || !formData.vehicleInfo.year || !formData.vehicleInfo.plateNumber) {
+                                                toast.error('Mohon lengkapi semua data bertanda *');
+                                                return;
+                                            }
+                                            setStep(2);
+                                        }}
                                         className="flex items-center gap-2 bg-teal-600 text-white px-8 py-3 rounded-xl hover:bg-teal-700 transition-all font-semibold shadow-lg hover:shadow-teal-500/30"
                                     >
                                         Lanjut ke Jadwal <FiChevronRight />
@@ -348,7 +359,7 @@ export default function Booking() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                                     <div className="space-y-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Tanggal Pengerjaan *</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Tanggal Pengerjaan <span className="text-red-500">*</span></label>
                                             <input
                                                 type="date"
                                                 required
@@ -361,7 +372,7 @@ export default function Booking() {
 
                                         {formData.scheduledDate && (
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-2">Waktu Pengerjaan *</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Waktu Pengerjaan <span className="text-red-500">*</span></label>
                                                 <div className="grid grid-cols-3 gap-3">
                                                     {timeSlots.map((slot) => (
                                                         <button
@@ -389,7 +400,7 @@ export default function Booking() {
 
                                     <div className="space-y-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Lokasi Servis *</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Lokasi Servis <span className="text-red-500">*</span></label>
                                             <div className="grid grid-cols-2 gap-4">
                                                 <button
                                                     type="button"
@@ -418,7 +429,7 @@ export default function Booking() {
 
                                         {formData.serviceLocation === 'onsite' && (
                                             <div className="animate-fadeIn">
-                                                <label className="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap *</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap <span className="text-red-500">*</span></label>
                                                 <textarea
                                                     required
                                                     value={formData.onsiteAddress}

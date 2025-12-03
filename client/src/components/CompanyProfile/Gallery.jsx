@@ -70,19 +70,19 @@ const Gallery = () => {
   };
 
   return (
-    <section id="gallery" className="pt-12 pb-12 bg-white">
+    <section id="gallery" className="py-8 bg-white">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
             Our Gallery
           </h2>
-          <div className="w-24 h-1 bg-teal-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-teal-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Lihat koleksi produk dan layanan unggulan kami untuk kebutuhan audio mobil Anda
           </p>
@@ -93,13 +93,13 @@ const Gallery = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {galleryImages.map((image, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              className={`relative group cursor-pointer overflow-hidden rounded-lg shadow-lg ${index === 0 || index === 5 ? "lg:col-span-2 lg:row-span-2" : ""
+              className={`relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg ${index === 0 || index === 5 ? "lg:col-span-2 lg:row-span-2" : ""
                 }`}
               onClick={() => setSelectedImage(image)}
             >

@@ -52,7 +52,7 @@ export const sendEmail = async (to, subject, html) => {
 /**
  * Kirim email konfirmasi pembayaran ke customer
  */
-export const sendBookingConfirmationEmail = async (booking) => {
+export const sendBookingConfirmationEmail = async (booking, paymentDetails = {}) => {
   const customerEmail = booking.customerEmail;
 
   if (!customerEmail) {
@@ -70,10 +70,50 @@ export const sendBookingConfirmationEmail = async (booking) => {
   const isPaid = booking.paymentStatus === "paid";
   const isDpPaid = booking.paymentStatus === "dp_paid";
 
+  // Format detailed payment method info
+  let detailedPaymentInfo = "";
+  if (paymentDetails.paymentType) {
+    let methodText = paymentDetails.paymentType.replace(/_/g, " ").toUpperCase();
+    let detailText = "";
+
+    if (paymentDetails.paymentType === "bank_transfer" && paymentDetails.bank) {
+      methodText = `BANK TRANSFER - ${paymentDetails.bank.toUpperCase()}`;
+      if (paymentDetails.vaNumber) detailText = `VA Number: ${paymentDetails.vaNumber}`;
+    } else if (paymentDetails.paymentType === "cstore" && paymentDetails.store) {
+      methodText = `${paymentDetails.store.toUpperCase()}`;
+      if (paymentDetails.paymentCode) detailText = `Kode Bayar: ${paymentDetails.paymentCode}`;
+    } else if (paymentDetails.paymentType === "qris") {
+      methodText = "QRIS";
+      if (paymentDetails.issuer) detailText = `Issuer: ${paymentDetails.issuer}`;
+    } else if (paymentDetails.paymentType === "echannel") {
+      methodText = "MANDIRI BILL";
+      if (paymentDetails.billKey) detailText = `Bill Key: ${paymentDetails.billKey}`;
+    }
+
+    detailedPaymentInfo = `
+      <tr>
+        <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>Metode Pembayaran</strong></td>
+        <td style="padding: 10px; border-bottom: 1px solid #eee;">
+          ${methodText}
+          ${detailText ? `<br><span style="font-size: 12px; color: #6b7280;">${detailText}</span>` : ""}
+        </td>
+      </tr>
+    `;
+  } else {
+     // Fallback if no details provided (e.g. manual update)
+     detailedPaymentInfo = `
+      <tr>
+        <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>Metode Pembayaran</strong></td>
+        <td style="padding: 10px; border-bottom: 1px solid #eee;">${booking.paymentMethod.toUpperCase()}</td>
+      </tr>
+    `;
+  }
+
   // Format payment info
   let paymentInfo = "";
   if (isPaid) {
     paymentInfo = `
+      ${detailedPaymentInfo}
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>Total Dibayar</strong></td>
         <td style="padding: 10px; border-bottom: 1px solid #eee;">Rp${booking.totalPrice?.toLocaleString("id-ID")}</td>
@@ -85,6 +125,7 @@ export const sendBookingConfirmationEmail = async (booking) => {
     `;
   } else if (isDpPaid) {
     paymentInfo = `
+      ${detailedPaymentInfo}
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>DP Dibayar</strong></td>
         <td style="padding: 10px; border-bottom: 1px solid #eee;">Rp${booking.dpAmount?.toLocaleString("id-ID")}</td>

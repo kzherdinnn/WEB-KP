@@ -231,7 +231,7 @@ const Promos = () => {
   return (
     <section
       id="promos"
-      className="pt-12 pb-12 bg-gradient-to-b from-white to-gray-50"
+      className="pt-8 pb-8 bg-gradient-to-b from-white to-gray-50"
     >
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <motion.div
@@ -239,12 +239,12 @@ const Promos = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 outfit">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 outfit">
             Penawaran Khusus & Promo
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto outfit">
             Dapatkan diskon spesial untuk sparepart audio dan layanan bengkel terbaik kami.
           </p>
@@ -255,7 +255,7 @@ const Promos = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-8"
+          className="flex flex-wrap justify-center gap-6"
         >
           {promos.map((promo) => {
             const color = getPromoColor(promo.discount);
@@ -306,7 +306,7 @@ const Promos = () => {
                 </div>
 
                 {/* Content */}
-                <div className="p-6 space-y-4">
+                <div className="p-5 space-y-3">
                   {/* Category Badge */}
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-teal-600 uppercase tracking-wider outfit">
@@ -348,7 +348,7 @@ const Promos = () => {
                   {/* CTA Button */}
                   <Link
                     to={linkTo}
-                    className={`w-full flex items-center justify-center gap-2 bg-gradient-to-r ${color} text-white py-3 rounded-xl font-bold outfit hover:shadow-xl transition-all duration-300 group-hover:scale-105`}
+                    className={`w-full flex items-center justify-center gap-2 bg-gradient-to-r ${color} text-white py-2.5 rounded-xl font-bold outfit hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
                   >
                     <span>Lihat Detail</span>
                     <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
@@ -365,7 +365,7 @@ const Promos = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
-          className="mt-16 bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-700 rounded-3xl p-8 md:p-12 text-white text-center relative overflow-hidden"
+          className="mt-8 bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-700 rounded-3xl p-8 md:p-12 text-white text-center relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>

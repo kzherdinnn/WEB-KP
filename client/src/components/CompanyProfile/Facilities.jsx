@@ -86,19 +86,19 @@ const Facilities = () => {
   };
 
   return (
-    <section id="facilities" className="pt-12 pb-12 bg-gray-50">
+    <section id="facilities" className="py-8 bg-gray-50">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
             Layanan & Fasilitas Kami
           </h2>
-          <div className="w-24 h-1 bg-teal-600 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-teal-600 mx-auto mb-4"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Semua yang dibutuhkan kendaraan Anda untuk kinerja yang andal dan optimal.
           </p>
@@ -109,18 +109,18 @@ const Facilities = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {facilities.map((facility, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group"
+              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group"
             >
-              <div className="w-16 h-16 bg-teal-100 rounded-lg flex items-center justify-center text-teal-600 mb-6 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300">
+              <div className="w-16 h-16 bg-teal-100 rounded-lg flex items-center justify-center text-teal-600 mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300">
                 {facility.icon}
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
                 {facility.title}
               </h3>
               <p className="text-gray-600 leading-relaxed">
@@ -136,7 +136,7 @@ const Facilities = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
-          className="mt-16 bg-gradient-to-r from-teal-600 to-emerald-800 rounded-2xl p-8 md:p-12 text-white text-center"
+          className="mt-8 bg-gradient-to-r from-teal-600 to-emerald-600 rounded-2xl p-8 md:p-12 text-white text-center"
         >
           <h3 className="text-3xl font-bold mb-4">Butuh Informasi Lebih Lanjut ?</h3>
           <p className="text-teal-100 mb-8 max-w-2xl mx-auto">
