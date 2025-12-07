@@ -30,7 +30,7 @@ await connectImageKit();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://workshop-booking-syste.vercel.app",
+  "https://aan-audio-solutions.vercel.app",
 ];
 
 // =====================================================
