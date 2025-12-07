@@ -30,7 +30,7 @@ await connectImageKit();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://stayza.vercel.app",
+  "https://workshop-booking-syste.vercel.app",
 ];
 
 // =====================================================
@@ -50,15 +50,29 @@ app.post(
   clerkWebHooks
 );
 
-// Middleware CORS
+// Middleware CORS - Allow Vercel production and preview URLs
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+      
+      // Allow exact matches from allowedOrigins
+      if (allowedOrigins.includes(origin)) {
         return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
       }
+      
+      // Allow all Vercel preview deployments for this project
+      if (origin.includes('vercel.app') && origin.includes('workshop-booking')) {
+        return callback(null, true);
+      }
+      
+      // Allow codehelix0 Vercel preview URLs
+      if (origin.includes('codehelix0s-projects.vercel.app')) {
+        return callback(null, true);
+      }
+      
+      return callback(new Error("Not allowed by CORS"));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
