@@ -11,10 +11,10 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "icons/*.png", "background.webp"],
       manifest: {
-        name: "StayZa - Bengkel & Booking",
-        short_name: "StayZa",
+        name: "Aan Audio Solutions - Sparepart & Audio Mobil",
+        short_name: "Aan Audio",
         description:
-          "Akses cepat untuk booking bengkel, sparepart, dan layanan terbaik",
+          "Akses cepat untuk booking bengkel, sparepart dan aksesori audio mobil terbaik",
         theme_color: "#14b8a6",
         background_color: "#ffffff",
         display: "standalone",

@@ -160,17 +160,17 @@ const PWAInstallPrompt = () => {
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="StayZa" className="w-8 h-8" />
+                <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="Aan Audio" className="w-8 h-8" />
               </div>
               <div>
-                <h3 className="font-bold text-lg">Install StayZa</h3>
+                <h3 className="font-bold text-lg">Install Aan Audio</h3>
                 <p className="text-sm text-teal-100">Quick access to booking</p>
               </div>
             </div>
 
             <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 mb-4">
               <p className="text-sm mb-3 font-medium">
-                📱 Install aplikasi StayZa di iPhone Anda:
+                📱 Install aplikasi Aan Audio di iPhone Anda:
               </p>
               <ol className="text-sm space-y-2 text-teal-50">
                 <li className="flex items-start gap-2">
@@ -217,10 +217,10 @@ const PWAInstallPrompt = () => {
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg">
-              <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="StayZa" className="w-9 h-9" />
+              <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="Aan Audio" className="w-9 h-9" />
             </div>
             <div className="flex-1">
-              <h3 className="font-bold text-lg">Install StayZa</h3>
+              <h3 className="font-bold text-lg">Install Aan Audio</h3>
               <p className="text-sm text-teal-100">
                 Akses cepat & booking lebih mudah!
               </p>
@@ -270,7 +270,7 @@ const PWAInstallPrompt = () => {
             <div className="mt-4 bg-white/10 rounded-lg p-4 text-sm text-teal-50">
               <p className="font-semibold mb-2">📥 Cara Install Aplikasi:</p>
               <ol className="list-decimal pl-5 space-y-2 mb-3">
-                <li><strong>Desktop Chrome/Edge:</strong> Klik ikon <strong>⋮</strong> (menu) di pojok kanan atas → pilih <strong>"Install StayZa"</strong> atau <strong>"Install app"</strong></li>
+                <li><strong>Desktop Chrome/Edge:</strong> Klik ikon <strong>⋮</strong> (menu) di pojok kanan atas → pilih <strong>"Install Aan Audio"</strong> atau <strong>"Install app"</strong></li>
                 <li><strong>Android Chrome:</strong> Klik ikon <strong>⋮</strong> → pilih <strong>"Add to Home screen"</strong></li>
                 <li><strong>iPhone Safari:</strong> Tap <strong>Share</strong> (□↑) → pilih <strong>"Add to Home Screen"</strong></li>
               </ol>

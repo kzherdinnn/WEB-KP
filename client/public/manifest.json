@@ -1,7 +1,7 @@
 {
-  "name": "StayZa - Bengkel & Booking",
-  "short_name": "StayZa",
-  "description": "Akses cepat untuk booking bengkel, sparepart, dan layanan terbaik",
+  "name": "Aan Audio Solutions - Sparepart & Audio Mobil",
+  "short_name": "Aan Audio",
+  "description": "Akses cepat untuk booking bengkel, sparepart dan aksesori audio mobil terbaik",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
