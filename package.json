@@ -1,0 +1,18 @@
+{
+    "name": "bengkel-booking-system",
+    "version": "1.0.0",
+    "description": "Workshop Booking System - MERN Stack",
+    "scripts": {
+        "install:all": "cd client && npm install && cd ../server && npm install",
+        "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
+        "build": "cd client && npm run build",
+        "start": "cd server && npm start"
+    },
+    "keywords": [
+        "workshop",
+        "booking",
+        "mern"
+    ],
+    "author": "",
+    "license": "ISC"
+}
