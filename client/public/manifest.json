@@ -1,7 +1,7 @@
 {
-  "name": "Bengkel Las Kurnia Jaya - Jasa Las & Konstruksi",
-  "short_name": "Kurnia Jaya",
-  "description": "Layanan jasa las profesional, pembuatan pagar, kanopi, tralis, dan konstruksi besi lainnya",
+  "name": "StayZa - Bengkel & Booking",
+  "short_name": "StayZa",
+  "description": "Akses cepat untuk booking bengkel, sparepart, dan layanan terbaik",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -12,37 +12,21 @@
   "dir": "ltr",
   "categories": [
     "business",
-    "construction",
+    "automotive",
     "services"
   ],
   "icons": [
     {
-      "src": "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-maskable-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icons/icon-maskable-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ],
   "shortcuts": [

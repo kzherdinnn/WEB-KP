@@ -11,10 +11,10 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "icons/*.png", "background.webp"],
       manifest: {
-        name: "Bengkel Las Kurnia Jaya - Jasa Las & Konstruksi",
-        short_name: "Kurnia Jaya",
+        name: "StayZa - Bengkel & Booking",
+        short_name: "StayZa",
         description:
-          "Layanan jasa las profesional, pembuatan pagar, kanopi, tralis, dan konstruksi besi lainnya",
+          "Akses cepat untuk booking bengkel, sparepart, dan layanan terbaik",
         theme_color: "#14b8a6",
         background_color: "#ffffff",
         display: "standalone",
@@ -23,34 +23,16 @@ export default defineConfig({
         orientation: "portrait-primary",
         icons: [
           {
-            src: "https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874",
+            src: "/favicon.svg",
             sizes: "any",
             type: "image/svg+xml",
+            purpose: "any",
+          },
+          {
+            src: "/favicon.svg",
+            sizes: "512x512",
+            type: "image/svg+xml",
             purpose: "any maskable",
-          },
-          {
-            src: "/icons/icon-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-            purpose: "any",
-          },
-          {
-            src: "/icons/icon-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any",
-          },
-          {
-            src: "/icons/icon-maskable-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-            purpose: "maskable",
-          },
-          {
-            src: "/icons/icon-maskable-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "maskable",
           },
         ],
       },
