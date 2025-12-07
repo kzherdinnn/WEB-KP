@@ -107,6 +107,13 @@ app.use("/api/imagekit", imagekitRoutes);
 // 🚀 Start Server
 // =====================================================
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Server is listening on http://localhost:${PORT}`);
-});
+
+// Only listen when not in Vercel production
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`✅ Server is listening on http://localhost:${PORT}`);
+  });
+}
+
+// Export for Vercel serverless
+export default app;
