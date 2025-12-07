@@ -6,6 +6,7 @@ const PWAInstallPrompt = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     // Check if app is already installed (standalone mode)
@@ -18,6 +19,10 @@ const PWAInstallPrompt = () => {
     const iOS =
       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     setIsIOS(iOS);
+
+    // Check if desktop
+    const desktop = !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    setIsDesktop(desktop);
 
     // Check if user has already dismissed the prompt
     const dismissed = localStorage.getItem("pwa-prompt-dismissed");
@@ -48,8 +53,9 @@ const PWAInstallPrompt = () => {
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
-    // Show iOS prompt if on iOS and not in standalone
-    if (iOS && !checkStandalone && !dismissed) {
+    // For desktop and mobile that don't get beforeinstallprompt
+    // Show the prompt anyway after a delay (users can use manual install)
+    if (!checkStandalone && !dismissed) {
       setTimeout(() => {
         setShowPrompt(true);
       }, 5000);
@@ -262,11 +268,13 @@ const PWAInstallPrompt = () => {
 
           {showManualInstructions && (
             <div className="mt-4 bg-white/10 rounded-lg p-4 text-sm text-teal-50">
-              <p className="font-semibold mb-2">Instruksi pemasangan manual</p>
+              <p className="font-semibold mb-2">📥 Cara Install Aplikasi:</p>
               <ol className="list-decimal pl-5 space-y-2 mb-3">
-                <li>Untuk iOS: tekan tombol <strong>Share</strong> lalu pilih <strong>Add to Home Screen</strong>.</li>
-                <li>Untuk Android/Chrome: buka menu browser lalu pilih <strong>Add to Home screen</strong>.</li>
+                <li><strong>Desktop Chrome/Edge:</strong> Klik ikon <strong>⋮</strong> (menu) di pojok kanan atas → pilih <strong>"Install StayZa"</strong> atau <strong>"Install app"</strong></li>
+                <li><strong>Android Chrome:</strong> Klik ikon <strong>⋮</strong> → pilih <strong>"Add to Home screen"</strong></li>
+                <li><strong>iPhone Safari:</strong> Tap <strong>Share</strong> (□↑) → pilih <strong>"Add to Home Screen"</strong></li>
               </ol>
+              <p className="text-xs text-teal-200 mb-3">💡 Jika tidak muncul opsi install, coba refresh halaman atau clear cache browser.</p>
               <div className="flex gap-2">
                 <button
                   type="button"
