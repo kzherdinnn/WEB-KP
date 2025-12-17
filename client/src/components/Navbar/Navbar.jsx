@@ -175,12 +175,12 @@ const Navbar = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="flex items-center gap-3 group"
             >
-              <div className="relative">
+              <div className="relative w-10 h-10 flex-shrink-0">
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 <img
                   src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
                   alt="Aan Audio Solutions Logo"
-                  className="h-10 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-full object-contain relative z-10 transform group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <span
@@ -402,8 +402,14 @@ const Navbar = () => {
             }}
             className="flex items-center gap-2"
           >
-            <img src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874" alt="Aan Audio Solutions Logo" className="h-8" />
-            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight">Aan Audio Solutions</span>
+            <div className="w-8 h-8 flex-shrink-0">
+              <img
+                src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
+                alt="Aan Audio Solutions Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight flex-shrink-0 min-w-max">Aan Audio Solutions</span>
           </Link>
           <div className="flex items-center gap-2 md:hidden">
             {/* Search Icon */}
