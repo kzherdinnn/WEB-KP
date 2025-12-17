@@ -165,8 +165,9 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${navBg} ${isScrolled ? "shadow-lg" : "shadow-none"}`}
     >
-      <div className="w-full px-4 md:px-8 lg:px-12">
-        <div className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center py-2 md:py-3 gap-4">
+      {/* Centered Container */}
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center h-16 gap-4">
           {/* Logo - Left Aligned */}
           <div className="flex justify-start">
             <Link
@@ -179,11 +180,11 @@ const Navbar = () => {
                 <img
                   src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
                   alt="Aan Audio Solutions Logo"
-                  className="h-8 md:h-9 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
+                  className="h-10 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <span
-                className={`text-xl md:text-2xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300 whitespace-nowrap`}
+                className={`text-xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300 whitespace-nowrap`}
               >
                 Aan Audio Solutions
               </span>
