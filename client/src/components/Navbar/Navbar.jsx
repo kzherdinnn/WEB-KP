@@ -1,7 +1,13 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FiMenu, FiX, FiSearch, FiChevronDown, FiShoppingCart } from "react-icons/fi";
-import { FaRegBuilding, FaHotel } from "react-icons/fa";
+import {
+  FiMenu,
+  FiX,
+  FiSearch,
+  FiChevronDown,
+  FiShoppingCart,
+} from "react-icons/fi";
+import { FaRegBuilding, FaHotel, FaArrowRight } from "react-icons/fa";
 import { TbBrandBooking } from "react-icons/tb";
 import { MdAdminPanelSettings, MdPerson } from "react-icons/md";
 import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
@@ -10,7 +16,8 @@ import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 const Navbar = () => {
-  const { isAdmin, setIsAdmin, axios, isDarkMode, toggleTheme } = useAppContext();
+  const { isAdmin, setIsAdmin, axios, isDarkMode, toggleTheme } =
+    useAppContext();
   const [userRole, setUserRole] = React.useState("user");
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(null);
@@ -20,7 +27,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isDesktop, setIsDesktop] = React.useState(typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
+  const [isDesktop, setIsDesktop] = React.useState(
+    typeof window !== "undefined" ? window.innerWidth >= 768 : true,
+  );
 
   React.useEffect(() => {
     const onResize = () => setIsDesktop(window.innerWidth >= 768);
@@ -82,7 +91,9 @@ const Navbar = () => {
 
   // Check if the current path contains 'hotel'
   const isHotelPage = location.pathname.includes("hotel");
-  const isBookingPage = location.pathname.includes("my-bookings") || location.pathname.includes("cart");
+  const isBookingPage =
+    location.pathname.includes("my-bookings") ||
+    location.pathname.includes("cart");
 
   // Dynamic navbar styles based on URL - matching dark hero theme
   const navBg =
@@ -166,8 +177,8 @@ const Navbar = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${navBg} ${isScrolled ? "shadow-lg" : "shadow-none"}`}
     >
       {/* Centered Container */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center h-16 gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 md:h-20 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4">
           {/* Logo - Left Aligned */}
           <div className="flex justify-start">
             <Link
@@ -184,15 +195,16 @@ const Navbar = () => {
                 />
               </div>
               <span
-                className={`text-xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300 whitespace-nowrap`}
+                className={`text-base sm:text-xl font-bold outfit ${textColor} group-hover:text-teal-600 transition-colors duration-300`}
               >
-                Aan Audio Solutions
+                <span className="hidden sm:inline">Aan Audio Solutions</span>
+                <span className="sm:hidden">Aan Audio</span>
               </span>
             </Link>
           </div>
 
           {/* Desktop Nav - Perfectly Centered */}
-          <div className="hidden md:flex items-center justify-center gap-1">
+          <div className="hidden lg:flex items-center justify-center gap-1 xl:gap-2">
             {navLinks.map((link, idx) => {
               if (link.type === "dropdown") {
                 return (
@@ -207,20 +219,22 @@ const Navbar = () => {
                         e.preventDefault();
                         e.stopPropagation();
                       }}
-                      className={`relative flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm outfit whitespace-nowrap group ${dropdownOpen === link.name
-                        ? "text-teal-400 bg-gray-800/90 shadow-lg shadow-teal-500/30 scale-105"
-                        : `${textColor} ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"} hover:shadow-md hover:scale-105`
-                        }`}
+                      className={`relative flex items-center gap-1.5 px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 font-medium text-xs lg:text-sm outfit whitespace-nowrap group ${
+                        dropdownOpen === link.name
+                          ? "text-teal-400 bg-gray-800/90 shadow-lg shadow-teal-500/30 scale-105"
+                          : `${textColor} ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"} hover:shadow-md hover:scale-105`
+                      }`}
                     >
                       {dropdownOpen === link.name && (
                         <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-500/20 to-emerald-500/20 blur-sm"></span>
                       )}
                       <span className="relative z-10">{link.name}</span>
                       <FiChevronDown
-                        className={`relative z-10 w-3.5 h-3.5 transition-all duration-300 ${dropdownOpen === link.name
-                          ? "rotate-180 text-teal-400"
-                          : "group-hover:translate-y-0.5"
-                          }`}
+                        className={`relative z-10 w-3.5 h-3.5 transition-all duration-300 ${
+                          dropdownOpen === link.name
+                            ? "rotate-180 text-teal-400"
+                            : "group-hover:translate-y-0.5"
+                        }`}
                       />
                     </button>
 
@@ -228,10 +242,11 @@ const Navbar = () => {
                     <div
                       onMouseEnter={() => setDropdownOpen(link.name)}
                       onMouseLeave={() => setDropdownOpen(null)}
-                      className={`absolute top-full left-1/2 -translate-x-1/2 mt-1 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 z-[100] ${dropdownOpen === link.name
-                        ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
-                        : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
-                        }`}
+                      className={`absolute top-full left-1/2 -translate-x-1/2 mt-1 w-52 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-teal-100/50 overflow-hidden transition-all duration-400 z-[100] ${
+                        dropdownOpen === link.name
+                          ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
+                          : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
+                      }`}
                     >
                       {dropdownOpen === link.name && (
                         <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white/95 backdrop-blur-xl border-l border-t border-teal-100/50 rotate-45"></div>
@@ -271,7 +286,7 @@ const Navbar = () => {
                       e.preventDefault();
                       handleLinkClick(link.path);
                     }}
-                    className={`relative ${textColor} transition-all duration-300 font-medium text-sm outfit py-2 px-4 rounded-lg hover:shadow-sm hover:scale-105 whitespace-nowrap group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
+                    className={`relative ${textColor} transition-all duration-300 font-medium text-xs lg:text-sm outfit py-2 px-3 lg:px-4 rounded-lg hover:shadow-sm hover:scale-105 whitespace-nowrap group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
                   >
                     <span className="relative z-10">{link.name}</span>
                     <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-gradient-to-r from-teal-600 to-emerald-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -288,7 +303,7 @@ const Navbar = () => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
                   }}
-                  className={`relative ${textColor} transition-all duration-300 font-medium text-sm outfit py-2 px-4 rounded-lg hover:shadow-sm hover:scale-105 whitespace-nowrap group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
+                  className={`relative ${textColor} transition-all duration-300 font-medium text-xs lg:text-sm outfit py-2 px-3 lg:px-4 rounded-lg hover:shadow-sm hover:scale-105 whitespace-nowrap group ${isHotelPage || isBookingPage ? "hover:text-teal-600 hover:bg-teal-50" : "hover:text-teal-400 hover:bg-gray-800/50"}`}
                 >
                   <span className="relative z-10">{link.name}</span>
                   <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-gradient-to-r from-teal-600 to-emerald-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -299,7 +314,7 @@ const Navbar = () => {
             {user && userRole === "admin" && (
               <button
                 onClick={() => navigate("/admin")}
-                className={`relative border-2 px-4 py-1.5 rounded-full text-xs cursor-pointer transition-all duration-300 whitespace-nowrap ${borderColor} ${textColor} hover:bg-gradient-to-r hover:from-teal-600 hover:to-emerald-600 hover:text-white hover:border-teal-500 hover:shadow-lg hover:shadow-teal-500/50 hover:scale-105 active:scale-100 font-semibold outfit overflow-hidden group`}
+                className={`relative border-2 px-3 lg:px-4 py-1.5 rounded-full text-xs cursor-pointer transition-all duration-300 whitespace-nowrap ${borderColor} ${textColor} hover:bg-gradient-to-r hover:from-teal-600 hover:to-emerald-600 hover:text-white hover:border-teal-500 hover:shadow-lg hover:shadow-teal-500/50 hover:scale-105 active:scale-100 font-semibold outfit overflow-hidden group`}
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-teal-500/20 to-emerald-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 <span className="relative z-10">Dashboard</span>
@@ -309,7 +324,7 @@ const Navbar = () => {
 
           {/* Desktop Right (only render when viewport >= md via JS) */}
           {isDesktop && (
-            <div className="flex items-center justify-end gap-3">
+            <div className="hidden lg:flex items-center justify-end gap-2 lg:gap-3">
               {user ? (
                 <UserButton>
                   <UserButton.MenuItems>
@@ -331,7 +346,9 @@ const Navbar = () => {
                     {userRole === "admin" && (
                       <UserButton.Action
                         label={
-                          isAdmin ? "Beralih ke Mode Pengguna" : "Beralih ke Mode Admin"
+                          isAdmin
+                            ? "Beralih ke Mode Pengguna"
+                            : "Beralih ke Mode Admin"
                         }
                         labelIcon={
                           isAdmin ? <MdPerson /> : <MdAdminPanelSettings />
@@ -346,7 +363,7 @@ const Navbar = () => {
               ) : (
                 <button
                   onClick={openSignIn}
-                  className="relative bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-2 rounded-full text-sm hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 cursor-pointer font-bold outfit shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 hover:scale-105 active:scale-100 overflow-hidden group"
+                  className="relative bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-4 lg:px-6 py-2 rounded-full text-xs lg:text-sm hover:from-teal-700 hover:to-emerald-700 transition-all duration-300 cursor-pointer font-bold outfit shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 hover:scale-105 active:scale-100 overflow-hidden group whitespace-nowrap"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
                   <span className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
@@ -359,16 +376,16 @@ const Navbar = () => {
           )}
 
           {/* Mobile header: only search + menu button */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-1">
             <button
               onClick={() => navigate("/cart")}
-              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+              className={`p-2 rounded-lg transition-all duration-300 ${isHotelPage || isBookingPage ? "text-gray-600 hover:bg-gray-100" : `${iconColor} hover:bg-white/10`}`}
               aria-label="Cart"
             >
               <FiShoppingCart className="h-5 w-5" />
             </button>
             <button
-              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
+              className={`p-2 rounded-lg transition-all duration-300 ${isHotelPage || isBookingPage ? "text-gray-600 hover:bg-gray-100" : `${iconColor} hover:bg-white/10`}`}
               aria-label="Search"
             >
               <FiSearch className="h-5 w-5" />
@@ -376,192 +393,299 @@ const Navbar = () => {
             <button
               onClick={() => setIsMenuOpen(true)}
               aria-label="Open Menu"
-              className="p-1.5 hover:bg-white/20 rounded-lg transition-all duration-300"
+              className={`p-2 rounded-lg transition-all duration-300 ${isHotelPage || isBookingPage ? "text-gray-600 hover:bg-gray-100" : `${iconColor} hover:bg-white/10`}`}
             >
-              <FiMenu className={`h-5 w-5 ${iconColor}`} />
+              <FiMenu className="h-5 w-5" />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Modern Design */}
       <div
-        className={`fixed inset-0 w-screen h-screen text-gray-800 flex flex-col transition-transform duration-500 z-[9999] bg-white overscroll-contain safe-area-inset ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-0 w-screen h-screen flex flex-col transition-all duration-500 z-[9999] overscroll-contain ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
         style={{
-          paddingTop: "max(env(safe-area-inset-top), 3.5rem)",
-          paddingBottom: "max(env(safe-area-inset-bottom), 1rem)",
+          background: isDarkMode
+            ? "linear-gradient(135deg, #1f2937 0%, #111827 100%)"
+            : "linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)",
         }}
       >
-        <div className="flex items-center justify-between px-4 pt-3 pb-1">
-          {/* Logo */}
-          <Link
-            to="/"
-            onClick={() => {
-              setIsMenuOpen(false);
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="flex items-center gap-2"
-          >
-            <div className="w-8 h-8 flex-shrink-0">
-              <img
-                src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
-                alt="Aan Audio Solutions Logo"
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <span className="text-xl font-bold outfit text-[#e60000] tracking-tight flex-shrink-0 min-w-max">Aan Audio Solutions</span>
-          </Link>
-          <div className="flex items-center gap-2 md:hidden">
-            {/* Search Icon */}
-            <button
-              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
-              aria-label="Search"
+        {/* Header dengan Glassmorphism */}
+        <div
+          className={`backdrop-blur-xl border-b px-4 sm:px-6 py-4 ${
+            isDarkMode
+              ? "bg-gray-800/50 border-gray-700/50"
+              : "bg-white/50 border-gray-200/50"
+          }`}
+          style={{
+            paddingTop: "max(env(safe-area-inset-top), 1rem)",
+          }}
+        >
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link
+              to="/"
+              onClick={() => {
+                setIsMenuOpen(false);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="flex items-center gap-2 group"
             >
-              <FiSearch className="h-5 w-5" />
-            </button>
-
-            {/* Theme Toggle (compact) */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
-              aria-label="Toggle Theme"
-            >
-              {isDarkMode ? <FiMoon className="h-5 w-5" /> : <FiSun className="h-5 w-5" />}
-            </button>
-
-            {/* Profile / Login (compact) */}
-            {user ? (
-              <div className="h-8 w-8 flex items-center justify-center rounded-full overflow-hidden">
-                <UserButton />
+              <div className="relative w-9 h-9 sm:w-10 sm:h-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                <img
+                  src="https://ik.imagekit.io/dzlzhxcdo/d-removebg-preview_sep4qr.svg?updatedAt=1763701230874"
+                  alt="Aan Audio Solutions Logo"
+                  className="w-full h-full object-contain relative z-10"
+                />
               </div>
-            ) : (
-              <button
-                onClick={openSignIn}
-                className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                aria-label="Login"
+              <span
+                className={`text-base sm:text-lg font-bold outfit tracking-tight transition-colors ${
+                  isDarkMode
+                    ? "text-white group-hover:text-teal-400"
+                    : "text-gray-900 group-hover:text-teal-600"
+                }`}
               >
-                <MdPerson className="h-5 w-5" />
+                Aan Audio Solutions
+              </span>
+            </Link>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-1">
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg transition-all duration-300 ${
+                  isDarkMode
+                    ? "text-gray-300 hover:bg-gray-700/50 hover:text-white"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                }`}
+                aria-label="Toggle Theme"
+              >
+                {isDarkMode ? (
+                  <FiSun className="h-5 w-5" />
+                ) : (
+                  <FiMoon className="h-5 w-5" />
+                )}
+              </button>
+
+              {/* User Profile / Login */}
+              {user ? (
+                <div className="h-8 w-8 flex items-center justify-center">
+                  <UserButton />
+                </div>
+              ) : (
+                <button
+                  onClick={openSignIn}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                    isDarkMode
+                      ? "bg-teal-600 text-white hover:bg-teal-700"
+                      : "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:shadow-lg"
+                  }`}
+                >
+                  Masuk
+                </button>
+              )}
+
+              {/* Close Button */}
+              <button
+                className={`p-2 rounded-lg transition-all duration-300 ml-1 ${
+                  isDarkMode
+                    ? "text-gray-300 hover:bg-gray-700/50 hover:text-white"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Close Menu"
+              >
+                <FiX className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Scrollable Menu Content */}
+        <div className="flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 py-6">
+          <div className="max-w-md mx-auto space-y-2">
+            {navLinks.map((link, idx) => {
+              if (link.type === "dropdown") {
+                return (
+                  <div key={idx} className="w-full">
+                    <button
+                      onClick={() => handleDropdownToggle(link.name)}
+                      className={`flex items-center justify-between w-full px-4 py-3.5 rounded-xl transition-all duration-300 group ${
+                        dropdownOpen === link.name
+                          ? isDarkMode
+                            ? "bg-gradient-to-r from-teal-600/20 to-emerald-600/20 text-teal-400 shadow-lg"
+                            : "bg-gradient-to-r from-teal-50 to-emerald-50 text-teal-600 shadow-md"
+                          : isDarkMode
+                            ? "bg-gray-800/50 text-gray-200 hover:bg-gray-700/50"
+                            : "bg-white text-gray-900 hover:bg-gray-50"
+                      }`}
+                    >
+                      <span className="text-base font-bold outfit">
+                        {link.name}
+                      </span>
+                      <FiChevronDown
+                        className={`w-5 h-5 transition-transform duration-300 ${
+                          dropdownOpen === link.name ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {dropdownOpen === link.name && (
+                      <div className="mt-2 mb-3 ml-3 space-y-1 animate-[fadeIn_0.2s_ease-out]">
+                        {link.items.map((item, itemIdx) => (
+                          <button
+                            key={itemIdx}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleLinkClick(item.path);
+                              setDropdownOpen(null);
+                              setIsMenuOpen(false);
+                            }}
+                            className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all duration-300 group ${
+                              isDarkMode
+                                ? "bg-gray-800/30 text-gray-300 hover:bg-gray-700/50 hover:text-white"
+                                : "bg-white text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 hover:text-teal-600"
+                            }`}
+                          >
+                            <div
+                              className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                                isDarkMode
+                                  ? "bg-teal-600/20 text-teal-400 group-hover:bg-teal-600/30"
+                                  : "bg-gradient-to-br from-teal-100 to-emerald-100 text-teal-600 group-hover:from-teal-600 group-hover:to-emerald-600 group-hover:text-white group-hover:shadow-md"
+                              }`}
+                            >
+                              {item.icon}
+                            </div>
+                            <span className="text-sm font-semibold">
+                              {item.name}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              const isHashLink = link.path.includes("#");
+              if (isHashLink) {
+                return (
+                  <a
+                    key={idx}
+                    href={link.path}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(link.path);
+                      setIsMenuOpen(false);
+                    }}
+                    className={`flex items-center justify-between w-full px-4 py-3.5 rounded-xl transition-all duration-300 group ${
+                      isDarkMode
+                        ? "bg-gray-800/50 text-gray-200 hover:bg-gray-700/50 hover:text-white"
+                        : "bg-white text-gray-900 hover:bg-gray-50 hover:text-teal-600"
+                    }`}
+                  >
+                    <span className="text-base font-bold outfit">
+                      {link.name}
+                    </span>
+                    <FaArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                  </a>
+                );
+              }
+
+              return (
+                <Link
+                  key={idx}
+                  to={link.path}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    if (link.path === "/") {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
+                  className={`flex items-center justify-between w-full px-4 py-3.5 rounded-xl transition-all duration-300 group ${
+                    isDarkMode
+                      ? "bg-gray-800/50 text-gray-200 hover:bg-gray-700/50 hover:text-white"
+                      : "bg-white text-gray-900 hover:bg-gray-50 hover:text-teal-600"
+                  }`}
+                >
+                  <span className="text-base font-bold outfit">
+                    {link.name}
+                  </span>
+                  <FaArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div
+          className={`backdrop-blur-xl border-t px-4 sm:px-6 py-5 ${
+            isDarkMode
+              ? "bg-gray-800/50 border-gray-700/50"
+              : "bg-white/50 border-gray-200/50"
+          }`}
+          style={{
+            paddingBottom: "max(env(safe-area-inset-bottom), 1.25rem)",
+          }}
+        >
+          <div className="max-w-md mx-auto space-y-3">
+            {/* Admin Dashboard Button */}
+            {user && userRole === "admin" && (
+              <button
+                onClick={() => {
+                  navigate("/admin");
+                  setIsMenuOpen(false);
+                }}
+                className={`w-full px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                  isDarkMode
+                    ? "bg-teal-600 text-white hover:bg-teal-700 shadow-lg"
+                    : "bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:shadow-xl"
+                }`}
+              >
+                🎛️ Dashboard Admin
               </button>
             )}
 
-            {/* Close Button */}
-            <button
-              className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-all duration-300"
-              onClick={() => setIsMenuOpen(false)}
-              aria-label="Close Menu"
-            >
-              <FiX className="h-6 w-6" />
-            </button>
-          </div>
-        </div>
-
-        {/* Theme control removed from inside menu — compact icon remains in header */}
-
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto overscroll-contain px-2 pb-4 flex flex-col gap-0.5">
-          {navLinks.map((link, idx) => {
-            if (link.type === "dropdown") {
-              return (
-                <div
-                  key={idx}
-                  className="border-b border-gray-200 last:border-b-0 w-full"
-                >
-                  <button
-                    onClick={() => handleDropdownToggle(link.name)}
-                    className="flex items-center justify-between w-full text-base font-bold text-gray-900 py-4 px-2 transition-colors duration-300 bg-white text-left"
-                  >
-                    <span>{link.name}</span>
-                    <FiChevronDown
-                      className={`w-5 h-5 transition-transform duration-300 ${dropdownOpen === link.name ? "rotate-180 text-teal-600" : "text-gray-500"}`}
-                    />
-                  </button>
-
-                  {dropdownOpen === link.name && (
-                    <div className="bg-white rounded-xl shadow-md mt-1 mb-2 mx-2 py-2 px-1 animate-[fadeIn_0.2s_ease-out] flex flex-col gap-0.5">
-                      {link.items.map((item, itemIdx) => (
-                        <button
-                          key={itemIdx}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleLinkClick(item.path);
-                            setDropdownOpen(null);
-                            setIsMenuOpen(false);
-                          }}
-                          className="flex items-center gap-3 text-sm text-gray-700 hover:text-teal-600 py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-200 w-full text-left"
-                        >
-                          <div className="w-6 h-6 flex items-center justify-center text-teal-600 flex-shrink-0">
-                            {item.icon}
-                          </div>
-                          <span>{item.name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            const isHashLink = link.path.includes("#");
-            if (isHashLink) {
-              return (
-                <a
-                  key={idx}
-                  href={link.path}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(link.path);
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full text-base font-bold text-gray-900 py-4 px-2 border-b border-gray-200 last:border-b-0 bg-white transition-colors duration-200 hover:text-teal-600"
-                >
-                  {link.name}
-                </a>
-              );
-            }
-
-            return (
-              <Link
-                key={idx}
-                to={link.path}
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  if (link.path === "/") {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }
-                }}
-                className="block w-full text-base font-bold text-gray-900 py-4 px-2 border-b border-gray-200 last:border-b-0 bg-white transition-colors duration-200 hover:text-teal-600"
+            {/* Quick Actions */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate("/cart")}
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                  isDarkMode
+                    ? "bg-gray-700/50 text-gray-200 hover:bg-gray-600/50"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
               >
-                {link.name}
-              </Link>
-            );
-          })}
-        </div>
+                <FiShoppingCart className="w-4 h-4" />
+                <span>Keranjang</span>
+              </button>
+              <button
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                  isDarkMode
+                    ? "bg-gray-700/50 text-gray-200 hover:bg-gray-600/50"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                <FiSearch className="w-4 h-4" />
+                <span>Cari</span>
+              </button>
+            </div>
 
-        {/* Bottom Section - Divider */}
-        <div className="bg-gray-50 border-t border-gray-200 mt-4 pt-4 px-4 pb-6 rounded-t-2xl shadow-inner">
-          {/* Language Selector */}
-          <div className="flex gap-2 mb-4 text-center justify-center">
-            <button className="flex items-center justify-center gap-1 px-4 py-2 text-sm font-semibold text-teal-600 bg-white border border-teal-100 rounded-lg transition-all duration-300 shadow-sm">
-              🇮🇩 ID
-            </button>
-            <button className="flex items-center justify-center gap-1 px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gray-700 bg-white border border-gray-200 rounded-lg transition-all duration-300 shadow-sm">
-              🇬🇧 EN
-            </button>
-          </div>
-
-          {/* Admin Dashboard Button */}
-          {user && userRole === "admin" && (
-            <button
-              onClick={() => {
-                navigate("/admin");
-                setIsMenuOpen(false);
-              }}
-              className="w-full border-2 border-teal-600 text-teal-600 px-4 py-3 rounded-lg font-semibold hover:bg-teal-50 transition-all duration-300 text-base mb-2"
+            {/* Footer Text */}
+            <p
+              className={`text-center text-xs ${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              }`}
             >
-              Dasbor
-            </button>
-          )}
+              © 2024 Aan Audio Solutions
+            </p>
+          </div>
         </div>
       </div>
     </nav>

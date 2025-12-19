@@ -149,10 +149,11 @@ const Hero = () => {
     <div className="relative min-h-screen overflow-hidden flex items-center">
       {/* Dynamic Gradient Background */}
       <div
-        className={`absolute inset-0 transition-colors duration-500 ${isDarkMode
-          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
-          : "bg-gradient-to-br from-white via-gray-50 to-teal-50"
-          }`}
+        className={`absolute inset-0 transition-colors duration-500 ${
+          isDarkMode
+            ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
+            : "bg-gradient-to-br from-white via-gray-50 to-teal-50"
+        }`}
       ></div>
 
       {/* Background Shapes with Parallax */}
@@ -168,8 +169,9 @@ const Hero = () => {
             x: { type: "spring", stiffness: 50, damping: 20 },
             y: { type: "spring", stiffness: 50, damping: 20 },
           }}
-          className={`absolute -top-1/2 -right-1/2 w-[1000px] h-[1000px] rounded-full opacity-20 blur-3xl ${isDarkMode ? "bg-teal-900" : "bg-teal-100"
-            }`}
+          className={`absolute -top-1/2 -right-1/2 w-[1000px] h-[1000px] rounded-full opacity-20 blur-3xl ${
+            isDarkMode ? "bg-teal-900" : "bg-teal-100"
+          }`}
         />
         <motion.div
           animate={{
@@ -182,56 +184,70 @@ const Hero = () => {
             x: { type: "spring", stiffness: 50, damping: 20 },
             y: { type: "spring", stiffness: 50, damping: 20 },
           }}
-          className={`absolute -bottom-1/2 -left-1/2 w-[800px] h-[800px] rounded-full opacity-20 blur-3xl ${isDarkMode ? "bg-emerald-900" : "bg-emerald-100"
-            }`}
+          className={`absolute -bottom-1/2 -left-1/2 w-[800px] h-[800px] rounded-full opacity-20 blur-3xl ${
+            isDarkMode ? "bg-emerald-900" : "bg-emerald-100"
+          }`}
         />
       </div>
 
       {/* Centered Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 pb-12">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16 sm:pt-20 pb-8 sm:pb-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-6"
+            className="space-y-4 sm:space-y-6"
           >
-            <motion.div variants={itemVariants} className="space-y-3">
-              <div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-100/80 backdrop-blur-sm text-teal-800 font-medium text-sm border border-teal-200"
-              >
+            <motion.div
+              variants={itemVariants}
+              className="space-y-2 sm:space-y-3"
+            >
+              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-100/80 backdrop-blur-sm text-teal-800 font-medium text-xs sm:text-sm border border-teal-200">
                 <FaStar className="text-yellow-500 animate-spin-slow" />
                 <span>Bengkel Variasi Mobil Terpercaya</span>
               </div>
 
-              <h1 className={`text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight font-outfit ${isDarkMode ? "text-white" : "text-gray-900"
-                }`}>
+              <h1
+                className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight font-outfit ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 Tingkatkan Kenyamanan <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-500">
                   Berkendara Anda
                 </span>
               </h1>
 
-              <div className={`h-12 text-xl lg:text-2xl font-medium font-outfit flex items-center ${isDarkMode ? "text-gray-300" : "text-gray-600"
-                }`}>
+              <div
+                className={`h-10 sm:h-12 text-base sm:text-xl lg:text-2xl font-medium font-outfit flex items-center ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
                 <span className="mr-2">Ahli dalam</span>
-                <span className="text-teal-600 font-bold">
-                  {typingText}
-                </span>
+                <span className="text-teal-600 font-bold">{typingText}</span>
                 <span className="animate-pulse ml-1 text-teal-500">|</span>
               </div>
 
-              <p className={`text-lg max-w-xl leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"
-                }`}>
-                Kami menyediakan layanan pemasangan audio, aksesoris, dan perawatan mobil dengan teknisi berpengalaman dan produk berkualitas original.
+              <p
+                className={`text-sm sm:text-base lg:text-lg max-w-xl leading-relaxed ${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
+                }`}
+              >
+                Kami menyediakan layanan pemasangan audio, aksesoris, dan
+                perawatan mobil dengan teknisi berpengalaman dan produk
+                berkualitas original.
               </p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-2">
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2"
+            >
               <Link
                 to="/booking"
-                className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl font-bold text-lg overflow-hidden transition-all shadow-lg hover:shadow-teal-500/30 hover:-translate-y-1"
+                className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl font-bold text-base sm:text-lg overflow-hidden transition-all shadow-lg hover:shadow-teal-500/30 hover:-translate-y-1"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative z-10 flex items-center gap-2">
@@ -241,10 +257,11 @@ const Hero = () => {
               </Link>
               <Link
                 to="/spareparts"
-                className={`group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all hover:-translate-y-1 ${isDarkMode
-                  ? "border-gray-600 text-white hover:bg-gray-800 hover:border-gray-500"
-                  : "border-gray-200 text-gray-700 hover:bg-white hover:border-teal-200 hover:shadow-lg hover:shadow-teal-100"
-                  }`}
+                className={`group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg border-2 transition-all hover:-translate-y-1 ${
+                  isDarkMode
+                    ? "border-gray-600 text-white hover:bg-gray-800 hover:border-gray-500"
+                    : "border-gray-200 text-gray-700 hover:bg-white hover:border-teal-200 hover:shadow-lg hover:shadow-teal-100"
+                }`}
               >
                 <FaSearch className="group-hover:scale-110 transition-transform" />
                 Cari Sparepart
@@ -259,19 +276,37 @@ const Hero = () => {
                 startSatisfiedCounter(true);
                 startYearsCounter(true);
               }}
-              className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200/50"
+              className="grid grid-cols-3 gap-3 sm:gap-6 pt-6 sm:pt-8 border-t border-gray-200/50"
             >
               <div className="group cursor-default">
-                <h3 className="text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">{installCount}+</h3>
-                <p className={`text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Project Selesai</p>
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">
+                  {installCount}+
+                </h3>
+                <p
+                  className={`text-xs sm:text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
+                  Project Selesai
+                </p>
               </div>
               <div className="group cursor-default">
-                <h3 className="text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">{satisfiedCount}+</h3>
-                <p className={`text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Pelanggan Puas</p>
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">
+                  {satisfiedCount}+
+                </h3>
+                <p
+                  className={`text-xs sm:text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
+                  Pelanggan Puas
+                </p>
               </div>
               <div className="group cursor-default">
-                <h3 className="text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">{yearsCount}+</h3>
-                <p className={`text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Tahun Pengalaman</p>
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-teal-600 group-hover:scale-110 transition-transform origin-left duration-300">
+                  {yearsCount}+
+                </h3>
+                <p
+                  className={`text-xs sm:text-sm mt-1 font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
+                  Tahun Pengalaman
+                </p>
               </div>
             </motion.div>
           </motion.div>
@@ -297,10 +332,14 @@ const Hero = () => {
                 alt="Workshop Interior"
                 className="w-full aspect-[4/3] object-cover transform transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute bottom-0 left-0 right-0 p-6 z-20 transform translate-y-2 hover:translate-y-0 transition-transform duration-300">
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 z-20 transform translate-y-2 hover:translate-y-0 transition-transform duration-300">
                 <div className="text-white">
-                  <p className="font-bold text-lg tracking-wide mb-1">Workshop Modern</p>
-                  <p className="text-gray-200 text-sm">Peralatan lengkap & Teknisi Profesional</p>
+                  <p className="font-bold text-base sm:text-lg tracking-wide mb-1">
+                    Workshop Modern
+                  </p>
+                  <p className="text-gray-200 text-xs sm:text-sm">
+                    Peralatan lengkap & Teknisi Profesional
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -313,16 +352,20 @@ const Hero = () => {
               }}
               transition={{
                 y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                x: { type: "spring", stiffness: 50, damping: 20 }
+                x: { type: "spring", stiffness: 50, damping: 20 },
               }}
-              className="absolute -top-6 -left-6 bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-xl shadow-teal-900/10 z-20 flex items-center gap-3 border border-white/20"
+              className="absolute -top-6 -left-6 bg-white/95 backdrop-blur-md p-2.5 sm:p-3 rounded-2xl shadow-xl shadow-teal-900/10 z-20 flex items-center gap-2 sm:gap-3 border border-white/20"
             >
-              <div className="bg-gradient-to-br from-teal-100 to-teal-50 p-2.5 rounded-xl text-teal-600 shadow-inner">
-                <FaWrench className="w-5 h-5" />
+              <div className="bg-gradient-to-br from-teal-100 to-teal-50 p-2 sm:p-2.5 rounded-xl text-teal-600 shadow-inner">
+                <FaWrench className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div>
-                <p className="font-bold text-gray-900 text-sm">Servis Cepat</p>
-                <p className="text-xs text-gray-500 font-medium">Estimasi akurat</p>
+                <p className="font-bold text-gray-900 text-xs sm:text-sm">
+                  Servis Cepat
+                </p>
+                <p className="text-[10px] sm:text-xs text-gray-500 font-medium">
+                  Estimasi akurat
+                </p>
               </div>
             </motion.div>
 
@@ -332,17 +375,26 @@ const Hero = () => {
                 x: mousePosition.x * -10,
               }}
               transition={{
-                y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 },
-                x: { type: "spring", stiffness: 50, damping: 20 }
+                y: {
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                },
+                x: { type: "spring", stiffness: 50, damping: 20 },
               }}
-              className="absolute -bottom-6 -right-6 bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-xl shadow-emerald-900/10 z-20 flex items-center gap-3 border border-white/20"
+              className="absolute -bottom-6 -right-6 bg-white/95 backdrop-blur-md p-2.5 sm:p-3 rounded-2xl shadow-xl shadow-emerald-900/10 z-20 flex items-center gap-2 sm:gap-3 border border-white/20"
             >
-              <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-2.5 rounded-xl text-emerald-600 shadow-inner">
-                <FaCar className="w-5 h-5" />
+              <div className="bg-gradient-to-br from-emerald-100 to-emerald-50 p-2 sm:p-2.5 rounded-xl text-emerald-600 shadow-inner">
+                <FaCar className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div>
-                <p className="font-bold text-gray-900 text-sm">Garansi Resmi</p>
-                <p className="text-xs text-gray-500 font-medium">Jaminan kualitas</p>
+                <p className="font-bold text-gray-900 text-xs sm:text-sm">
+                  Garansi Resmi
+                </p>
+                <p className="text-[10px] sm:text-xs text-gray-500 font-medium">
+                  Jaminan kualitas
+                </p>
               </div>
             </motion.div>
           </motion.div>
