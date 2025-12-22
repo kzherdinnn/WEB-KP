@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /admin/*
+
+# Disallow payment pages (sensitive)
+Disallow: /payment
+
+# Sitemap location
+Sitemap: https://aan-audio-solutions.vercel.app/sitemap.xml
