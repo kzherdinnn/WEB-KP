@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.svg", "icons/*.png", "background.webp"],
+      includeAssets: ["favicon.svg", "icons/*.png", "background.webp", "sitemap.xml", "robots.txt", "google*.html"],
       manifest: {
         name: "Aan Audio Solutions - Sparepart & Audio Mobil",
         short_name: "Aan Audio",
@@ -49,7 +49,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg}"],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg,xml,txt}"],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
